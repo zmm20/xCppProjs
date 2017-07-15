@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="01hello.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="02regexAndBase64.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="03callableObject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="03funcCache.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="03testException.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="03testLambda.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="03testTemplate.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="05testClocksAndtimers.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="05testFunctionTypeWrapper.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="05testNumeric_limits.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="05testReferenceWrapper.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="05testSharePtr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="05testTypeTraits.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="05testUniquePtr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="05testUtility.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="05testWeakPtr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Base64.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testAlgorithm.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testAssociativeContainers.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testATL.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testAtomic.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testAutoPtr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testAuxiliaryFuncs.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testConcurrent1.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testConcurrent2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testConcurrent2_5.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testConcurrent3.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testDll.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testFile.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testFunctionObject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testGenricFunc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testIL8N.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testIL8N_for_str.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testIterator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testJson.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testRegex.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testSequenceContainers.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testSignal.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testVirtual.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Base64.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="myUtility.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="helloCpp11.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
