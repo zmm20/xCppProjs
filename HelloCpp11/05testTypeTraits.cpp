@@ -1,15 +1,12 @@
-//#define MAIN
+#define MAIN
 #ifdef MAIN
 
 #include <iostream>
+#include <string>
 using namespace std;
 
 
-constexpr int func()
-{
-    return 5;
-}
-
+// test 1:
 template <typename T>
 void func(const T& val)
 {
@@ -17,16 +14,17 @@ void func(const T& val)
         std::cout << "foo() called for a pointer" << std::endl;
     }
     else {
-        std::cout << "foo() called for a value" << std::endl;
+        std::cout << "foo() called for a value"  << std::endl;
     }
 }
-
 // compiler error
 //template <typename T>
 //void foo(const T& val)
 //{
-//    std::cout << (std::is_pointer<T>::value ? *val : val)
-//        << std::endl;
+//    if (is_pointer<T>::value)
+//        cout << *val << endl;
+//    else
+//        cout << val << endl;
 //}
 
 // foo() implementation for pointer types:
@@ -49,6 +47,18 @@ void foo(const T& val)
     foo_impl(val, std::is_pointer<T>());
 }
 
+// test 2
+void myfunc(std::string ss, int)
+{
+    cout << "hello : " << ss << endl;
+}
+void myfunc(std::string ss, float)
+{
+    cout << "hello : " << ss << endl;
+}
+
+
+
 template <typename T1, typename T2>
 typename std::common_type<T1, T2>::type min_my(const T1& x, const T2& y)
 {
@@ -60,13 +70,31 @@ typename std::common_type<T1, T2>::type min_my(const T1& x, const T2& y)
 
 int main()
 {
+    cout << "-----------------05testTypeTraits.cpp--------------" << endl;
     // test
-    int i = 5;
-    func(i);
-    func(&i);
+    cout << "test 1" <<  endl;
+    {
+        int i = 5;
+        func(i);
+        func(&i);
 
-    foo(i);
-    foo(&i);
+        foo(i);
+        foo(&i);
+    }
+    cout << endl;
+
+    cout << "test 2" << endl;
+    {
+        /*
+           可见, 函数的参数可以只用来区别重载, 而不使用
+           这就能理解foo_impl 的第二个参数了: 
+            std::is_pointer<T>() 也就是产生了false_type 或 true_type 类型的对象
+        */        
+        myfunc("zmm1", 1);
+        myfunc("zmm2", 2);
+    }
+    cout << endl;
+    
 
     cout << "min(1.1, 2) is " << min_my(1.1, 2) << endl;
 
