@@ -259,3 +259,4 @@ ModelManifest.xml
 *.avi
 *.exe
 *.yaml
+/testEmbedOtherProgram
