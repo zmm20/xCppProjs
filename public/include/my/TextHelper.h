@@ -1,7 +1,7 @@
 /// 该文件是与项目公用
 ///
 /// @author zhoumanman888@126.com
-/// @file common.h
+/// @file TextHelper.h
 /// @date 2017.07.17
 
 #pragma once
