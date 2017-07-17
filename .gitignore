@@ -252,5 +252,11 @@ ModelManifest.xml
 /ISecExamPaperSrv
 /ISecExamPaperClient
 /helloQtWebKit
-/testOpenCV
+#/testOpenCV
 /helloTesseract
+*.jpg
+*.png
+*.bmp
+*.avi
+*.exe
+*.yaml
