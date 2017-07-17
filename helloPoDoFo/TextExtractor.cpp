@@ -20,7 +20,7 @@
 
 #include "TextExtractor.h"
 #include <stack>
-#include <my/common.h>
+#include <my/TextHelper.h>
 
 TextExtractor::TextExtractor()
 {
@@ -171,5 +171,5 @@ void TextExtractor::AddTextElement( double dCurPosX, double dCurPosY,
     }
     const std::string u8Str(unicode.GetStringUtf8());
 
-	printf("(%.3f,%.3f) %s \n", dCurPosX, dCurPosY, XAB::UTF2GBK(u8Str).c_str());
+	printf("(%.3f,%.3f) %s \n", dCurPosX, dCurPosY, XAB::CTextHelper::UTF2GBK(u8Str).c_str());
 }
