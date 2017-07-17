@@ -21,7 +21,7 @@
     <ClCompile Include="TextExtractor.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\public\include\my\common.cpp">
+    <ClCompile Include="..\public\include\my\TextHelper.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,7 +29,7 @@
     <ClInclude Include="TextExtractor.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\include\my\common.h">
+    <ClInclude Include="..\public\include\my\TextHelper.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

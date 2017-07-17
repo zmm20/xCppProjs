@@ -6,7 +6,7 @@
 XAB_NAMESPACE_START
 
 
-std::string GBK2UTF(const std::string& src) noexcept
+std::string CTextHelper::GBK2UTF(const std::string& src) noexcept
 {
 #ifdef _MSC_VER
     const std::string localeName = "CHS"; // ".936";
@@ -15,7 +15,6 @@ std::string GBK2UTF(const std::string& src) noexcept
 #endif
     try
     {
-        //std::wstring ws = to_wstring(src, std::locale(localeName));
         std::wstring_convert<std::codecvt_byname<wchar_t, char, mbstate_t>> cv1(new std::codecvt_byname<wchar_t, char, mbstate_t>(localeName));
         const std::wstring ws = cv1.from_bytes(src);
 
@@ -29,7 +28,7 @@ std::string GBK2UTF(const std::string& src) noexcept
     }
 }
 
-std::string UTF2GBK(const std::string& src) noexcept
+std::string CTextHelper::UTF2GBK(const std::string& src) noexcept
 {
 #ifdef _MSC_VER
     const std::string localeName = "CHS"; //".936";
