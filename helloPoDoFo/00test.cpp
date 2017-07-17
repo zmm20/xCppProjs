@@ -1,6 +1,7 @@
 #define MAIN
 #ifdef MAIN
 
+#include "TextExtractor.h"
 #include <iostream>
 #include <podofo/podofo.h>
 #include <string>
@@ -48,6 +49,21 @@ int main()
     }
     cout << endl;
 
+
+    cout << "test 2" << endl;
+    {
+        TextExtractor extractor;
+
+        try {
+            extractor.Init(pdfPath.c_str());
+        }
+        catch (PdfError & e) {
+            fprintf(stderr, "Error: An error %i ocurred during processing the pdf file.\n", e.GetError());
+            e.PrintErrorMsg();
+            return e.GetError();
+        }
+    }
+    cout << endl;
 
     return EXIT_SUCCESS;
 }
