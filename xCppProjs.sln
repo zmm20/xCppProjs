@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ISecAnswerSheetTool", "ISec
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ISecExamPaperAddIn", "ISecExamPaperAddIn\ISecExamPaperAddIn.vcxproj", "{A86EAB27-BEC6-42C8-BDFF-090A7CC2B559}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "helloPoDoFo", "helloPoDoFo\helloPoDoFo.vcxproj", "{8CC1C624-D058-4637-A6B9-62F236A0E11E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -71,6 +73,14 @@ Global
 		{A86EAB27-BEC6-42C8-BDFF-090A7CC2B559}.Release|x64.Build.0 = Release|x64
 		{A86EAB27-BEC6-42C8-BDFF-090A7CC2B559}.Release|x86.ActiveCfg = Release|Win32
 		{A86EAB27-BEC6-42C8-BDFF-090A7CC2B559}.Release|x86.Build.0 = Release|Win32
+		{8CC1C624-D058-4637-A6B9-62F236A0E11E}.Debug|x64.ActiveCfg = Debug|x64
+		{8CC1C624-D058-4637-A6B9-62F236A0E11E}.Debug|x64.Build.0 = Debug|x64
+		{8CC1C624-D058-4637-A6B9-62F236A0E11E}.Debug|x86.ActiveCfg = Debug|Win32
+		{8CC1C624-D058-4637-A6B9-62F236A0E11E}.Debug|x86.Build.0 = Debug|Win32
+		{8CC1C624-D058-4637-A6B9-62F236A0E11E}.Release|x64.ActiveCfg = Release|x64
+		{8CC1C624-D058-4637-A6B9-62F236A0E11E}.Release|x64.Build.0 = Release|x64
+		{8CC1C624-D058-4637-A6B9-62F236A0E11E}.Release|x86.ActiveCfg = Release|Win32
+		{8CC1C624-D058-4637-A6B9-62F236A0E11E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
