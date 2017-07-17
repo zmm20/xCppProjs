@@ -1,4 +1,4 @@
-//#define MAIN
+#define MAIN
 #ifdef MAIN
 
 #include <iostream>
@@ -60,6 +60,7 @@ typename std::common_type<T1, T2>::type min_my(const T1& x, const T2& y)
 
 int main()
 {
+    cout << "-----------------05testTypeTraits.cpp--------------" << endl;
     // test
     int i = 5;
     func(i);
