@@ -23,6 +23,8 @@
 
 #include <podofo/podofo.h>
 #include <cstdio>
+#include <map>
+#include <list>
 
 using namespace PoDoFo;
 
@@ -33,21 +35,23 @@ using namespace PoDoFo;
 /** This class uses the PoDoFo lib to parse 
  *  a PDF file and to write all text it finds
  *  in this PDF document to stdout.
+ *
+ *  modified by zhoumanman@126.com
  */
-class TextExtractor {
+class CTextExtractor {
  public:
-    TextExtractor();
-    virtual ~TextExtractor();
+     CTextExtractor();
+    virtual ~CTextExtractor();
 
     void Init( const char* pszInput );
-
+    std::vector<std::string> getPageTxtList(); /// added by zhoumanman@126.com
  private:
     /** Extract all text from the given page
      *
      *  \param pDocument the owning document
      *  \param pPage extract the text of this page.
      */
-    void ExtractText( PdfMemDocument* pDocument, PdfPage* pPage );
+    void ExtractText( PdfMemDocument* pDocument, PdfPage* pPage);
 
     /** Adds a text string to a list which can be sorted by 
      *  position on the page later, so that the whole structure 
@@ -59,7 +63,10 @@ class TextExtractor {
      *  \param rString the actual string
      */
     void AddTextElement( double dCurPosX, double dCurPosY, 
-                         PdfFont* pCurFont, const PdfString & rString );
+                         PdfFont* pCurFont, const PdfString & rString, int nPage);
+
+private:
+    std::map<int, std::string> m_pagesTxtList; ///< Ò³Âë---ÄÚÈÝ
 };
 
 #endif // _TEXT_EXTRACTOR_H_

@@ -21,22 +21,24 @@
 #include "TextExtractor.h"
 #include <stack>
 #include <my/TextHelper.h>
+#include <iostream>
 
-TextExtractor::TextExtractor()
+CTextExtractor::CTextExtractor()
 {
 
 }
 
-TextExtractor::~TextExtractor()
+CTextExtractor::~CTextExtractor()
 {
 }
 
-void TextExtractor::Init( const char* pszInput )
+void CTextExtractor::Init( const char* pszInput)
 {
     if( !pszInput )
     {
         PODOFO_RAISE_ERROR( ePdfError_InvalidHandle );
     }
+    m_pagesTxtList.clear();
 
     PdfMemDocument document( pszInput );
 
@@ -45,11 +47,11 @@ void TextExtractor::Init( const char* pszInput )
     {
         PdfPage* pPage = document.GetPage( i );
         
-        this->ExtractText( &document, pPage );
+        this->ExtractText( &document, pPage);
     }
 }
 
-void TextExtractor::ExtractText( PdfMemDocument* pDocument, PdfPage* pPage ) 
+void CTextExtractor::ExtractText( PdfMemDocument* pDocument, PdfPage* pPage) 
 {
     const char*      pszToken = NULL;
     PdfVariant       var;
@@ -64,6 +66,7 @@ void TextExtractor::ExtractText( PdfMemDocument* pDocument, PdfPage* pPage )
 
     std::stack<PdfVariant> stack;
 
+    
     while( tokenizer.ReadNext( eType, pszToken, var ) )
     {
         if( eType == ePdfContentsType_Keyword )
@@ -112,12 +115,12 @@ void TextExtractor::ExtractText( PdfMemDocument* pDocument, PdfPage* pPage )
                 else if( strcmp( pszToken, "Tj" ) == 0 ||
                          strcmp( pszToken, "'" ) == 0 ) 
                 {
-                    AddTextElement( dCurPosX, dCurPosY, pCurFont, stack.top().GetString() );
+                    AddTextElement( dCurPosX, dCurPosY, pCurFont, stack.top().GetString(), pPage->GetPageNumber());
                     stack.pop();
                 }
                 else if( strcmp( pszToken, "\"" ) == 0 )
                 {
-                    AddTextElement( dCurPosX, dCurPosY, pCurFont, stack.top().GetString() );
+                    AddTextElement( dCurPosX, dCurPosY, pCurFont, stack.top().GetString(), pPage->GetPageNumber());
                     stack.pop();
                     stack.pop(); // remove char spacing from stack
                     stack.pop(); // remove word spacing from stack
@@ -130,7 +133,7 @@ void TextExtractor::ExtractText( PdfMemDocument* pDocument, PdfPage* pPage )
                     for( int i=0; i<static_cast<int>(array.GetSize()); i++ ) 
                     {
                         if( array[i].IsString() || array[i].IsHexString() )
-                            AddTextElement( dCurPosX, dCurPosY, pCurFont, array[i].GetString() );
+                            AddTextElement( dCurPosX, dCurPosY, pCurFont, array[i].GetString(), pPage->GetPageNumber());
                     }
                 }
             }
@@ -147,8 +150,8 @@ void TextExtractor::ExtractText( PdfMemDocument* pDocument, PdfPage* pPage )
     }
 }
 
-void TextExtractor::AddTextElement( double dCurPosX, double dCurPosY, 
-		PdfFont* pCurFont, const PdfString & rString )
+void CTextExtractor::AddTextElement( double dCurPosX, double dCurPosY, 
+		PdfFont* pCurFont, const PdfString & rString, int nPage)
 {
     if( !pCurFont ) 
     {
@@ -171,5 +174,15 @@ void TextExtractor::AddTextElement( double dCurPosX, double dCurPosY,
     }
     const std::string u8Str(unicode.GetStringUtf8());
 
-	printf("(%.3f,%.3f) %s \n", dCurPosX, dCurPosY, XAB::CTextHelper::UTF2GBK(u8Str).c_str());
+	//printf("(%.3f,%.3f) %s \n", dCurPosX, dCurPosY, XAB::CTextHelper::UTF2GBK(u8Str).c_str());
+    m_pagesTxtList[nPage] += XAB::CTextHelper::UTF2GBK(u8Str);
+}
+
+std::vector<std::string> CTextExtractor::getPageTxtList()
+{
+    std::vector<std::string> list;
+    for (const auto& keyValue : m_pagesTxtList)
+        list.push_back(keyValue.second);
+
+    return list;
 }

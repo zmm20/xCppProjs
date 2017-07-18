@@ -1,4 +1,4 @@
-#include "common.h"
+#include "TextHelper.h"
 #include <codecvt>
 #include <regex>
 #include <iostream>

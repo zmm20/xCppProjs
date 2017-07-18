@@ -24,12 +24,18 @@
     <ClCompile Include="..\public\include\my\TextHelper.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ImageExtractor.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TextExtractor.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\public\include\my\TextHelper.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageExtractor.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
