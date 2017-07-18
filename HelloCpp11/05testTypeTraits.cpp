@@ -58,7 +58,7 @@ void myfunc(std::string ss, float)
 }
 
 
-
+// test 3
 template <typename T1, typename T2>
 typename std::common_type<T1, T2>::type min_my(const T1& x, const T2& y)
 {
@@ -95,8 +95,35 @@ int main()
     }
     cout << endl;
     
+    cout << "test 3" << endl;
+    {
+        cout << "min(1.1, 2) is " << min_my(1.1, 2) << endl;
+    }
+    cout << endl;
+    
 
-    cout << "min(1.1, 2) is " << min_my(1.1, 2) << endl;
+    cout << "test 4" << endl;
+    {
+        is_const<int>::value; // false
+        is_const<const volatile int>::value; // true
+        is_const<int* const>::value; // true
+        is_const<const int*>::value; // false
+        is_const<const int&>::value; // false
+        is_const<int[3]>::value; // false
+        is_const<const int[3]>::value; // true
+        is_const<int[]>::value;// false
+        is_const<const int[]>::value; // true
+
+        int i1 = 1;
+        int i2 = 2;
+        int* const p1 = &i1;
+        //p1 = &i2; // error , p1 cannot be modified
+
+        const int* p2 = &i1;
+        p2 = &i2;
+    }
+    cout << endl;
+
 
     // Êý×éÎ¬Êý
     cout << "rank<int>::value = " << rank<int>::value << endl;
