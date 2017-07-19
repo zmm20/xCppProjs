@@ -46,68 +46,53 @@ void CImageExtractor::Init( const char* pszInput)
     const PdfObject*  pObj  = NULL;
 
     if( !pszInput)
+        return;
+
+    try
     {
-        PODOFO_RAISE_ERROR( ePdfError_InvalidHandle );
-    }
+        PdfMemDocument document( pszInput );
 
+        m_imgPathList.clear(); 
+        TCIVecObjects it = document.GetObjects().begin();
+        while( it != document.GetObjects().end() )
+        {
+            PdfObject*  pObjTmp = *it;
+            if(pObjTmp->IsDictionary() )
+            {            
+                PdfObject* pObjType = pObjTmp->GetDictionary().GetKey( PdfName::KeyType );
+                PdfObject* pObjSubType = pObjTmp->GetDictionary().GetKey( PdfName::KeySubtype );
 
-    PdfMemDocument document( pszInput );
-
-    //int nCount = document.GetPageCount();
-    //PdfObject*  pObjTmp;
-    //for (int i = 0; i < nCount; ++i)
-    //{
-    //    PdfPage* pPage = document.GetPage(i);
-    //    
-    //    pObjTmp = pPage->GetContents();
-    //    cout << pObjTmp->GetDataTypeString() << endl;
-
-    //    PdfContents content(pPage);
-
-    //    const PdfDictionary& dic = pObjTmp->GetDictionary();
-    //    TKeyMap km = dic.GetKeys();
-    //    for (const auto& item : km)
-    //    {
-    //        cout << "key: " << item.first.GetName() << endl;
-    //        PdfObject*  pObjSnd = item.second;
-    //        cout << "value datatype: " << pObjSnd->GetDataTypeString() << endl;
-    //    }     
-    //}
-    m_imgPathList.clear(); 
-    TCIVecObjects it = document.GetObjects().begin();
-    while( it != document.GetObjects().end() )
-    {
-        PdfObject*  pObjTmp = *it;
-        if(pObjTmp->IsDictionary() )
-        {            
-            PdfObject* pObjType = pObjTmp->GetDictionary().GetKey( PdfName::KeyType );
-            PdfObject* pObjSubType = pObjTmp->GetDictionary().GetKey( PdfName::KeySubtype );
-
-            if( ( pObjType && pObjType->IsName() && ( pObjType->GetName().GetName() == "XObject" ) ) ||
-                ( pObjSubType && pObjSubType->IsName() && ( pObjSubType->GetName().GetName() == "Image" ) ) )
-            {
-                //PdfXObject xObject(pObjSubType);               
-
-                pObj = pObjTmp->GetDictionary().GetKey( PdfName::KeyFilter );
-                if( pObj && pObj->IsArray() && pObj->GetArray().GetSize() == 1 && 
-                    pObj->GetArray()[0].IsName() && (pObj->GetArray()[0].GetName().GetName() == "DCTDecode") )
-                    pObj = &pObj->GetArray()[0];
-
-                if( pObj && pObj->IsName() && ( pObj->GetName().GetName() == "DCTDecode" ) )
+                if( ( pObjType && pObjType->IsName() && ( pObjType->GetName().GetName() == "XObject" ) ) ||
+                    ( pObjSubType && pObjSubType->IsName() && ( pObjSubType->GetName().GetName() == "Image" ) ) )
                 {
-                    // The only filter is JPEG -> create a JPEG file
-                    ExtractImage(pObjTmp, true );
-                }
-                else
-                {
-                    ExtractImage(pObjTmp, false );
-                }
+                    //PdfXObject xObject(pObjSubType);               
+
+                    pObj = pObjTmp->GetDictionary().GetKey( PdfName::KeyFilter );
+                    if( pObj && pObj->IsArray() && pObj->GetArray().GetSize() == 1 && 
+                        pObj->GetArray()[0].IsName() && (pObj->GetArray()[0].GetName().GetName() == "DCTDecode") )
+                        pObj = &pObj->GetArray()[0];
+
+                    if( pObj && pObj->IsName() && ( pObj->GetName().GetName() == "DCTDecode" ) )
+                    {
+                        // The only filter is JPEG -> create a JPEG file
+                        ExtractImage(pObjTmp, true );
+                    }
+                    else
+                    {
+                        ExtractImage(pObjTmp, false );
+                    }
                 
-                document.FreeObjectMemory(pObjTmp);
+                    document.FreeObjectMemory(pObjTmp);
+                }
             }
-        }
 
-        ++it;
+            ++it;
+        }
+    }
+    catch (PdfError & e) {
+        fprintf(stderr, "Error: An error %i ocurred during counting pages in the pdf file.\n", e.GetError());
+        e.PrintErrorMsg();
+        return;
     }
 }
 
