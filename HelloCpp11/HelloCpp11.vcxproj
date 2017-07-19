@@ -167,7 +167,7 @@
     <ClCompile Include="testATL.cpp" />
     <ClCompile Include="testAtomic.cpp" />
     <ClCompile Include="testAutoPtr.cpp" />
-    <ClCompile Include="testAuxiliaryFuncs.cpp" />
+    <ClCompile Include="05testAuxiliaryFuncs.cpp" />
     <ClCompile Include="testConcurrent1.cpp" />
     <ClCompile Include="testConcurrent2.cpp" />
     <ClCompile Include="testConcurrent2_5.cpp" />

@@ -7,7 +7,7 @@ using namespace std;
 
 
 
-
+// test 1
 template <typename T>
 void foo(T val)
 {        
@@ -17,18 +17,24 @@ void foo(T val)
 
 int main() 
 {
-    int x = 0;
-    foo(std::ref(x)); // T becomes int&, whereas by calling
-    cout << "x = " << x << endl;
+    cout << "-----------05testReferenceWrapper.cpp----------------" << endl;
 
-    // 同下
-    foo<std::reference_wrapper<int>>(x);
-    cout << "x = " << x << endl;
+    cout << "test 1" << endl;
+    {
+        int x = 0;
+        foo(std::ref(x)); // T becomes int&, whereas by calling
+        cout << "x = " << x << endl;
+        //foo(std::cref(x));//T becomes const int&.
 
-    // 同下
-    foo<int&>(x);
-    cout << "x = " << x << endl;
+        // 同下
+        foo<std::reference_wrapper<int>>(x);
+        cout << "x = " << x << endl;
 
-    //foo(std::cref(x));//T becomes const int&.
+        // 同下
+        foo<int&>(x);
+        cout << "x = " << x << endl;
+    }
+    cout << endl;
+    
 }
 #endif
