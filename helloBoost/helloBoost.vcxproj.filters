@@ -38,5 +38,8 @@
     <ClInclude Include="MyBuffer.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="RWData.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
