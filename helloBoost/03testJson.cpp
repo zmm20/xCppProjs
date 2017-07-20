@@ -97,10 +97,22 @@ int main()
         cout << str << endl;
 
 
-        ptree pt;
+        ptree pt, p1, p2;
         stringstream stream;
         stream << str;
         read_json<ptree>(stream, pt); // 解析中文会有问题, 有时间解决
+        p1 = pt.get_child("arr");
+        cout << "array size: " << p1.size() << endl;
+        for (boost::property_tree::ptree::iterator it = p1.begin(); it != p1.end(); ++it)
+        {
+            p2 = it->second; //first为空
+
+            const string s1 = p2.get<string>("1");
+            const string s2 = p2.get<string>("2");
+
+            cout << "1 = " << XAB::CTextHelper::UTF2GBK(s1)
+                << ", 2 = " << XAB::CTextHelper::UTF2GBK(s2) << endl;
+        }
         return 0;
     }
     cout << endl;
