@@ -23,7 +23,7 @@ struct CTextHelper
     /// ÓÉutf8±àÂë, ×ª»»Îªgbk±àÂë
     ///
     /// @author zhoumanman888@126.com
-    std::string GBK2UTF(const std::string& src) noexcept;
+    static std::string GBK2UTF(const std::string& src) noexcept;
 };
 
 XAB_NAMESPACE_END
