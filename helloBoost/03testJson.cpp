@@ -1,4 +1,4 @@
-#define MAIN
+//#define MAIN
 #ifdef MAIN
 
 #include <iostream>
@@ -60,7 +60,7 @@ int main()
         stringstream stream;
 
         stream << strJson;
-        read_json<ptree>(stream, pt);
+        read_json<ptree>(stream, pt); // 解析中文会有问题, 有时间解决
         p1 = pt.get_child("people");
         cout << "array size: " << p1.size() << endl;
         for (boost::property_tree::ptree::iterator it = p1.begin(); it != p1.end(); ++it)

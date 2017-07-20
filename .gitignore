@@ -260,3 +260,5 @@ ModelManifest.xml
 *.exe
 *.yaml
 /testEmbedOtherProgram
+*.zip
+*.tif

@@ -155,6 +155,10 @@
     <ClCompile Include="01testThread.cpp" />
     <ClCompile Include="02testTimer.cpp" />
     <ClCompile Include="03testJson.cpp" />
+    <ClCompile Include="04testConcurrent.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MyBuffer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

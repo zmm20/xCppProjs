@@ -16,14 +16,15 @@ int main()
 
     cout << "test 1" << endl;
     {
-        Mat girl = imread("girl.jpg"); //载入图像到Mat
-        namedWindow("【1】动漫图"); //创建一个名为 "【1】动漫图"的窗口  
-        imshow("【1】动漫图", girl);//显示名为 "【1】动漫图"的窗口  
+        //Mat girl = imread(".\\test\\girl.jpg"); // mix.tif
+        //namedWindow("【1】动漫图"); //创建一个名为 "【1】动漫图"的窗口  
+        //imshow("【1】动漫图", girl);//显示名为 "【1】动漫图"的窗口  
     }
     cout << endl;
 
     cout << "test 2" << endl;
     {
+        // 从内存中加载图片
         //ifstream is("girl.jpg", ios::binary);
         //if (!is)
         //{
@@ -45,6 +46,14 @@ int main()
         //Mat girl = imdecode(data, CV_LOAD_IMAGE_COLOR);
         //namedWindow("从内存中加载图片"); 
         //imshow("从内存中加载图片", girl);
+    }
+    cout << endl;
+
+    cout << "test 3" << endl;
+    {
+        Mat mix = imread(".\\test\\mix.tif"); // 尝试加载多页的tif 文件
+        namedWindow("多页图"); //创建一个名为 "【1】动漫图"的窗口  
+        imshow("多页图", mix);//显示名为 "【1】动漫图"的窗口  
     }
     cout << endl;
 
