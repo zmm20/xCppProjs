@@ -71,8 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\zmm\Documents\Visual Studio 2015\Projects\boost_1_62_0;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>C:\Users\zmm\Documents\Visual Studio 2015\Projects\boost_1_62_0\myBuild\lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+    <IncludePath>..\public\include;C:\Users\zmm\Documents\Visual Studio 2015\Projects\boost_1_62_0;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>..\public\lib\win32;C:\Users\zmm\Documents\Visual Studio 2015\Projects\boost_1_62_0\myBuild\lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -81,8 +81,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\zmm\Documents\Visual Studio 2015\Projects\boost_1_62_0;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\zmm\Documents\Visual Studio 2015\Projects\boost_1_62_0\myBuild\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\zmm\Documents\Visual Studio 2015\Projects\boost_1_62_0;..\public\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\zmm\Documents\Visual Studio 2015\Projects\boost_1_62_0\myBuild\lib;..\public\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -100,6 +100,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>libjsoncppd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -130,6 +131,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>libjsoncpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -152,6 +154,7 @@
   <ItemGroup>
     <ClCompile Include="01testThread.cpp" />
     <ClCompile Include="02testTimer.cpp" />
+    <ClCompile Include="03testJson.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

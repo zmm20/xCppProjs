@@ -24,31 +24,27 @@ int main()
 
     cout << "test 2" << endl;
     {
-        ifstream is("girl.jpg", ios::binary);
-        if (!is)
-        {
-            cerr << "图片打开失败!" << endl;
-        }
+        //ifstream is("girl.jpg", ios::binary);
+        //if (!is)
+        //{
+        //    cerr << "图片打开失败!" << endl;
+        //}
 
-        is.seekg(0, is.end);
-        const int fileSize = is.tellg();
-        is.seekg(0, is.beg);
+        //is.seekg(0, is.end);
+        //const int fileSize = is.tellg();
+        //is.seekg(0, is.beg);
 
-        std::string str;
-        str.resize(fileSize, ' '); // reserve space
-        char* begin = &*str.begin();
+        //std::string str;
+        //str.resize(fileSize, ' '); // reserve space
+        //char* begin = &*str.begin();
 
-        is.read(begin, fileSize);
-        is.close();
-
-        //std::stringstream sstr;
-        //while (is >> sstr.rdbuf());
+        //is.read(begin, fileSize);
         //is.close();
 
-        std::vector<uchar> data(str.begin(), str.end());
-        Mat girl = imdecode(data, CV_LOAD_IMAGE_COLOR);
-        namedWindow("从内存中加载图片"); 
-        imshow("从内存中加载图片", girl);
+        //std::vector<uchar> data(str.begin(), str.end());
+        //Mat girl = imdecode(data, CV_LOAD_IMAGE_COLOR);
+        //namedWindow("从内存中加载图片"); 
+        //imshow("从内存中加载图片", girl);
     }
     cout << endl;
 

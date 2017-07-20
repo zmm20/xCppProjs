@@ -1,4 +1,4 @@
-#define MAIN
+//#define MAIN
 #ifdef MAIN
 
 #include <boost/asio.hpp> 

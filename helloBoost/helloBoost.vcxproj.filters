@@ -21,5 +21,8 @@
     <ClCompile Include="02testTimer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="03testJson.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

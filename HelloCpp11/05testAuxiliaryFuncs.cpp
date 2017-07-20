@@ -1,4 +1,4 @@
-//#define MAIN
+#define MAIN
 #ifdef MAIN
 
 #include <iostream>
@@ -78,15 +78,17 @@ int main()
     {
         // ratio, ±àÒëÊ±²Ù×÷
         typedef std::ratio<5, 3> FiveThirds;
-        cout << FiveThirds::num << "/" << FiveThirds::den << endl;
-        typedef std::ratio<25, 15> AlsoFiveThirds;
-        cout << AlsoFiveThirds::num << "/" << AlsoFiveThirds::den << endl;
+        cout << FiveThirds::num << "/" << FiveThirds::den << endl; // 5/3
+        typedef std::ratio<25, 15> AlsoFiveThirds; // 5 / 3
+        cout << AlsoFiveThirds::num << "/" << AlsoFiveThirds::den << endl; // 1/1
         typedef std::ratio<0> Zero;
-        cout << Zero::num << "/" << Zero::den << endl;
-        typedef std::ratio<7, -3> Neg;
+        cout << Zero::num << "/" << Zero::den << endl; // 0/1
+        typedef std::ratio<7, -3> Neg; // -7/3
         cout << Neg::num << "/" << Neg::den << endl;
+
+
         bool eq = ratio_equal<ratio<5, 3>, ratio<25, 15>>::value;
-        cout << "ratio_equal<ratio<5, 3>, ratio<25, 15>>::value = " << eq << endl;
+        cout << "ratio_equal<ratio<5, 3>, ratio<25, 15>>::value = " << eq << endl; // 1
         //ratio_multiply<ratio<1, numeric_limits<long long>::max()>, ratio<1, 2>>::type;
         //ratio_divide<FiveThirds, Zero>::type; // error
         cout << "std::nano = " << std::nano::num << "/" << std::nano::den << endl;
