@@ -5,7 +5,6 @@
 #include <boost/thread/thread.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/condition.hpp>
-// #include <boost/thread/thread_pool.hpp> // vs2008  œ¬±‡“Î¥ÌŒÛ: C2770
 #include <string>
 #include <functional>
 #include "MyBuffer.h"
@@ -81,25 +80,14 @@ int main()
         RWData d;
         mutex io_mu;
 
-        //thread_group pool;
-        //pool.create_thread(bind(reader, boost::ref(d), boost::ref(io_mu)));
-        //pool.create_thread(bind(reader, boost::ref(d), boost::ref(io_mu)));
-        //pool.create_thread(bind(reader, boost::ref(d), boost::ref(io_mu)));
-        //pool.create_thread(bind(reader, boost::ref(d), boost::ref(io_mu)));
-        //pool.create_thread(bind(writer, boost::ref(d)));
-        //pool.create_thread(bind(writer, boost::ref(d)));
-        //pool.join_all();
-
-
-        boost::thread t1(bind(reader, boost::ref(d), boost::ref(io_mu)));
-        boost::thread t2(bind(reader, boost::ref(d), boost::ref(io_mu)));
-        boost::thread t3(bind(reader, boost::ref(d), boost::ref(io_mu)));
-        boost::thread t4(bind(reader, boost::ref(d), boost::ref(io_mu)));
-        boost::thread t5(bind(writer, boost::ref(d)));
-        boost::thread t6(bind(writer, boost::ref(d)));
-
-        getchar();
-
+        thread_group pool;
+        pool.create_thread(bind(reader, boost::ref(d), boost::ref(io_mu)));
+        pool.create_thread(bind(reader, boost::ref(d), boost::ref(io_mu)));
+        pool.create_thread(bind(reader, boost::ref(d), boost::ref(io_mu)));
+        pool.create_thread(bind(reader, boost::ref(d), boost::ref(io_mu)));
+        pool.create_thread(bind(writer, boost::ref(d)));
+        pool.create_thread(bind(writer, boost::ref(d)));
+        pool.join_all();
     }
     cout << endl;
 }
