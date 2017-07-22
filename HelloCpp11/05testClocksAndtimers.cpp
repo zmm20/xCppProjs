@@ -18,7 +18,7 @@ template <typename V, typename R>
 ostream& operator << (ostream& s, const chrono::duration<V, R>& d)
 {
     s << "[" << d.count() << " of " << R::num << "/"
-        << R::den << "]";
+    << R::den << "]";
     return s;
 }
 
@@ -26,7 +26,9 @@ template <typename C>
 void printClockData();
 std::string asString(const std::chrono::system_clock::time_point& tp);
 
-void main()
+inline chrono::system_clock::time_point makeTimePoint (int year, int mon, int day, int hour, int min, int sec=0);
+
+int main()
 {
     cout << "-----------05testClocksAndTimers.cpp-------------" << endl;
     cout << " duration test " << endl;
@@ -47,7 +49,7 @@ void main()
         cout << aDay << " days" << endl;
         std::chrono::milliseconds ms(0); // 0 milliseconds
         cout << ms << " milliseconds" << endl;
-
+        
         ms = twentySeconds + aDay; // 86,400,000 milliseconds
         --ms; // 86,399,999 milliseconds
         ms *= 2; // 172,839,998 milliseconds
@@ -66,10 +68,10 @@ void main()
     }
     cout << endl;
     
-
+    
     cout << "test 4:" << endl;
     {
-
+        
         std::chrono::duration<double, std::ratio<60>> halfMin(0.5);
         //std::chrono::seconds s1 = halfMin; // ERROR
         std::chrono::seconds s2 = std::chrono::duration_cast<std::chrono::seconds>(halfMin); // OK
@@ -77,7 +79,7 @@ void main()
     }
     cout << endl;
     
-
+    
     cout << "test 5:" << endl;
     {
         using namespace std::chrono;
@@ -89,15 +91,15 @@ void main()
         milliseconds msec = duration_cast<milliseconds>(ms % chrono::seconds(1));
         // and print durations and values:
         cout << "raw: " << hh << "::" << mm << "::"
-            << ss << "::" << msec << endl;
+        << ss << "::" << msec << endl;
         cout << " " << setfill('0') << setw(2) << hh.count() << "::"
-            << setw(2) << mm.count() << "::"
-            << setw(2) << ss.count() << "::"
-            << setw(3) << msec.count() << endl << endl;
+        << setw(2) << mm.count() << "::"
+        << setw(2) << ss.count() << "::"
+        << setw(3) << msec.count() << endl << endl;
     }
     cout << endl;
     
-
+    
     // Clock 定义出一个 epoch 和一个 tick 周期
     cout << "clock test" << endl;
     cout << "test 6: " << endl;
@@ -112,18 +114,28 @@ void main()
     }
     cout << endl;
     
-
+    
     cout << "test 7: " << endl;
     {
-        auto system_start = chrono::system_clock::now();
+        /*
+         注意： 如果想比较程序中的2个时间点或计算其差值， 应该用 steady_clock
+         ， 以下代码也许行不通， 因为如果 clock 在此期间被调整， 则结果不正确
+         */
+        // auto system_start = chrono::system_clock::now();
+        // std::this_thread::sleep_for(chrono::seconds(2)); // 睡2s
+        // auto diff = chrono::system_clock::now() - system_start;
+        // auto sec2 = chrono::duration_cast<chrono::seconds>(diff);
+        // cout << "this program runs: " << sec2.count() << " seconds" << endl << endl;
+        
+        auto system_start = chrono::steady_clock::now();
         std::this_thread::sleep_for(chrono::seconds(2)); // 睡2s
-        auto diff = chrono::system_clock::now() - system_start;
+        auto diff = chrono::steady_clock::now() - system_start;
         auto sec2 = chrono::duration_cast<chrono::seconds>(diff);
         cout << "this program runs: " << sec2.count() << " seconds" << endl << endl;
     }
     cout << endl;
     
-
+    
     cout << "test 8: " << endl;
     {
         // print the epoch of this system clock:
@@ -140,6 +152,44 @@ void main()
         std::cout << "max: " << asString(tp) << std::endl;
     }
     cout << endl;
+    
+    
+    cout << "test 9: " << endl;
+    {
+        // define type for durations that represent day(s):
+        // convert to calendar time // skip trailing newline
+        typedef chrono::duration<int,ratio<3600*24>> Days;
+        // process the epoch of this system clock
+        chrono::time_point<chrono::system_clock> tp;
+        cout << "epoch: " << asString(tp) << endl;
+        // add one day, 23 hours, and 55 minutes
+        tp += Days(1) + chrono::hours(23) + chrono::minutes(55);
+        cout << "later: " << asString(tp) << endl;
+        // process difference from epoch in minutes and days:
+        auto diff = tp - chrono::system_clock::time_point();
+        cout << "diff:      "
+        << chrono::duration_cast<chrono::minutes>(diff).count()
+        << " minute(s)" << endl;
+        Days days = chrono::duration_cast<Days>(diff);
+        cout << "diff: " << days.count() << " day(s)" << endl;
+        // subtract one year (hoping it is valid and not a leap year)
+        tp -= chrono::hours(24*365);
+        cout << "-1 year: " << asString(tp) << endl;
+        // subtract 50 years (hoping it is valid and ignoring leap years)
+        tp -= chrono::duration<int,ratio<3600*24*365>>(50);
+        cout << "-50 years: " << asString(tp) << endl;
+        // subtract 50 years (hoping it is valid and ignoring leap years)
+        tp -= chrono::duration<int,ratio<3600*24*365>>(50);
+        cout << "-50 years: " << asString(tp) << endl << endl;
+    }
+    
+    cout << "test 10" << endl;
+    {
+        auto tp1 = makeTimePoint(2010,01,01,00,00);
+        std::cout << asString(tp1) << std::endl;
+        auto tp2 = makeTimePoint(2011,05,23,13,44);
+        std::cout << asString(tp2) << std::endl;
+    }
 }
 
 template <typename C>
@@ -153,7 +203,7 @@ void printClockData()
         // convert to and print as milliseconds
         typedef typename ratio_multiply<P, kilo>::type TT;
         cout << fixed << double(TT::num) / TT::den
-            << " milliseconds" << endl;
+        << " milliseconds" << endl;
     }
     else {
         // print as seconds
@@ -165,11 +215,17 @@ void printClockData()
 std::string asString(const std::chrono::system_clock::time_point& tp)
 {
     std::string ts("");
-
+    
     // convert to system time:
-    std::time_t t = std::chrono::system_clock::to_time_t(tp);// represents the number of seconds since the UNIX epoch, January 1, 1970 
+    
+    /*
+     represents the number of seconds since the UNIX epoch, January 1, 1970
+     注意： 只有system_clock 提供了 to_time_t() 函数， 因为其它 clock 不必以
+     system time 的epoch 作为它们内部的 epoch
+     */
+    std::time_t t = std::chrono::system_clock::to_time_t(tp);
     if (t >=0 && t <= numeric_limits<long>::max())
-    {
+    {// windows os 如果没有这句保护， 可能会报错
         ts = std::ctime(&t); // convert to calendar time
         //ts = std::asctime(std::localtime(&t));
         ts.resize(ts.size() - 1); // skip trailing newline
@@ -178,9 +234,27 @@ std::string asString(const std::chrono::system_clock::time_point& tp)
     {
         ts = "error";
     }
-
+    
     return ts;
+    
+}
 
+// convert calendar time to timepoint of system clock
+std::chrono::system_clock::time_point  makeTimePoint (int year, int mon, int day, int hour, int min, int sec)
+{
+    struct std::tm t;
+    t.tm_sec = sec;
+    t.tm_min = min;
+    t.tm_hour = hour;
+    t.tm_mday = day;
+    t.tm_mon = mon-1;
+    t.tm_year = year-1900;
+    t.tm_isdst = -1;
+    std::time_t tt = std::mktime(&t);
+    if (tt == -1) {
+        throw "no valid system time";
+    }
+    return std::chrono::system_clock::from_time_t(tt);
 }
 
 #endif
