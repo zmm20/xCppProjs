@@ -71,8 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\public\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\public\lib\win32;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\public\include;C:\Users\zmm\Documents\Visual Studio 2015\Projects\boost_1_62_0;$(IncludePath)</IncludePath>
+    <LibraryPath>..\public\lib\win32;C:\Users\zmm\Documents\Visual Studio 2015\Projects\boost_1_62_0\myBuild\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -89,7 +89,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USING_SHARED_PODOFO;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,7 +145,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\public\include\my\TextHelper.cpp" />
     <ClCompile Include="00test.cpp" />
+    <ClCompile Include="ImageExtractor.cpp" />
+    <ClCompile Include="TextExtractor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\public\include\my\TextHelper.h" />
+    <ClInclude Include="ImageExtractor.h" />
+    <ClInclude Include="TextExtractor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,4 +1,4 @@
-#define MAIN
+//#define MAIN
 #ifdef MAIN
 
 #include <iostream>
@@ -58,7 +58,7 @@ void myfunc(std::string ss, float)
 }
 
 
-
+// test 3
 template <typename T1, typename T2>
 typename std::common_type<T1, T2>::type min_my(const T1& x, const T2& y)
 {
@@ -95,14 +95,71 @@ int main()
     }
     cout << endl;
     
+    cout << "test 3" << endl;
+    {
+        cout << "min(1.1, 2) is " << min_my(1.1, 2) << endl;
+    }
+    cout << endl;
+    
 
-    cout << "min(1.1, 2) is " << min_my(1.1, 2) << endl;
+    cout << "test 4" << endl;
+    {
+        is_const<int>::value; // false
+        is_const<const volatile int>::value; // true
+        is_const<int* const>::value; // true
+        is_const<const int*>::value; // false
+        is_const<const int&>::value; // false
+        is_const<int[3]>::value; // false
+        is_const<const int[3]>::value; // true
+        is_const<int[]>::value;// false
+        is_const<const int[]>::value; // true
 
-    // 数组维数
-    cout << "rank<int>::value = " << rank<int>::value << endl;
-    cout << "rank<int[]>::value = " << rank<int[]>::value << endl;
-    cout << "rank<int[5]>::value = " << rank<int[5]>::value << endl;
-    cout << "rank<int[][7]>::value = " << rank<int[][7]>::value << endl;
-    cout << "rank<int[5][7]>::value = " << rank<int[5][7]>::value << endl;
+        int i1 = 1;
+        int i2 = 2;
+        int* const p1 = &i1;
+        //p1 = &i2; // error , p1 cannot be modified
+
+        const int* p2 = &i1;
+        p2 = &i2;
+    }
+    cout << endl;
+
+
+    cout << "test 5" << endl;
+    {
+        // 数组的维度
+        rank<int>::value; // 0
+        rank<int[]>::value; // 1
+        rank<int[5]>::value; // 1
+        rank<int[][7]>::value; // 2
+        rank<int[5][7]>::value; // 2
+
+        // 维度的尺度(宽度), 第二模板参数表示第几维
+        extent<int>::value; // 0
+        extent<int[]>::value; // 0
+        extent<int[5]>::value; // 5
+        extent<int[][7]>::value; // 0
+        extent<int[5][7]>::value; // 5
+        extent<int[][7], 1>::value; // 7
+        extent<int[5][7], 1>::value; // 7
+        extent<int[5][7], 2>::value; // 0
+
+        // 数组元素类型
+        remove_extent<int>::type; // int
+        remove_extent<int[]>::type; // int
+        remove_extent<int[5]>::type; // int
+        remove_extent<int[][7]>::type; // int[7]
+        remove_extent<int[5][7]>::type; // int[7]
+
+        // 多维数组元素类型
+        remove_all_extents<int>::type; // int
+        remove_all_extents<int[]>::type; // int
+        remove_all_extents<int[5]>::type; // int
+        remove_all_extents<int[][7]>::type; // int
+        remove_all_extents<int[5][7]>::type; // int
+    }
+    cout << endl;
+
+
 }
 #endif

@@ -81,9 +81,6 @@
     <ClCompile Include="testAutoPtr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="testAuxiliaryFuncs.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="testConcurrent1.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -130,6 +127,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="testVirtual.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="05testAuxiliaryFuncs.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

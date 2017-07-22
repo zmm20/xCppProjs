@@ -13,29 +13,32 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="util">
+      <UniqueIdentifier>{a0fd8206-4845-467a-b3d1-5ec8b0240457}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="00test.cpp">
+    <ClCompile Include="01testThread.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="TextExtractor.cpp">
+    <ClCompile Include="02testTimer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="03testJson.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="04testConcurrent.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\public\include\my\TextHelper.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageExtractor.cpp">
-      <Filter>源文件</Filter>
+      <Filter>util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TextExtractor.h">
+    <ClInclude Include="MyBuffer.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\include\my\TextHelper.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageExtractor.h">
+    <ClInclude Include="RWData.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
