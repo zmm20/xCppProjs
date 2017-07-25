@@ -66,12 +66,6 @@
     <ClCompile Include="Base64.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="testAlgorithm.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="testAssociativeContainers.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="testATL.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -111,16 +105,10 @@
     <ClCompile Include="testIL8N_for_str.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="testIterator.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="testJson.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="testRegex.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="testSequenceContainers.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="testSignal.cpp">
@@ -130,6 +118,18 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="05testAuxiliaryFuncs.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="06testSequenceContainers.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="06testAssociativeContainers.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="06testAlgorithm.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="06testIterator.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

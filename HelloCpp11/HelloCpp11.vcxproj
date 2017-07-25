@@ -165,8 +165,8 @@
     <ClCompile Include="05testUtility.cpp" />
     <ClCompile Include="05testWeakPtr.cpp" />
     <ClCompile Include="Base64.cpp" />
-    <ClCompile Include="testAlgorithm.cpp" />
-    <ClCompile Include="testAssociativeContainers.cpp" />
+    <ClCompile Include="06testAlgorithm.cpp" />
+    <ClCompile Include="06testAssociativeContainers.cpp" />
     <ClCompile Include="testATL.cpp" />
     <ClCompile Include="testAtomic.cpp" />
     <ClCompile Include="testAutoPtr.cpp" />
@@ -181,10 +181,10 @@
     <ClCompile Include="testGenricFunc.cpp" />
     <ClCompile Include="testIL8N.cpp" />
     <ClCompile Include="testIL8N_for_str.cpp" />
-    <ClCompile Include="testIterator.cpp" />
+    <ClCompile Include="06testIterator.cpp" />
     <ClCompile Include="testJson.cpp" />
     <ClCompile Include="testRegex.cpp" />
-    <ClCompile Include="testSequenceContainers.cpp" />
+    <ClCompile Include="06testSequenceContainers.cpp" />
     <ClCompile Include="testSignal.cpp" />
     <ClCompile Include="testVirtual.cpp" />
   </ItemGroup>
