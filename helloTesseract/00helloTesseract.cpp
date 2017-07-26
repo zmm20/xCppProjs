@@ -1,6 +1,6 @@
 // helloTesseract.cpp : 定义控制台应用程序的入口点。
 //
-#define MAIN
+//#define MAIN
 #ifdef MAIN
 
 #include "stdafx.h"
@@ -34,6 +34,7 @@ int main()
             // Open input image with leptonica library
             //Pix *image = pixRead(imgPath.c_str());
             //api.SetImage(image);
+            //pixDestroy(&image);
 
             //api.InitForAnalysePage();
             //api.SetPageSegMode(tesseract::PSM_AUTO_ONLY);
@@ -43,36 +44,35 @@ int main()
             //const std::string strResult(outText);
             //delete[] outText;
             //cout << "OCR output: \n" << XAB::CTextHelper::UTF2GBK(strResult) << endl;
-
-            //pixDestroy(&image);
         }
         cout << endl;
 
         cout << "test 2" << endl;
         {
-            //api.InitForAnalysePage();
-            //api.SetPageSegMode(tesseract::PSM_AUTO_ONLY);
+            api.InitForAnalysePage();
+            api.SetPageSegMode(tesseract::PSM_AUTO_ONLY);
 
-            ////tesseract::TessResultRenderer;
-            //tesseract::TessTextRenderer render("stdout");
-            //bool succeed = api.ProcessPages(imgPath.c_str(), NULL, 0, &render);
-            //if (!succeed) {
-            //    fprintf(stderr, "Error during processing.\n");
-            //    return EXIT_FAILURE;
-            //}
+            //tesseract::TessResultRenderer;
+            tesseract::TessTextRenderer render("stdout");
+            bool succeed = api.ProcessPages(imgPath.c_str(), NULL, 0, &render);
+            if (!succeed) {
+                fprintf(stderr, "Error during processing.\n");
+                return EXIT_FAILURE;
+            }
+            
         }
         cout << endl;
 
         cout << "test 3" << endl;
         {
-            // Open input image with leptonica library
-            Pix *image = pixRead(imgPath.c_str());
-            api.SetImage(image);
+            //// Open input image with leptonica library
+            //Pix *image = pixRead(imgPath.c_str());
+            //api.SetImage(image);
+            //pixDestroy(&image);
 
-            api.InitForAnalysePage();
-            api.SetPageSegMode(tesseract::PSM_AUTO_ONLY);
+            //api.InitForAnalysePage();
+            //api.SetPageSegMode(tesseract::PSM_AUTO_ONLY);
 
-            pixDestroy(&image);
         }
 
 
