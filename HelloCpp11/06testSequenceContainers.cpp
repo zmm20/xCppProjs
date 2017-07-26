@@ -1,4 +1,4 @@
-#define MAIN
+//#define MAIN
 
 #ifdef MAIN
 
@@ -19,6 +19,7 @@ template <typename T>
 void PRINT_ELEMENTS(const T& coll, const std::string& optstr = "");
 int main()
 {
+    cout << "--------------06testSequenceContainers.cpp-------------------" << endl;
     cout << "test 1: " << endl;
     {
         vector<int> coll; // vector container for integer elements

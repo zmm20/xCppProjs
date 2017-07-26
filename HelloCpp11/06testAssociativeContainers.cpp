@@ -1,5 +1,4 @@
-//#define MAIN
-
+#define MAIN
 #ifdef MAIN
 
 
@@ -16,6 +15,7 @@ using namespace std;
 
 int main()
 {
+    cout << "----------06testAssociativeContainers.cpp-------------" << endl;
     cout << "test 1: " << endl;
     {
         multiset<string> cities{
@@ -30,6 +30,7 @@ int main()
         // insert additional values:
         cities.insert({ "London", "Munich", "Hanover", "Braunschweig" });
         // print each element:
+        cout << "after insert 'London', 'Munich', 'Hanover', 'Braunschweig':" << endl;
         for (const auto& elem : cities) {
             cout << elem << " ";
         }
@@ -39,9 +40,10 @@ int main()
 
     cout << "test 2: " << endl;
     {
-        multimap<int, string> coll; // container for int/string values
-                                    // insert some elements in arbitrary order
-                                    // - a value with key 1 gets inserted twice
+        // container for int/string values
+        multimap<int, string> coll; 
+        // insert some elements in arbitrary order
+        // - a value with key 1 gets inserted twice
         coll = { { 5,"tagged" },
         { 2,"a" },
         { 1,"this" },  // 相同的key保持插入顺序
@@ -71,6 +73,7 @@ int main()
         cout << endl;
         // insert additional values:
         cities.insert({ "London", "Munich", "Hanover", "Braunschweig" });
+        cout << "after insert 'London', 'Munich', 'Hanover', 'Braunschweig':" << endl;
         // print each element:
         for (const auto& elem : cities) {
             cout << elem << " ";

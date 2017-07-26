@@ -155,6 +155,7 @@
     <ClCompile Include="03testException.cpp" />
     <ClCompile Include="03testLambda.cpp" />
     <ClCompile Include="03testTemplate.cpp" />
+    <ClCompile Include="05testAutoPtr.cpp" />
     <ClCompile Include="05testClocksAndtimers.cpp" />
     <ClCompile Include="05testFunctionTypeWrapper.cpp" />
     <ClCompile Include="05testNumeric_limits.cpp" />
@@ -164,12 +165,12 @@
     <ClCompile Include="05testUniquePtr.cpp" />
     <ClCompile Include="05testUtility.cpp" />
     <ClCompile Include="05testWeakPtr.cpp" />
+    <ClCompile Include="06testFunctionObject.cpp" />
     <ClCompile Include="Base64.cpp" />
     <ClCompile Include="06testAlgorithm.cpp" />
     <ClCompile Include="06testAssociativeContainers.cpp" />
     <ClCompile Include="testATL.cpp" />
     <ClCompile Include="testAtomic.cpp" />
-    <ClCompile Include="testAutoPtr.cpp" />
     <ClCompile Include="05testAuxiliaryFuncs.cpp" />
     <ClCompile Include="testConcurrent1.cpp" />
     <ClCompile Include="testConcurrent2.cpp" />
@@ -177,7 +178,6 @@
     <ClCompile Include="testConcurrent3.cpp" />
     <ClCompile Include="testDll.cpp" />
     <ClCompile Include="testFile.cpp" />
-    <ClCompile Include="testFunctionObject.cpp" />
     <ClCompile Include="testGenricFunc.cpp" />
     <ClCompile Include="testIL8N.cpp" />
     <ClCompile Include="testIL8N_for_str.cpp" />

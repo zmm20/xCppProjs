@@ -72,9 +72,6 @@
     <ClCompile Include="testAtomic.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="testAutoPtr.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="testConcurrent1.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -91,9 +88,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="testFile.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="testFunctionObject.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="testGenricFunc.cpp">
@@ -130,6 +124,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="06testIterator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="05testAutoPtr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="06testFunctionObject.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
