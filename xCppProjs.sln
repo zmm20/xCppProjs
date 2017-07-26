@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloCpp11", "HelloCpp11\He
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "helloBoost", "helloBoost\helloBoost.vcxproj", "{2D6A0851-1060-4F74-A6CB-A8FE792EA424}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testHandleWord", "testHandleWord\testHandleWord.vcxproj", "{A28BACF6-1E63-4A9C-A147-30177A74FBAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -101,6 +103,14 @@ Global
 		{2D6A0851-1060-4F74-A6CB-A8FE792EA424}.Release|x64.Build.0 = Release|x64
 		{2D6A0851-1060-4F74-A6CB-A8FE792EA424}.Release|x86.ActiveCfg = Release|Win32
 		{2D6A0851-1060-4F74-A6CB-A8FE792EA424}.Release|x86.Build.0 = Release|Win32
+		{A28BACF6-1E63-4A9C-A147-30177A74FBAF}.Debug|x64.ActiveCfg = Debug|x64
+		{A28BACF6-1E63-4A9C-A147-30177A74FBAF}.Debug|x64.Build.0 = Debug|x64
+		{A28BACF6-1E63-4A9C-A147-30177A74FBAF}.Debug|x86.ActiveCfg = Debug|Win32
+		{A28BACF6-1E63-4A9C-A147-30177A74FBAF}.Debug|x86.Build.0 = Debug|Win32
+		{A28BACF6-1E63-4A9C-A147-30177A74FBAF}.Release|x64.ActiveCfg = Release|x64
+		{A28BACF6-1E63-4A9C-A147-30177A74FBAF}.Release|x64.Build.0 = Release|x64
+		{A28BACF6-1E63-4A9C-A147-30177A74FBAF}.Release|x86.ActiveCfg = Release|Win32
+		{A28BACF6-1E63-4A9C-A147-30177A74FBAF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
