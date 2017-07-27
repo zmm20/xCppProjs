@@ -88,15 +88,10 @@ int main()
     {// 打开文档
 
          // 可能遇到只读错误
-         //hr = pDocs->Open(&CComVariant(word_file_in.data()), &CComVariant(false), &CComVariant(true), &CComVariant(false), &CComVariant(L"")
-         //    , &CComVariant(L""), &CComVariant(true), &CComVariant(L""), &CComVariant(L"")
-         //    , &CComVariant(MSWord::wdOpenFormatAuto), &CComVariant(MSOffice::msoEncodingSimplifiedChineseGBK), &CComVariant(true)
-         //    , &CComVariant(false), &CComVariant(MSWord::wdLeftToRight), &CComVariant(false), &CComVariant(false), &pDoc);
          hr = pDocs->Open(&CComVariant(word_file_in.data()), &vtMissing, &CComVariant(false), &vtMissing, &vtMissing
              , &vtMissing, &vtMissing, &vtMissing, &vtMissing
              , &vtMissing, &vtMissing, &CComVariant(false) // 设置不可见
              , &vtMissing, &vtMissing, &vtMissing, &vtMissing, &pDoc);
-         //pDocs->CheckOut()
         if (FAILED(hr)) {
             app->Quit();
             OleUninitialize();
