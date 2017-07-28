@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "helloBoost", "helloBoost\he
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testHandleWord", "testHandleWord\testHandleWord.vcxproj", "{A28BACF6-1E63-4A9C-A147-30177A74FBAF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testUserMinGWLib", "testUserMinGWLib\testUserMinGWLib.vcxproj", "{CF077DBF-F532-4F95-B5E0-264A215AF2DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -111,6 +113,14 @@ Global
 		{A28BACF6-1E63-4A9C-A147-30177A74FBAF}.Release|x64.Build.0 = Release|x64
 		{A28BACF6-1E63-4A9C-A147-30177A74FBAF}.Release|x86.ActiveCfg = Release|Win32
 		{A28BACF6-1E63-4A9C-A147-30177A74FBAF}.Release|x86.Build.0 = Release|Win32
+		{CF077DBF-F532-4F95-B5E0-264A215AF2DF}.Debug|x64.ActiveCfg = Debug|x64
+		{CF077DBF-F532-4F95-B5E0-264A215AF2DF}.Debug|x64.Build.0 = Debug|x64
+		{CF077DBF-F532-4F95-B5E0-264A215AF2DF}.Debug|x86.ActiveCfg = Debug|Win32
+		{CF077DBF-F532-4F95-B5E0-264A215AF2DF}.Debug|x86.Build.0 = Debug|Win32
+		{CF077DBF-F532-4F95-B5E0-264A215AF2DF}.Release|x64.ActiveCfg = Release|x64
+		{CF077DBF-F532-4F95-B5E0-264A215AF2DF}.Release|x64.Build.0 = Release|x64
+		{CF077DBF-F532-4F95-B5E0-264A215AF2DF}.Release|x86.ActiveCfg = Release|Win32
+		{CF077DBF-F532-4F95-B5E0-264A215AF2DF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

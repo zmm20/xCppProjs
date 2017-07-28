@@ -1,5 +1,4 @@
 //#define MAIN
-
 #ifdef MAIN
 
 #include <iostream>

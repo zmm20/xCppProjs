@@ -51,8 +51,31 @@ void CImageExtractor::Init( const char* pszInput)
     try
     {
         PdfMemDocument document( pszInput );
-
         m_imgPathList.clear(); 
+
+        PdfPagesTree* pPageTree = document.GetPagesTree();
+        PoDoFo::PdfPage* pPage = pPageTree->GetPage(0);
+        PdfObject* pObjTmp = pPage->GetContents();
+        cout << "GetContents: " << pObjTmp->Reference().ToString() << endl;
+        int t = pObjTmp->GetDataType();
+        cout << "GetDataType: " << t << ", " << pObjTmp->GetDataTypeString() << endl;
+        if (pObjTmp->IsDictionary())
+        {
+            PdfDictionary& dic = pObjTmp->GetDictionary();
+            TKeyMap km  = dic.GetKeys();
+            cout << "all key: " << endl;
+            for (const auto& pair : km)
+            {
+                cout << pair.first.GetName() << endl;
+            }
+
+        }
+        //PoDoFo::PdfImage pdfImg(&document);
+        PoDoFo::PdfName dctFilterName(PoDoFo::PdfFilterFactory::FilterTypeToName(PoDoFo::ePdfFilter_DCTDecode));
+        cout << "dctFilterName" << dctFilterName.GetName() << endl;
+        
+        return;
+
         TCIVecObjects it = document.GetObjects().begin();
         while( it != document.GetObjects().end() )
         {

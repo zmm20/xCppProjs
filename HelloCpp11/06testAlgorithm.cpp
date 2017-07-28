@@ -1,5 +1,4 @@
-//#define MAIN
-
+#define MAIN
 #ifdef MAIN
 
 
