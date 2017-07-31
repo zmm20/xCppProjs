@@ -132,6 +132,9 @@
     <ClCompile Include="06testFunctionObject.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="07testContainer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base64.h">

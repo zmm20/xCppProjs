@@ -1,3 +1,6 @@
+#define MAIN
+#ifdef MAIN
+
 #include <iostream>
 #include <string>
 #include "../testMinGW_createLib/test.h"
@@ -21,3 +24,5 @@ int main()
     }
     return 0;
 }
+
+#endif

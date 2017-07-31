@@ -166,6 +166,7 @@
     <ClCompile Include="05testUtility.cpp" />
     <ClCompile Include="05testWeakPtr.cpp" />
     <ClCompile Include="06testFunctionObject.cpp" />
+    <ClCompile Include="07testContainer.cpp" />
     <ClCompile Include="Base64.cpp" />
     <ClCompile Include="06testAlgorithm.cpp" />
     <ClCompile Include="06testAssociativeContainers.cpp" />
