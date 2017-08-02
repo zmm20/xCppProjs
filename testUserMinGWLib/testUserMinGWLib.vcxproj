@@ -71,8 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\msys64\mingw32\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\msys64\mingw32\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\msys64\mingw32\include;C:\Users\zmm\Documents\MinGW_projs\libMyPoppler;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\msys64\mingw32\lib;C:\Users\zmm\Documents\MinGW_projs\libMyPoppler\bin\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClCompile Include="01test.cpp" />
     <ClCompile Include="02testOpenCV.cpp" />
+    <ClCompile Include="03testPoppler.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
