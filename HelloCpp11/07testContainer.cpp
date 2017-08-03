@@ -118,7 +118,22 @@ int main()
 
     cout << "test 5" << endl;
     {
+        // 预留5 个内存空间测试
+        // 从以下2 个方法的输出可以判断出 method 2 效率更高, 因为没有元素初始化动作
+        // method 1:
+        vector<int> v0(5);
+        cout << "vector0 elements: ";
+        for (const auto& e : v0)
+            cout << e << " ";
+        cout << endl;
 
+        // method 2:
+        vector<int> v1;
+        v1.reserve(5);
+        cout << "vector1 elements: ";
+        for (const auto& e : v1)
+            cout << e << " ";
+        cout << endl;
     }
     cout << endl;
 

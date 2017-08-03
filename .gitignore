@@ -263,3 +263,6 @@ ModelManifest.xml
 *.zip
 *.tif
 *.docx
+/MyWebService/static/dsoframer.CAB
+/MyWebService/static/dsoframer.ocx
+/ISecOffice
