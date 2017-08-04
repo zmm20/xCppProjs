@@ -129,7 +129,11 @@ int main()
 
         // method 2:
         vector<int> v1;
+        // 一旦实际元素个数超过 v1.capacity(), 则就会重新分配内存
+        cout << "refore reserve, v1 capacity() = " << v1.capacity() << endl;
         v1.reserve(5);
+        cout << "after, v1 capacity() = " << v1.capacity() << endl;
+
         cout << "vector1 elements: ";
         for (const auto& e : v1)
             cout << e << " ";
