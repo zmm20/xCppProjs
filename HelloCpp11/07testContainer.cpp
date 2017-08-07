@@ -13,6 +13,7 @@
 #include <set>
 #include <deque>
 #include <array>
+#include <forward_list>
 
 using namespace std;
 template <typename T>
@@ -143,6 +144,29 @@ int main()
 
     cout << "test 6" << endl;
     {
+        forward_list<int> list = { 1, 2, 3, 4, 5, 97, 98, 99 };
+
+        // method1:
+        //auto posBefore = list.before_begin();
+        //for (auto pos = list.begin(); pos != list.end(); ++pos, ++posBefore) {
+        //    if (*pos % 2 == 0) {
+        //        break; // element found
+        //    }
+        //}
+
+        // method 2:
+        auto posBefore = list.before_begin();
+        // 自 c++11 提供了next
+        for (; next(posBefore) != list.end(); ++posBefore) {
+            if (*next(posBefore) % 2 == 0) {
+                break; // element found
+            }
+        }
+
+
+        // and insert a new element in front of the first even element
+        list.insert_after(posBefore, 42);
+        PRINT_ELEMENTS(list);
 
     }
     cout << endl;

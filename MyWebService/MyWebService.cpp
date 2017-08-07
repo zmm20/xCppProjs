@@ -6,6 +6,7 @@
 #include <locale>
 #include <codecvt>
 #include <string>
+#include <fstream>
 using namespace std;
 
 struct MyStruct
@@ -116,6 +117,60 @@ int main()
     }
     );
 
+    app.route("/office/load", [](cinatra::Request& req, cinatra::Response& res) {
+        cout << "request data: " << UTF2GBK(req.body()) << endl;
+        const std::string fileName = req.query().get_val("filename");
+        cout << "file name = " << fileName << endl;
+
+        ifstream fs("./static/" + fileName, ios::binary);
+        if (!fs)
+        {
+            res.end("not find file" + fileName);
+            return;
+        }
+
+        std::string str((std::istreambuf_iterator<char>(fs)), std::istreambuf_iterator<char>());
+        res.end(str);
+    }
+    );
+
+    app.route("/office/save", [](cinatra::Request& req, cinatra::Response& res) {        
+        // ±£´æword ÎÄµµ
+        std::string strTmp;
+
+        if (req.method() != cinatra::Request::method_t::POST)
+        {
+            return;
+        }
+
+        std::vector<cinatra::item_t> items;
+        if (!cinatra::data_body_parser(req, items))
+        {
+            strTmp = "upload failed: data_body_parser";
+            cout << strTmp << endl;
+            res.end(strTmp);
+            return;
+        }
+
+        for (auto& item : items)
+        {
+            if (!item.is_file)
+            {
+                std::cout << "field name: " << item.content_disposition.get_val("name") << ", value: " << item.data << std::endl;
+                continue;
+            }
+            std::ofstream out("./static/test2.docx", std::ios::binary | std::ios::trunc);
+            if (!out || !out.write(item.data.data(), item.data.size()))
+            {
+                strTmp = "upload failed: ofstream";
+                cout << strTmp << endl;
+                res.end(strTmp);
+                return;
+            }
+        }
+        res.end(strTmp);
+    }
+    );
 
     app.static_dir("./static");
     app.listen("0.0.0.0", "8080"); //"http"

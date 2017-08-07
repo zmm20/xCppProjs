@@ -40,3 +40,16 @@
 #include <atlcom.h>
 #include <atlctl.h>
 #include <afxcontrolbars.h>
+
+
+//#import "E:\Temp\vc\Office2007Lib\mso.dll" rename_namespace("Office")
+#import "libid:2DF8D04C-5BFA-101B-BDE5-00AA0044DE52" rename_namespace("Office")
+using namespace Office;
+
+//#import "E:\Temp\vc\Office2007Lib\VBE6EXT.olb" rename_namespace("VBE6")
+#import "libid:0002E157-0000-0000-C000-000000000046" rename_namespace("VBE6")
+using namespace VBE6;
+
+//#import "E:\Temp\vc\Office2007Lib\MSWORD.olb" rename("ExitWindows","ExitWindowsEx"),rename_namespace("MSWord")
+#import "libid:00020905-0000-0000-C000-000000000046" rename("ExitWindows","ExitWindowsEx"),rename_namespace("MSWord")
+using namespace MSWord;

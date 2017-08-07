@@ -1,9 +1,6 @@
 #pragma once
 #include "framercontrol1.h"
 
-BOOL CALLBACK ShowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-
 // CChildDlg ¶Ô»°¿ò
 
 class CChildDlg : public CDialogEx
