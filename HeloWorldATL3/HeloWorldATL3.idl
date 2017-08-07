@@ -1,0 +1,46 @@
+// HeloWorldATL3.idl : HeloWorldATL3的 IDL 源
+//
+
+// 此文件将由 MIDL 工具处理以
+// 产生类型库(HeloWorldATL3.tlb)和封送处理代码。
+
+#include "olectl.h"
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(1A29BEDF-2D91-4D10-83DF-67E9310F518B),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IMyWndCtl2 : IDispatch{
+};
+
+[
+	uuid(3FFF497D-CB2F-462F-9102-773474D04C9B),
+	version(1.0),
+]
+library HeloWorldATL3Lib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(60E9373D-10E8-4369-8B5A-8EDF4A19FD00)		
+	]
+	dispinterface _IMyWndCtl2Events
+	{
+		properties:
+		methods:
+	};
+	[
+		uuid(3B0EEF60-92F8-4783-9875-EB708361931F),		
+		control
+	]
+	coclass MyWndCtl2
+	{
+		[default] interface IMyWndCtl2;
+		[default, source] dispinterface _IMyWndCtl2Events;
+	};
+};
+

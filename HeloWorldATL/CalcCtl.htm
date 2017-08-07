@@ -1,0 +1,37 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312"/>
+<meta http-equiv="X-UA-Compatible" content="IE=10" />
+<TITLE>对象 CalcCtl 的 ATL 测试页</TITLE>
+</HEAD>
+<BODY>
+
+
+<OBJECT ID="CalcCtl" CLASSID="CLSID:72185FF8-F745-4048-B787-EF58E544B0B2"></OBJECT>
+
+<input type="button" value="Add" onclick="add();" />
+<input type="button" value="AddAsync" onclick="addAsync();" />
+
+<script type="text/javascript">
+    function add() {
+        // method 1:
+        //var calc = document.getElementById('CalcCtl');
+        //var result = calc.Add(2, 3);
+
+        // method 2:
+        var result = CalcCtl.Add(2, 3);
+        alert(result);
+    }
+
+    function addAsync() {
+        var calc = document.getElementById('CalcCtl');
+        calc.attachEvent("AddCompleted3", OnAddCompleted);
+        calc.AddAsync(3, 4);
+    }
+    function OnAddCompleted(result) {
+        alert(result);
+    }
+</script>
+
+</BODY>
+</HTML>
