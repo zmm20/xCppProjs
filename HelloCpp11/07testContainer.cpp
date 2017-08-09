@@ -14,6 +14,7 @@
 #include <deque>
 #include <array>
 #include <forward_list>
+#include <set>
 
 using namespace std;
 template <typename T>
@@ -203,9 +204,50 @@ int main()
 
     cout << "test 7" << endl;
     {
+        set<int> c({1, 2, 4, 5, 6});
+        cout << "lower_bound(3): " << *c.lower_bound(3) << endl;
+        cout << "upper_bound(3): " << *c.upper_bound(3) << endl;
+        cout << "equal_range(3): " << *c.equal_range(3).first << " "
+            << *c.equal_range(3).second << endl;
+        cout << endl;
+        cout << "lower_bound(5): " << *c.lower_bound(5) << endl;
+        cout << "upper_bound(5): " << *c.upper_bound(5) << endl;
+        cout << "equal_range(5): " << *c.equal_range(5).first << " "
+            << *c.equal_range(5).second << endl;
+    }
+    cout << endl;
+
+    cout << "test 8" << endl;
+    {
+        std::set<double> c({1.1, 2.2, 4.4, 3.3});
+        // insert value and process return value
+        double value = 3.3;
+        auto status = c.insert(value);
+        if (status.second) {
+            std::cout << value << " inserted as element " << endl;
+        }
+        else {
+            std::cout << value << " already exists as element " << endl;
+        }
+        std::cout << "distence = " << std::distance(c.begin(), status.first) + 1 << std::endl;
+
+        // 可见 set 与 multiset 的 insert 返回值类型是不同的
+        std::multiset<int> d;
+        auto it = d.insert(4);
+        cout << "multiset new element: " << *it << endl;
 
     }
     cout << endl;
+
+    cout << "test 9" << endl;
+    {
+    }
+    cout << endl;
+    cout << "test 10" << endl;
+    {
+    }
+    cout << endl;
+
     return 0;
 }
 

@@ -140,6 +140,8 @@ int main()
 
         if (req.method() != cinatra::Request::method_t::POST)
         {
+            strTmp = "upload failed: method is not POST";
+            cout << strTmp << endl;
             return;
         }
 
@@ -168,6 +170,7 @@ int main()
                 return;
             }
         }
+        strTmp = "upload succeed";
         res.end(strTmp);
     }
     );
