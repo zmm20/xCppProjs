@@ -68,7 +68,7 @@ int main()
     MSWord::_Document* pDoc = nullptr;
     
     cout << "test 1" << endl;
-    {// 新增即保存
+    {// 新增及保存
         //hr = pDocs->Add(&CComVariant(L""), &CComVariant(false), &CComVariant(MSWord::wdNewBlankDocument), &CComVariant(true), &pDoc);
         //if (FAILED(hr)) {
         //    OleUninitialize();
@@ -90,7 +90,7 @@ int main()
          // 可能遇到只读错误
          hr = pDocs->Open(&CComVariant(word_file_in.data()), &vtMissing, &CComVariant(false), &vtMissing, &vtMissing
              , &vtMissing, &vtMissing, &vtMissing, &vtMissing
-             , &vtMissing, &vtMissing, &CComVariant(false) // 设置不可见
+             , &vtMissing, &vtMissing, &CComVariant(true) // 设置不可见
              , &vtMissing, &vtMissing, &vtMissing, &vtMissing, &pDoc);
         if (FAILED(hr)) {
             app->Quit();
@@ -198,6 +198,10 @@ int main()
         }
     }
     cout << endl;
+
+    char off;
+    cin >> off;
+
 
 
     app->Quit();
