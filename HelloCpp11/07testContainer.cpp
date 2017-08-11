@@ -15,7 +15,7 @@
 #include <array>
 #include <forward_list>
 #include <set>
-
+#include <map>
 using namespace std;
 template <typename T>
 void PRINT_ELEMENTS(const T& coll, const std::string& optstr = "");
@@ -290,7 +290,8 @@ int main()
                 << endl;
         }
         // assign elements AND sorting criterion
-        coll1 = coll2; // 赋值操作会连带排序准则一起赋值
+        // 注意赋值操作要求2 容器排序类型相同(比较准则可能不同)
+        coll1 = coll2;
         coll1.insert(3);
         PRINT_ELEMENTS(coll1, "coll1: ");
         // just to make sure...
@@ -306,9 +307,48 @@ int main()
     cout << endl;
     cout << "test 10" << endl;
     {
+        typedef std::map<std::string, float> MyMap_T;
+        MyMap_T coll{ {"zmm", 11}, {"xh", 12} };
+
+        // method 1:
+        // add 10 to the value of each element:
+        std::for_each(coll.begin(), coll.end(),
+            [](std::pair<const std::string, float>& elem) {
+            elem.second += 10;
+        });
+
+        // method 2:
+        std::for_each(coll.begin(), coll.end(),
+            [](MyMap_T::value_type& elem) {
+            elem.second += 10;
+        });
+
+        // method 3:
+        std::for_each(coll.begin(), coll.end(),
+            [](decltype(coll)::value_type& elem) {
+            elem.second += 10;
+        });
+
+        for (const auto& item : coll)
+            std::cout << "key: " << item.first << ", value: " << item.second << std::endl;
+
     }
     cout << endl;
 
+    cout << "test 11" << endl;
+    {
+    }
+    cout << endl;
+
+    cout << "test 12" << endl;
+    {
+    }
+    cout << endl;
+
+    cout << "test 13" << endl;
+    {
+    }
+    cout << endl;
     return 0;
 }
 

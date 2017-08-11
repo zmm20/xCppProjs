@@ -36,9 +36,12 @@
 
 //#import "C:\Program Files (x86)\Common Files\Microsoft Shared\OFFICE12\MSO.DLL" raw_interfaces_only, raw_native_types, no_namespace, named_guids, auto_search
 #import "libid:2DF8D04C-5BFA-101B-BDE5-00AA0044DE52" auto_rename auto_search raw_interfaces_only rename_namespace("MSOffice")
+using namespace MSOffice;
+
+//#import "E:\Temp\vc\Office2007Lib\VBE6EXT.olb" rename_namespace("VBE6")
+#import "libid:0002E157-0000-0000-C000-000000000046" auto_rename auto_search raw_interfaces_only rename_namespace("VBE6")
+using namespace VBE6;
 
 // microsoft word object library
 #import "libid:00020905-0000-0000-C000-000000000046" auto_rename auto_search raw_interfaces_only rename_namespace("MSWord")
-
-using namespace MSOffice;
 using namespace MSWord;
