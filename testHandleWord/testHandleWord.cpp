@@ -1,5 +1,7 @@
-// testHandleWord.cpp : 定义控制台应用程序的入口点。
-//
+/// 操作word 文档
+///
+/// @author zhoumanman888@126.com
+/// @date 2017.7.20
 
 #include "stdafx.h"
 #include "testHandleWord.h"
@@ -55,6 +57,7 @@ int main()
     wstring word_file_in = LR"(C:\Users\zmm\Documents\Visual Studio 2015\Projects\xCppProjs\testHandleWord\test\test.docx)";
     wstring word_file_out = LR"(C:\Users\zmm\Documents\Visual Studio 2015\Projects\xCppProjs\testHandleWord\test\test_out.docx)";
     /*
+        http://www.eefocus.com/wang312/blog/13-05/294401_16a48.html
         hr = CoCreateInstance ( CLSID_ShellLink,         // coclass 的CLSID
         NULL,                    // 不是用聚合
         CLSCTX_INPROC_SERVER,    // 服务器类型
@@ -72,7 +75,7 @@ int main()
         return 1;
     }
     // 设置显示
-    //app->put_Visible(VARIANT_TRUE);
+    app->put_Visible(VARIANT_TRUE);
 
     MSWord::Documents* pDocs = nullptr;
     hr = app->get_Documents(&pDocs);
@@ -82,7 +85,20 @@ int main()
         cerr << "get_Documents failed!" << endl;
         return 1;
     }
+    
     MSWord::_Document* pDoc = nullptr;
+    // 打开文档
+    // 可能遇到只读错误
+    hr = pDocs->Open(&CComVariant(word_file_in.data()), &vtMissing, &CComVariant(false), &vtMissing, &vtMissing
+        , &vtMissing, &vtMissing, &vtMissing, &vtMissing
+        , &vtMissing, &vtMissing, &CComVariant(true)
+        , &vtMissing, &vtMissing, &vtMissing, &vtMissing, &pDoc);
+    if (FAILED(hr)) {
+        app->Quit();
+        OleUninitialize();
+        cerr << "open failed!" << endl;
+        return 1;
+    }
     
     cout << "test 1, 测试新建和另存为" << endl;
     {// 新增及保存
@@ -101,22 +117,10 @@ int main()
         //}
     }
 
-    // 打开文档
-    // 可能遇到只读错误
-    hr = pDocs->Open(&CComVariant(word_file_in.data()), &vtMissing, &CComVariant(false), &vtMissing, &vtMissing
-        , &vtMissing, &vtMissing, &vtMissing, &vtMissing
-        , &vtMissing, &vtMissing, &CComVariant(true)
-        , &vtMissing, &vtMissing, &vtMissing, &vtMissing, &pDoc);
-    if (FAILED(hr)) {
-        app->Quit();
-        OleUninitialize();
-        cerr << "open failed!" << endl;
-        return 1;
-    }
-
     cout << "test 2, 测试文本替换" << endl;
     {
-        BSTR bs;
+        //BSTR bs;
+
         // method 1:
         //MSWord::Range* pRange = nullptr;
         //hr = pDoc->Range(&CComVariant(0), &CComVariant(20), &pRange);
@@ -216,70 +220,70 @@ int main()
     cout << endl;
 
     cout << "test 3, 获得行高" << endl;
-    {
-        //MSWord::Paragraphs* pParas = nullptr;
-        //hr = pDoc->get_Paragraphs(&pParas);
-        //assert(SUCCEEDED(hr), "paras get failed"); // 运行时断言, 注意与static_assert 的区别
+    {// 行高的计算最好另word 文档可见, 否则当选择内容不再当前窗口, 则高度为-1;
+        MSWord::Paragraphs* pParas = nullptr;
+        hr = pDoc->get_Paragraphs(&pParas);
+        assert(SUCCEEDED(hr), "paras get failed"); // 运行时断言, 注意与static_assert 的区别
 
-        //BSTR tmp;
-        //long moveUnit = -1;
-        //while (moveUnit)
-        //{
-        //    // 行高
-        //    // 1> 首先获得当前行纵坐标
-        //    MSWord::SelectionPtr pSel = nullptr;
-        //    app->get_Selection(&pSel);
-        //    MSWord::RangePtr pRange = nullptr;
-        //    pSel->get_Range(&pRange);
-        //    MSWord::WindowPtr pWin = nullptr;
-        //    pDoc->get_ActiveWindow(&pWin);
-        //    LONG x1, y1, w1, h1;
-        //    pWin->GetPoint(&x1, &y1, &w1, &h1, pRange);
+        BSTR tmp;
+        long moveUnit = -1;
+        while (moveUnit)
+        {
+            // 行高
+            // 1> 首先获得当前行纵坐标
+            MSWord::SelectionPtr pSel = nullptr;
+            app->get_Selection(&pSel);
+            MSWord::RangePtr pRange = nullptr;
+            pSel->get_Range(&pRange);
+            MSWord::WindowPtr pWin = nullptr;
+            pDoc->get_ActiveWindow(&pWin);
+            LONG x1, y1, w1, h1;
+            pWin->GetPoint(&x1, &y1, &w1, &h1, pRange);
 
-        //    VARIANT pageNumber;
-        //    pSel->get_Information(wdActiveEndPageNumber, &pageNumber);
-        //    VARIANT lineNumber;
-        //    pSel->get_Information(wdFirstCharacterLineNumber, &lineNumber);
-        //    VARIANT pos;
-        //    pSel->get_Information(wdVerticalPositionRelativeToPage, &pos);
-        //    cout << "page numer: " << pageNumber.lVal << ", line number: " << lineNumber.lVal << ", 距离page开始的垂直位置(磅): " << pos.fltVal<< endl;
+            VARIANT pageNumber;
+            pSel->get_Information(wdActiveEndPageNumber, &pageNumber);
+            VARIANT lineNumber;
+            pSel->get_Information(wdFirstCharacterLineNumber, &lineNumber);
+            VARIANT pos;
+            pSel->get_Information(wdVerticalPositionRelativeToPage, &pos);
+            cout << "page numer: " << pageNumber.lVal << ", line number: " << lineNumber.lVal << ", 距离page开始的垂直位置(磅): " << pos.fltVal<< endl;
 
-        //    // 移动一行
-        //    hr = pSel->MoveDown(&CComVariant(wdLine), &CComVariant(1), &vtMissing, &moveUnit);
-        //    assert(SUCCEEDED(hr), "text get failed");
-        //    cout << "move unit: " << moveUnit << endl;
-        //    pSel->get_Range(&pRange);
-        //    pDoc->get_ActiveWindow(&pWin);
-        //    LONG x2, y2, w2, h2;
-        //    pWin->GetPoint(&x2, &y2, &w2, &h2, pRange);
-        //    cout << "行高: " << y2 - y1 << endl;
-        //}
+            // 移动一行
+            hr = pSel->MoveDown(&CComVariant(wdLine), &CComVariant(1), &vtMissing, &moveUnit);
+            assert(SUCCEEDED(hr), "text get failed");
+            cout << "move unit: " << moveUnit << endl;
+            pSel->get_Range(&pRange);
+            pDoc->get_ActiveWindow(&pWin);
+            LONG x2, y2, w2, h2;
+            pWin->GetPoint(&x2, &y2, &w2, &h2, pRange);
+            cout << "行高: " << y2 - y1 << endl;
+        }
         
     }
     cout << endl;
 
     cout << "test 4, 获得_Global 对象" << endl;
     {
-        CComQIPtr<MSWord::_Global> pGb;
-        hr = pGb.CoCreateInstance(CLSID_Global, NULL, CLSCTX_SERVER);
-        if (FAILED(hr)) {
-            OleUninitialize();
-            cerr << "_Global CoCreateInstance failed!" << endl;
-            return 1;
-        }
+        //CComQIPtr<MSWord::_Global> pGb;
+        //hr = pGb.CoCreateInstance(CLSID_Global, NULL, CLSCTX_SERVER);
+        //if (FAILED(hr)) {
+        //    OleUninitialize();
+        //    cerr << "_Global CoCreateInstance failed!" << endl;
+        //    return 1;
+        //}
 
-        float ff;
-        hr = pGb->PointsToPixels(100, &CComVariant(true), &ff); // 转换垂直方向的, 磅==>像素
-        if (SUCCEEDED(hr))
-            cout << "垂直方向: 100(磅) = " << ff << "(像素)"<< endl;
-        else
-            cerr << "error PointsToPixels" << endl;
+        //float ff;
+        //hr = pGb->PointsToPixels(100, &CComVariant(true), &ff); // 转换垂直方向的, 磅==>像素
+        //if (SUCCEEDED(hr))
+        //    cout << "垂直方向: 100(磅) = " << ff << "(像素)"<< endl;
+        //else
+        //    cerr << "error PointsToPixels" << endl;
 
-        hr = pGb->PointsToPixels(100, &CComVariant(false), &ff); // 转换水平方向的, 磅==>像素
-        if (SUCCEEDED(hr))
-            cout << "水平方向: 100(磅) = " << ff << "(像素)" << endl;
-        else
-            cerr << "error PointsToPixels" << endl;
+        //hr = pGb->PointsToPixels(100, &CComVariant(false), &ff); // 转换水平方向的, 磅==>像素
+        //if (SUCCEEDED(hr))
+        //    cout << "水平方向: 100(磅) = " << ff << "(像素)" << endl;
+        //else
+        //    cerr << "error PointsToPixels" << endl;
     }
     cout << endl;
 
