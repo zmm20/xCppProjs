@@ -16,6 +16,7 @@
 #include <forward_list>
 #include <set>
 #include <map>
+#include <complex>
 using namespace std;
 template <typename T>
 void PRINT_ELEMENTS(const T& coll, const std::string& optstr = "");
@@ -337,6 +338,12 @@ int main()
 
     cout << "test 11" << endl;
     {
+        map<string, std::complex<float>> m;
+        m.emplace(std::piecewise_construct, make_tuple("hello"), make_tuple(3.4, 7.8));
+        m.emplace(std::piecewise_construct, make_tuple("world"), make_tuple(4.4, 7.7));
+        cout << "map size: " << m.size() << endl;
+        for (const auto& item : m)
+            cout << item.first << " : " << item.second << endl;
     }
     cout << endl;
 

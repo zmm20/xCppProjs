@@ -12,6 +12,7 @@
 
 using namespace std;
 
+// test 2
 class Foo
 {
 public:
