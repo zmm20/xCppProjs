@@ -43,73 +43,67 @@ CImageExtractor::~CImageExtractor()
 
 void CImageExtractor::Init( const char* pszInput)
 {
-    const PdfObject*  pObj  = NULL;
-
     if( !pszInput)
         return;
 
     try
     {
         PdfMemDocument document( pszInput );
-        m_imgPathList.clear(); 
+        m_imgPathMap.clear();
 
-        PdfPagesTree* pPageTree = document.GetPagesTree();
-        PoDoFo::PdfPage* pPage = pPageTree->GetPage(0);
-        PdfObject* pObjTmp = pPage->GetContents();
-        cout << "GetContents: " << pObjTmp->Reference().ToString() << endl;
-        int t = pObjTmp->GetDataType();
-        cout << "GetDataType: " << t << ", " << pObjTmp->GetDataTypeString() << endl;
-        if (pObjTmp->IsDictionary())
+        // 我修改后的代码, 增加了定位图片是那一页的功能
+        PdfVecObjects objs = document.GetObjects();
+        int nCount = document.GetPageCount();
+        for (int i = 0; i<nCount; i++)
         {
-            PdfDictionary& dic = pObjTmp->GetDictionary();
-            TKeyMap km  = dic.GetKeys();
-            cout << "all key: " << endl;
+            PdfPage* pPage = document.GetPage(i);
+            PdfObject* pResourceOfPage = pPage->GetResources();
+            if (pResourceOfPage == nullptr)
+                continue;
+
+            PdfObject* pXObjs = pResourceOfPage->GetDictionary().GetKey(PoDoFo::PdfName("XObject"));
+            if (pXObjs == nullptr)
+                continue;
+
+            TKeyMap km = pXObjs->GetDictionary().GetKeys();
+            cout << "page no: " << i + 1 << " all key: " << endl;
+            PdfObject*  pObjItem = nullptr;
             for (const auto& pair : km)
             {
                 cout << pair.first.GetName() << endl;
-            }
 
-        }
-        //PoDoFo::PdfImage pdfImg(&document);
-        PoDoFo::PdfName dctFilterName(PoDoFo::PdfFilterFactory::FilterTypeToName(PoDoFo::ePdfFilter_DCTDecode));
-        cout << "dctFilterName" << dctFilterName.GetName() << endl;
-        
-        return;
+                pObjItem = pXObjs->GetDictionary().GetKey(PdfName(pair.first.GetName()));
+                if (pObjItem == nullptr && !pObjItem->IsReference())
+                    continue;
 
-        TCIVecObjects it = document.GetObjects().begin();
-        while( it != document.GetObjects().end() )
-        {
-            PdfObject*  pObjTmp = *it;
-            if(pObjTmp->IsDictionary() )
-            {            
-                PdfObject* pObjType = pObjTmp->GetDictionary().GetKey( PdfName::KeyType );
-                PdfObject* pObjSubType = pObjTmp->GetDictionary().GetKey( PdfName::KeySubtype );
+                const PdfReference& ref = pObjItem->GetReference();
+                cout << ref.ToString() << endl;
+                PdfObject* pObjTmp = objs.GetObject(ref);
 
-                if( ( pObjType && pObjType->IsName() && ( pObjType->GetName().GetName() == "XObject" ) ) ||
-                    ( pObjSubType && pObjSubType->IsName() && ( pObjSubType->GetName().GetName() == "Image" ) ) )
+                PdfObject* pObjType = pObjTmp->GetDictionary().GetKey(PdfName::KeyType);
+                PdfObject* pObjSubType = pObjTmp->GetDictionary().GetKey(PdfName::KeySubtype);
+                if ((pObjType && pObjType->IsName() && (pObjType->GetName().GetName() == "XObject")) ||
+                    (pObjSubType && pObjSubType->IsName() && (pObjSubType->GetName().GetName() == "Image")))
                 {
-                    //PdfXObject xObject(pObjSubType);               
-
-                    pObj = pObjTmp->GetDictionary().GetKey( PdfName::KeyFilter );
-                    if( pObj && pObj->IsArray() && pObj->GetArray().GetSize() == 1 && 
-                        pObj->GetArray()[0].IsName() && (pObj->GetArray()[0].GetName().GetName() == "DCTDecode") )
+                    const PdfObject*  pObj = pObjTmp->GetDictionary().GetKey(PdfName::KeyFilter);
+                    if (pObj && pObj->IsArray() && pObj->GetArray().GetSize() == 1 &&
+                        pObj->GetArray()[0].IsName() && (pObj->GetArray()[0].GetName().GetName() == "DCTDecode"))
                         pObj = &pObj->GetArray()[0];
 
-                    if( pObj && pObj->IsName() && ( pObj->GetName().GetName() == "DCTDecode" ) )
+                    if (pObj && pObj->IsName() && (pObj->GetName().GetName() == "DCTDecode"))
                     {
                         // The only filter is JPEG -> create a JPEG file
-                        ExtractImage(pObjTmp, true );
+                        ExtractImage(pObjTmp, true, i + 1);
                     }
                     else
                     {
-                        ExtractImage(pObjTmp, false );
+                        ExtractImage(pObjTmp, false, i + 1);
                     }
-                
+
+                    // 为什么要释放?? 
                     document.FreeObjectMemory(pObjTmp);
                 }
             }
-
-            ++it;
         }
     }
     catch (PdfError & e) {
@@ -119,12 +113,12 @@ void CImageExtractor::Init( const char* pszInput)
     }
 }
 
-void CImageExtractor::ExtractImage( PdfObject* pObject, bool bJpeg )
+void CImageExtractor::ExtractImage( PdfObject* pObject, bool bJpeg, int pageNo)
 {
     FILE*       hFile        = NULL;
     const char* pszExtension = bJpeg ? "jpg" : "ppm"; 
 
-    snprintf(m_szBuffer, MAX_PATH, "%s/pdfimage_%04i.%s", m_tmpPath.c_str(), m_nCount++, pszExtension);
+    snprintf(m_szBuffer, MAX_PATH, "%s/pdfimage_%04i_%03i.%s", m_tmpPath.c_str(), m_nCount++, pageNo, pszExtension);
     
     hFile = fopen( m_szBuffer, "wb" );
     if( !hFile )
@@ -161,7 +155,7 @@ void CImageExtractor::ExtractImage( PdfObject* pObject, bool bJpeg )
     fclose( hFile );
     ++m_nSuccess;
 
-    m_imgPathList.push_back(m_szBuffer);
+    m_imgPathMap[pageNo] = std::string(m_szBuffer);
 }
 
 bool CImageExtractor::FileExists( const char* pszFilename )
@@ -173,10 +167,4 @@ bool CImageExtractor::FileExists( const char* pszFilename )
     if ( stat( pszFilename, &stBuf ) == -1 )	result = false;
 
     return result;
-}
-
-
-std::vector<std::string> CImageExtractor::getImages()
-{
-    return m_imgPathList;
 }

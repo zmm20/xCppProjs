@@ -177,12 +177,3 @@ void CTextExtractor::AddTextElement( double dCurPosX, double dCurPosY,
 	//printf("(%.3f,%.3f) %s \n", dCurPosX, dCurPosY, XAB::CTextHelper::UTF2GBK(u8Str).c_str());
     m_pagesTxtList[nPage] += XAB::CTextHelper::UTF2GBK(u8Str);
 }
-
-std::vector<std::string> CTextExtractor::getPageTxtList()
-{
-    std::vector<std::string> list;
-    for (const auto& keyValue : m_pagesTxtList)
-        list.push_back(keyValue.second);
-
-    return list;
-}

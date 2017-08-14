@@ -24,7 +24,7 @@
 #include <podofo/podofo.h>
 #include <string>
 #include <vector>
-#include <map>
+#include <unordered_map>
 
 #ifndef MAX_PATH
 #define MAX_PATH 512
@@ -36,7 +36,10 @@
  *
  *  modified by zhoumanman@126.com
  */
-class CImageExtractor {
+class CImageExtractor 
+{
+public:
+    typedef std::unordered_map<int, std::string> PageImagePa_t;
  public:
     CImageExtractor();
     virtual ~CImageExtractor();
@@ -53,8 +56,11 @@ class CImageExtractor {
      */
     inline int GetNumImagesExtracted() const;
 
-    /// 获得图片路径列表
-    std::vector<std::string> getImages();
+    /// added by zhoumanman888@126.com
+    const PageImagePa_t& getImages()
+    {
+        return m_imgPathMap;
+    }
  private:
     /** Extracts the image form the given PdfObject
      *  which has to be an XObject with Subtype "Image"
@@ -62,7 +68,7 @@ class CImageExtractor {
      *  \param bJpeg if true extract as a jpeg, otherwise create a ppm
      *  \returns ErrOk on success
      */
-    void ExtractImage( PoDoFo::PdfObject* pObject, bool bJpeg );
+    void ExtractImage( PoDoFo::PdfObject* pObject, bool bJpeg, int pageNo = -1);
 
     /** This function checks wether a file with the 
      *  given filename does exist.
@@ -76,8 +82,7 @@ class CImageExtractor {
 
     char         m_szBuffer[MAX_PATH];
     std::string m_tmpPath;
-    std::vector<std::string> m_imgPathList; ///< 图片路径, 暂时无法确定图片是属于那一页, 所以先用第几张图片来区别
-    //std::map<int, std::vector<std::string>> m_pageImgPathList; // 页码---图片路径
+    PageImagePa_t m_imgPathMap; ///< 图片路径, 暂时无法确定图片是属于那一页, 所以先用第几张图片来区别
 };
 
 inline int CImageExtractor::GetNumImagesExtracted() const

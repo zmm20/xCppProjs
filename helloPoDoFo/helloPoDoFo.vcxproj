@@ -147,13 +147,11 @@
   <ItemGroup>
     <ClCompile Include="..\public\include\my\TextHelper.cpp" />
     <ClCompile Include="00test.cpp" />
-    <ClCompile Include="ImageExtractor.cpp" />
-    <ClCompile Include="TextExtractor.cpp" />
+    <ClCompile Include="TextAndImgExtractor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\include\my\TextHelper.h" />
-    <ClInclude Include="ImageExtractor.h" />
-    <ClInclude Include="TextExtractor.h" />
+    <ClInclude Include="TextAndImgExtractor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

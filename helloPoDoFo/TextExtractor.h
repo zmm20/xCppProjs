@@ -23,7 +23,7 @@
 
 #include <podofo/podofo.h>
 #include <cstdio>
-#include <map>
+#include <unordered_map>
 #include <list>
 
 using namespace PoDoFo;
@@ -38,13 +38,20 @@ using namespace PoDoFo;
  *
  *  modified by zhoumanman@126.com
  */
-class CTextExtractor {
+class CTextExtractor 
+{
+public:
+    typedef std::unordered_map<int, std::string> PageText_t;
  public:
      CTextExtractor();
     virtual ~CTextExtractor();
 
     void Init( const char* pszInput );
-    std::vector<std::string> getPageTxtList(); /// added by zhoumanman@126.com
+    /// added by zhoumanman@126.com
+    const PageText_t& getPageTxtList() 
+    {
+        return m_pagesTxtList;
+    }
  private:
     /** Extract all text from the given page
      *
@@ -66,7 +73,7 @@ class CTextExtractor {
                          PdfFont* pCurFont, const PdfString & rString, int nPage);
 
 private:
-    std::map<int, std::string> m_pagesTxtList; ///< Ò³Âë---ÄÚÈÝ
+    PageText_t m_pagesTxtList; ///< Ò³Âë---ÄÚÈÝ
 };
 
 #endif // _TEXT_EXTRACTOR_H_

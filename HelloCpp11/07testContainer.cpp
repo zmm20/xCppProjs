@@ -17,6 +17,7 @@
 #include <set>
 #include <map>
 #include <complex>
+#include <iomanip>
 using namespace std;
 template <typename T>
 void PRINT_ELEMENTS(const T& coll, const std::string& optstr = "");
@@ -347,15 +348,102 @@ int main()
     }
     cout << endl;
 
-    cout << "test 12" << endl;
+    cout << "test 12, erase 用法" << endl;
     {
+        float value = 1.1;
+        {
+            // c++11
+            std::map<std::string, float> coll{ { "hello", 1.1 },{ "world", 2.2 } };
+            for (auto pos = coll.begin(); pos != coll.end(); ) {
+                if (pos->second == value) {
+                    pos = coll.erase(pos); // possible only since C++11
+                }
+                else {
+                    ++pos;
+                }
+            }
+        }
+        {
+            // c++11 之前
+            typedef std::map<std::string, float> StringFloatMap;
+            StringFloatMap coll{ { "hello", 1.1 },{ "world", 2.2 } };
+            StringFloatMap::iterator pos;
+            // remove all elements having a certain value
+            for (pos = coll.begin(); pos != coll.end(); ) {
+                if (pos->second == value) {
+                    // Note that pos++ increments pos so that it refers to the next element but yields a copy of its original value.
+                    coll.erase(pos++); // 
+                }
+                else {
+                    ++pos;
+                }
+            }
+        }        
     }
     cout << endl;
 
     cout << "test 13" << endl;
     {
+        // create map / associative array
+        // - keys are strings
+        // - values are floats
+        typedef map<string, float> StringFloatMap;
+        StringFloatMap stocks; // create empty container
+                               // insert some elements
+        stocks["BASF"] = 369.50;
+        stocks["VW"] = 413.50;
+        stocks["Daimler"] = 819.00;
+        stocks["BMW"] = 834.00;
+        stocks["Siemens"] = 842.20;
+        stocks["123456789012"] = 0;
+        // print all elements
+        StringFloatMap::iterator pos;
+        cout << ios::left; // left-adjust values
+        for (pos = stocks.begin(); pos != stocks.end(); ++pos) {
+            cout << "stock: " << setw(12) << pos->first
+                << "price: " << pos->second << endl;
+        }
+        cout << endl;
+        // boom (all prices doubled)
+        for (pos = stocks.begin(); pos != stocks.end(); ++pos) {
+            pos->second *= 2;
+        }
+        // print all elements
+        for (pos = stocks.begin(); pos != stocks.end(); ++pos) {
+            cout << "stock: " << setw(12) << pos->first
+                << "price: " << pos->second << endl;
+        }
+        cout << endl;
+        // rename key from "VW" to "Volkswagen"
+        // - provided only by exchanging element
+        stocks["Volkswagen"] = stocks["VW"];
+        stocks.erase("VW");
+        // print all elements
+        for (pos = stocks.begin(); pos != stocks.end(); ++pos) {
+            cout << "stock: " << setw(12) << pos->first
+                << "price: " << pos->second << endl;
+        }
     }
     cout << endl;
+
+    cout << "test 14" << endl;
+    {
+    }
+    cout << endl;
+
+    cout << "test 15" << endl;
+    {
+    }
+    cout << endl;
+    cout << "test 16" << endl;
+    {
+    }
+    cout << endl;
+    cout << "test 17" << endl;
+    {
+    }
+    cout << endl;
+
     return 0;
 }
 

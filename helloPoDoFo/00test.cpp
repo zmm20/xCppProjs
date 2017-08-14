@@ -1,8 +1,6 @@
 #define MAIN
 #ifdef MAIN
 
-#include "TextExtractor.h"
-#include "ImageExtractor.h"
 #include <iostream>
 #include <podofo/podofo.h>
 #include <string>
@@ -10,7 +8,7 @@
 #include <string>
 #include <cstdlib>
 #include <boost/filesystem/path.hpp>
-
+#include "TextAndImgExtractor.h"
 using namespace std;
 using namespace PoDoFo;
 
@@ -64,21 +62,22 @@ int main()
     }
     cout << endl;
 
-
-    cout << "test 2" << endl;
-    {// 文本抓取
-        CTextExtractor extractor;
-
-        try {
+    cout << "test 2, my class's usage" << endl;
+    {
+        CTextAndImgExtractor extractor;
+        try 
+        {
             extractor.Init(pdfPath.c_str());
-            auto  pagesTxtList = extractor.getPageTxtList();
 
-            int nPage = 0;
-            for (const auto& item : pagesTxtList)
+            int pgCnt = extractor.getPagesCount();
+            for (int i = 0; i < pgCnt; ++i)
             {
-                ++nPage;
-                cout << "页码: " << nPage << ", 内容: " << endl;
-                cout << item << endl;
+                 auto page = extractor.getPage(i + 1);
+                 cout << "页码: " << i + 1 << ": " << endl;
+                 cout << "    text content: " << page.strText << endl;
+                 cout << "    image path: " << endl;
+                 for (auto e : page.imgURIs)
+                     cout << "        " << e << endl;
             }
         }
         catch (PdfError & e) {
@@ -87,25 +86,6 @@ int main()
             return e.GetError();
         }
     }
-    cout << endl;
-
-    cout << "test 3" << endl;
-    {// 图片抓取
-        CImageExtractor extractor;
-
-        try {
-            extractor.Init(pdfPath.c_str());
-            const auto& imgList = extractor.getImages();
-            for (const auto item : imgList)
-                cout << item << endl;
-        }
-        catch (PdfError & e) {
-            fprintf(stderr, "Error: An error %i ocurred during processing the pdf file.\n", e.GetError());
-            e.PrintErrorMsg();
-            return e.GetError();
-        }
-    }
-    cout << endl;
 
     return EXIT_SUCCESS;
 }
