@@ -1,5 +1,4 @@
 #pragma once
-
 #include <podofo/podofo.h>
 #include <unordered_map>
 #include <string>
@@ -30,6 +29,7 @@ public:
 
     void Init(const char* pszInput);
     inline int getPagesCount() noexcept;
+    /// 取得第几页的数据, 序号从 1 开始
     PageNode_t getPage(int pageNo) noexcept;
 
     /**

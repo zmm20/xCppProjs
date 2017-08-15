@@ -164,6 +164,7 @@
   <ItemGroup>
     <ClCompile Include="0myFindContours.cpp" />
     <ClCompile Include="2rotation.cpp" />
+    <ClCompile Include="putText.cpp" />
     <ClCompile Include="test1_loadShowOutputImage.cpp" />
     <ClCompile Include="test2_CreateTrackbar.cpp" />
     <ClCompile Include="test3_UseMouse.cpp" />
@@ -191,9 +192,13 @@
     <ClCompile Include="testO_convexHull2.cpp" />
     <ClCompile Include="testM_FindAndDrawContours.cpp" />
     <ClCompile Include="testL_FindContours.cpp" />
+    <ClCompile Include="testT_improveImage.cpp" />
     <ClCompile Include="testVideoCapture.cpp" />
     <ClCompile Include="testP_minAreaRect.cpp" />
     <ClCompile Include="testQ_minEnclosingCircle.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="putText.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

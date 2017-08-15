@@ -1,4 +1,4 @@
-#define MAIN
+//#define MAIN
 #ifdef MAIN
 
 #include <opencv2/opencv.hpp>
@@ -25,6 +25,7 @@ double CalcDegree(const Mat &srcImage);
 
 int main()
 {
+    cout << "-------------------2rotation.cpp--------------------" << endl;
     std::string imgPath(R"(test\p16.jpg)");
     Mat srcImage = imread(imgPath);
     if (srcImage.empty())
