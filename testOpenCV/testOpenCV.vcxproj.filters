@@ -120,6 +120,12 @@
     <ClCompile Include="putText.cpp">
       <Filter>utils</Filter>
     </ClCompile>
+    <ClCompile Include="changing_contrast_brightness_image.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="testMorphologyEx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="putText.h">

@@ -6,6 +6,8 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <cstdlib>
+#include <locale>
 using namespace std;
 
 class MyClass {
@@ -52,6 +54,21 @@ int main()
     }
     cout << endl;
 
+    cout << "test 3" << endl;
+    {
+        vector<string> coll{"ÖÐ¹ú", "china", "hello", "ÄãºÃ", "ÂúÂú"};
+        string ss;
+        std::locale loc;
+        for (const auto& e : coll)
+        {
+            if (std::isalpha(e[0], loc))
+                ss += e + " ";
+            else
+                ss += e;
+        }
+        cout << ss << endl;
+    }
+    cout << endl;
     return EXIT_SUCCESS;
 }
 

@@ -1,6 +1,6 @@
 // helloTesseract.cpp : 定义控制台应用程序的入口点。
 //
-#define MAIN
+//#define MAIN
 #ifdef MAIN
 
 #include "stdafx.h"
@@ -92,6 +92,5 @@ int main()
 
     return 0;
 }
-
 
 #endif

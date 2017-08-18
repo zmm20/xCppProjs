@@ -1,4 +1,4 @@
-// #define MAIN
+#define MAIN
 #ifdef MAIN
 
 #include <stdio.h>
@@ -16,9 +16,24 @@ int main()
 
     cout << "test 1" << endl;
     {
-        //Mat girl = imread(".\\test\\girl.jpg"); // mix.tif
-        //namedWindow("【1】动漫图"); //创建一个名为 "【1】动漫图"的窗口  
-        //imshow("【1】动漫图", girl);//显示名为 "【1】动漫图"的窗口  
+        Mat girl = imread(".\\test\\phototest.tif");// girl.jpg
+        namedWindow("【1】动漫图"); //创建一个名为 "【1】动漫图"的窗口  
+        imshow("【1】动漫图", girl);//显示名为 "【1】动漫图"的窗口  
+
+        // 保存成内存流
+        //(1) jpeg compression 
+        vector<uchar> buff;//buffer for coding 
+        vector<int> param = vector<int>(2);
+        param[0] = CV_IMWRITE_JPEG_QUALITY;
+        param[1] = 95;//default(95) 0-100 
+
+        imencode(".jpg", girl, buff, param);
+        cout << "coded file size(jpg)" << buff.size() << endl;//fit buff size automatically. 
+        Mat jpegimage = imdecode(Mat(buff), CV_LOAD_IMAGE_COLOR);
+        imshow("memory image", jpegimage);
+
+        ofstream ofs(".\\test\\out.jpg", ios::trunc | ios::binary);
+        ofs.write((char*)buff.data(), buff.size());
     }
     cout << endl;
 
@@ -51,9 +66,9 @@ int main()
 
     cout << "test 3" << endl;
     {
-        Mat mix = imread(".\\test\\mix.tif"); // 尝试加载多页的tif 文件
-        namedWindow("多页图"); //创建一个名为 "【1】动漫图"的窗口  
-        imshow("多页图", mix);//显示名为 "【1】动漫图"的窗口  
+        //Mat mix = imread(".\\test\\mix.tif"); // 尝试加载多页的tif 文件
+        //namedWindow("多页图"); //创建一个名为 "【1】动漫图"的窗口  
+        //imshow("多页图", mix);//显示名为 "【1】动漫图"的窗口  
     }
     cout << endl;
 
