@@ -19,7 +19,7 @@ public:
 
     void printGsRevision();
 
-    void Convert(std::string inputFile, std::string outputFile, int firstPage, int lastPage, std::string deviceFormat, int width, int height);
+    void Convert(std::string inputFile, std::string outputFile, int firstPage, int lastPage, std::string deviceFormat = "jpeg", int width = 0, int height = 0);
 private:
     CGsHelper();
     // gsdll.h
