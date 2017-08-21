@@ -13,36 +13,10 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="util">
-      <UniqueIdentifier>{a0fd8206-4845-467a-b3d1-5ec8b0240457}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="01testThread.cpp">
+    <ClCompile Include="my_plugin_sum.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="02testTimer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="03testJson.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="04testConcurrent.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\public\include\my\TextHelper.cpp">
-      <Filter>util</Filter>
-    </ClCompile>
-    <ClCompile Include="05testPlugin.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="MyBuffer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="RWData.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
