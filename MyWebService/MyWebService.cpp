@@ -13,6 +13,7 @@ struct MyStruct
 {
     void hello(cinatra::Request& req, cinatra::Response& res)
     {
+        cout << "request data: " << req.body() << endl;
         //res.end("hello world!");
         res.redirect("index.html");
     }
@@ -175,6 +176,7 @@ int main()
     }
     );
 
+    cout << "web server is running..." << endl;
     app.static_dir("./static");
     app.listen("0.0.0.0", "8080"); //"http"
     app.run();

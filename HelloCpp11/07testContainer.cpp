@@ -1,4 +1,4 @@
-#define MAIN
+//#define MAIN
 #ifdef MAIN
 
 
@@ -20,6 +20,7 @@
 #include <iomanip>
 #include <unordered_set>
 #include <unordered_map>
+#include <memory>
 using namespace std;
 template <typename T>
 void PRINT_ELEMENTS(const T& coll, const std::string& optstr = "");
@@ -206,6 +207,39 @@ void printHashTableState(const T& cont)
         std::cout << "\n";
     }
     std::cout << std::endl;
+}
+
+
+// test 20
+class Item {
+private:
+    std::string name;
+    float price;
+public:
+    Item(const std::string& n, float p = 0) : name(n), price(p) {
+    }
+    std::string getName() const {
+        return name;
+    }
+    void setName(const std::string& n) {
+        name = n;
+    }
+    float getPrice() const {
+        return price;
+    }
+    float setPrice(float p) {
+        price = p;
+        return price;
+    }
+};
+template <typename Coll>
+void printItems(const std::string& msg, const Coll& coll)
+{
+    std::cout << msg << std::endl;
+    for (const auto& elem : coll) {
+        std::cout << ' ' << elem->getName() << ": "
+            << elem->getPrice() << std::endl;
+    }
 }
 
 int main()
@@ -708,11 +742,71 @@ int main()
 
     cout << "test 20" << endl;
     {
+        // two different collections sharing Items
+        typedef shared_ptr<Item> ItemPtr;
+        set<ItemPtr> allItems;
+        deque<ItemPtr> bestsellers;
+        // insert objects into the collections
+        // - bestsellers are in both collections
+        bestsellers = { ItemPtr(new Item("Kong Yize",20.10)),
+            ItemPtr(new Item("A Midsummer Night’s Dream",14.99)),
+            ItemPtr(new Item("The Maltese Falcon",9.88)) };
+        allItems = { ItemPtr(new Item("Water",0.44)),
+            ItemPtr(new Item("Pizza",2.22)) };
+        allItems.insert(bestsellers.begin(), bestsellers.end());
+        // print contents of both collections
+        printItems("bestsellers:", bestsellers);
+        printItems("all:", allItems);
+        cout << endl;
+        // double price of bestsellers
+        for_each(bestsellers.begin(), bestsellers.end(),
+            [](shared_ptr<Item>& elem) {
+            elem->setPrice(elem->getPrice() * 2);
+        });
+        // replace second bestseller by first item with name "Pizza"
+        bestsellers[1] = *(find_if(allItems.begin(), allItems.end(),
+            [](shared_ptr<Item> elem) {
+            return elem->getName() == "Pizza";
+        }));
+        // set price of first bestseller
+        bestsellers[0]->setPrice(44.77);
+        // print contents of both collections
+        printItems("bestsellers:", bestsellers);
+        printItems("all:", allItems);
+
+
+
+        // 注意, vector<Item&> books; 这样申明不可行
+        std::vector<std::reference_wrapper<Item>> books; // elements are references
+        Item f("Faust", 12.99);
+        books.push_back(f); // insert book by reference
+        // print books:
+        for (const auto& book : books) {
+            std::cout << book.get().getName() << ": "
+                << book.get().getPrice() << std::endl;
+        }
+        f.setPrice(9.99); // modify book outside the containers
+        std::cout << books[0].get().getPrice() << std::endl; // print price of first book
+                                                             // print books using type of the elements (no get() necessary):
+        for (const Item& book : books) {
+            std::cout << book.getName() << ": " << book.getPrice() << std::endl;
+        }
     }
     cout << endl;
 
     cout << "test 21" << endl;
     {
+        cout << "please enter some string" << endl;
+        // create a string vector
+        // - initialized by all words from standard input
+        vector<string> coll((istream_iterator<string>(cin)),
+            istream_iterator<string>());
+        // sort elements
+        sort(coll.begin(), coll.end());
+        cout << "after sort: " << endl;
+        // print all elements ignoring subsequent duplicates
+        unique_copy(coll.cbegin(), coll.cend(),
+            ostream_iterator<string>(cout, " "));
     }
     cout << endl;
     return 0;

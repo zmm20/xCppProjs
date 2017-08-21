@@ -70,6 +70,7 @@ int main()
     // method 2:
     //hr = app.CoCreateInstance(OLESTR("Word.Application"), NULL, CLSCTX_SERVER);
     if (FAILED(hr)) {
+        app.Release();
         OleUninitialize();
         cerr << "CoCreateInstance failed!" << endl;
         return 1;
@@ -81,6 +82,7 @@ int main()
     hr = app->get_Documents(&pDocs);
     if (FAILED(hr)) {
         app->Quit();
+        app.Release();
         OleUninitialize();
         cerr << "get_Documents failed!" << endl;
         return 1;
@@ -95,6 +97,7 @@ int main()
         , &vtMissing, &vtMissing, &vtMissing, &vtMissing, &pDoc);
     if (FAILED(hr)) {
         app->Quit();
+        app.Release();
         OleUninitialize();
         cerr << "open failed!" << endl;
         return 1;
@@ -137,7 +140,6 @@ int main()
         //}
 
         // method 2:
-        // 注意, 如果 docement 以不可见方式打开, 则 MSWord::Selection 对象始终未nullptr
         //MSWord::Selection* pSel = nullptr;
         //hr = app->get_Selection(&pSel);
         //if (FAILED(hr)) {
@@ -293,6 +295,7 @@ int main()
         cin >> off;
 
     app->Quit();
+    app.Release();
     OleUninitialize();
 
     return 0;
