@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <locale>
 #include <functional>
+#include <cassert>
 using namespace std;
 
 class MyClass {
@@ -63,6 +64,10 @@ public:
     int ClassMember(int a) { return a; }
     static int StaticMember(int a) { return a; }
 };
+
+// test 5
+void changePtr(char* args[], int& argc);
+
 
 int main()
 {
@@ -157,11 +162,40 @@ int main()
         cout << "Àà¾²Ì¬º¯Êý£º" << result << endl;
     }
     cout << endl;
+
+
+    cout << "test 5" << endl;
+    {
+        char* args = nullptr;
+        int argc;
+        changePtr(&args, argc);
+        assert(args);
+        //for (int i = 0; i < argc; ++i)
+        //    cout << args[i] << " " << endl;
+        //cout << endl;
+    }
+    cout << endl;
+
+
     return EXIT_SUCCESS;
 }
 
 void hello(string name)
 {
     cout << "hello " << name << endl;
+}
+
+void changePtr(char* args[], int& argc)
+{
+    argc = 5;
+    args = new char*[argc];
+
+    string str;
+    for (int i = 0; i < argc; ++i)
+    {
+        str = std::to_string(i);
+        args[i] = new char[str.length()];
+        std::strcpy(args[i], str.data());
+    }
 }
 #endif
