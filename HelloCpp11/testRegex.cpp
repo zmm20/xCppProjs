@@ -62,6 +62,7 @@ std::string regexCode(T code)
 }
 int main()
 {
+    cout << "------------------------testRegex.cpp--------------" << endl;
     cout << "test 1: " << endl;
     {
         // find XML/HTML-tagged value (using default syntax):
@@ -315,6 +316,32 @@ int main()
                 << " what(): " << e.what() << "\n"
                 << " code(): " << regexCode(e.code()) << endl;
         }
+    }
+    cout << endl;
+
+    cout << "test 9: " << endl;
+    {
+        string strSrc = 
+R"(感谢电子工业出版社博文视点的陈晓猛和丁一琼编辑为本书的出版所做的大
+量的工作, 他们对出版物的专业和严谨的态度给我留下了深刻的印象。
+
+最后, 需要感谢我博客上的众多读者们， 是你们对这本书的期待和热情的留
+言让我有了完成这本书的动力和勇气。
+
+交流与勘误
+
+由于编者水平有限′ 书籍即使经过了多次的校对' 也难免会有疏漏之处. 希
+望书本前的你' 能够热心地指出书本中错误， 以便在这本书下一版印刷的时候，
+能以一个更完美更严谨的样子, 呈现在大家的面前。 另外， 你要相信你不是】个
+人在战斗， 在作者的博客中， 可以找到与自己志同道合的众多喜欢计算机视觉编
+程技术的爱好者们。 我们可以一同交流， 共同学习进步。)";
+
+        cout << "original string: " << strSrc << endl << endl;
+        std::regex pattern("[\n|\r]");
+        // 首先去掉所有回车
+        strSrc = std::regex_replace(strSrc, pattern, "");
+        cout << "new string: " << strSrc << endl;
+
     }
     cout << endl;
 }

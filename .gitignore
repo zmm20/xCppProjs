@@ -262,3 +262,11 @@ ModelManifest.xml
 /testEmbedOtherProgram
 *.zip
 *.tif
+*.docx
+/MyWebService/static/dsoframer.CAB
+/MyWebService/static/dsoframer.ocx
+/ISecOffice
+/Polygon
+/ISecOfficeOnline
+/testMFC_static
+/ISecOcrService

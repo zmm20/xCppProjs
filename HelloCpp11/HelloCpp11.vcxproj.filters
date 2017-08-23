@@ -66,19 +66,10 @@
     <ClCompile Include="Base64.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="testAlgorithm.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="testAssociativeContainers.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="testATL.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="testAtomic.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="testAutoPtr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="testConcurrent1.cpp">
@@ -99,9 +90,6 @@
     <ClCompile Include="testFile.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="testFunctionObject.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="testGenricFunc.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -111,16 +99,10 @@
     <ClCompile Include="testIL8N_for_str.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="testIterator.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="testJson.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="testRegex.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="testSequenceContainers.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="testSignal.cpp">
@@ -130,6 +112,33 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="05testAuxiliaryFuncs.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="06testSequenceContainers.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="06testAssociativeContainers.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="06testAlgorithm.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="05testAutoPtr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="06testFunctionObject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="07testContainer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="08testContainerMemberInDetail.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="06testIterator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="09testIterator.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

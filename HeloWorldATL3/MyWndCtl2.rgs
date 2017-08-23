@@ -1,0 +1,34 @@
+HKCR
+{
+	Helo2.1 = s 'MyWndCtl2 Class'
+	{
+		CLSID = s '{3B0EEF60-92F8-4783-9875-EB708361931F}'
+		Insertable
+	}
+	Helo2 = s 'MyWndCtl2 Class'
+	{		
+		CurVer = s 'Helo2.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {3B0EEF60-92F8-4783-9875-EB708361931F} = s 'MyWndCtl2 Class'
+		{
+			ProgID = s 'Helo2.1'
+			VersionIndependentProgID = s 'Helo2'
+			ForceRemove Programmable
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			ForceRemove Control
+			ForceRemove Insertable
+			ForceRemove 'ToolboxBitmap32' = s '%MODULE%, 106'
+			MiscStatus = s '0'
+			{
+			    '1' = s '%OLEMISC%'
+			}
+			TypeLib = s '{3FFF497D-CB2F-462F-9102-773474D04C9B}'
+			Version = s '1.0'
+		}
+	}
+}

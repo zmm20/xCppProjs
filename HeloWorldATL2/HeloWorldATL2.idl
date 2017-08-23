@@ -1,0 +1,31 @@
+// HeloWorldATL2.idl : HeloWorldATL2的 IDL 源
+//
+
+// 此文件将由 MIDL 工具处理以
+// 产生类型库(HeloWorldATL2.tlb)和封送处理代码。
+
+#include "olectl.h"
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(27B4B114-4E7E-4EA4-879D-FDE8CD9F9B33),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+
+[
+	uuid(37F596A7-0359-4EB8-9D00-989524175543),
+	version(1.0),
+]
+library HeloWorldATL2Lib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(79D0CDBB-8BD0-422D-A006-6DC1D161DD67)		
+	]
+    ;
+};
+

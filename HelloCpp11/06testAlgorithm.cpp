@@ -1,5 +1,4 @@
 //#define MAIN
-
 #ifdef MAIN
 
 
@@ -45,7 +44,7 @@ int main()
         auto maxpos = max_element(coll.cbegin(), coll.cend());
         cout << "max: " << *maxpos << endl;
         // sort all elements
-        sort(coll.begin(), coll.end());
+        sort(coll.begin(), coll.end()); // 这里不能用 cbegin(), 因为 sort 会改动元素的value
         cout << "after sort: ";
         //for (const auto i : coll)
         //    cout << i << " ";
@@ -70,13 +69,20 @@ int main()
     {
         vector<int> coll1{ 1, 2, 3, 4, 5 };
         vector<int> coll2{ 1, 2, 3, 4, 5, 6 };
+        vector<int> coll3{ 1, 2, 3 };
         // coll2 范围必须大于等于coll1
         // 每个元素都对应相等才行, 如果值相同, 但顺序不同则结果不相等
         if (equal(coll1.begin(), coll1.end(), // first range
             coll2.begin())) // second range
-            cout << "equal" << endl;
+            cout << "coll1 is equal to coll2" << endl;
         else
-            cout << "not equal" << endl;
+            cout << "coll1 is not equal to coll2" << endl;
+
+        // // RUNTIME ERROR, 所以 coll3 元素个数必须要大于等于第一个区间
+        //if (equal(coll1.begin(), coll1.end(), coll3.begin()))
+        //    cout << "coll1 is equal to coll3" << endl;
+        //else
+        //    cout << "coll1 is not equal to coll3" << endl;
     }
     cout << endl;
 
@@ -89,7 +95,7 @@ int main()
         cout << endl;
 
         vector<int> coll2;
-        // RUNTIME ERROR:
+        // RUNTIME ERROR: 应该 copy 内部是 overwriting algorithm
         // - overwrites nonexisting elements in the destination
         //copy(coll1.cbegin(), coll1.cend(), // source
         //    coll2.begin()); // destination

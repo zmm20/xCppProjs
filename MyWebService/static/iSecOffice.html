@@ -1,0 +1,91 @@
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312"/>
+<meta http-equiv="X-UA-Compatible" content="IE=10" />
+<TITLE>对象 iSecOffice 的 ATL 测试页</TITLE>
+<script type="text/javascript" src="/jquery/jquery.js"></script>
+<script type="text/javascript">
+    function test() {
+        var result = iSecOffice.Test(2, 3);
+        alert(result); // 在ActiveX 中, 代用此方法会触发 OnEventTest 事件
+    }
+    function openDoc()
+    {
+		// 该接口说明请查看 dsoframer.ocx 官方文档: http://www.doc88.com/p-9052789610542.html , 第1 页
+        var result = iSecOffice.Open("http://192.168.4.162:8080/office/load?filename=test.docx", 0, "Word.Document", "", "");
+        //alert(result);
+    }
+    function saveDoc()
+    {
+		// 该接口说明请查看 dsoframer.ocx 官方文档: http://www.doc88.com/p-9052789610542.html , 第11 页
+        iSecOffice.HttpInit();
+        iSecOffice.HttpAddPostString("testKey", "testValue");
+        iSecOffice.HttpAddPostCurrFile("file", "test2.doc");
+        var ret = iSecOffice.HttpPost("http://192.168.4.162:8080/office/save");
+        alert(ret);
+    }
+    function closeDoc()
+    {
+		// 该接口说明请查看 dsoframer.ocx 官方文档: http://www.doc88.com/p-9052789610542.html , 第2 页
+        iSecOffice.Close();
+    }
+    function testDoc()
+    {
+		// 该接口说明请查看 dsoframer.ocx 官方文档: http://www.doc88.com/p-9052789610542.html , 第1 页
+        var obj;
+        obj = new Object(iSecOffice.get_ActiveDocument());
+        if (obj != null)
+        {
+            dd = obj.Application.Dialogs(84).Show();
+        }
+        delete obj;
+    }
+    function getSelText()
+    {
+        var ret = iSecOffice.getSelectText(); // 获得选择区文本
+        alert(ret);
+    }
+    function putSelText()
+    {
+        var val = "你好";
+        iSecOffice.putSelectText(val); // 替换选择区的内容, 如果没有选中内容, 则在光标后插入文本
+    }
+    function insertText()
+    {
+        var val = "世界";
+        iSecOffice.insertTextAtCursor(val); // 在光标后插入内容
+    }
+    function OnEventTest_My(result) {
+        alert("test 事件触发");
+    }
+    function OnDocBeforeDoubleClick_My(x, y, text)
+    {
+        alert(text);
+    }
+</script>
+
+<script type="text/javascript">
+    $(function() {// 在onload 事件中绑定事件
+        iSecOffice.attachEvent("OnEventTest", OnEventTest_My);
+        iSecOffice.attachEvent("OnDocDoubleClick", OnDocBeforeDoubleClick_My); // 绑定word 文档中双击前事件
+        });
+</script>
+</HEAD>
+<BODY>
+<div>
+    <input type="button" value="测试" onclick="test();" />
+    <input type="button" value="打开" onclick="openDoc();" />
+    <input type="button" value="保存" onclick="saveDoc();" />
+    <input type="button" value="关闭" onclick="closeDoc();" />
+    <input type="button" value="测试Doc" onclick="testDoc();" />
+    <input type="button" value="获得选中文本" onclick="getSelText();" />
+    <input type="button" value="替换选中文本" onclick="putSelText();" />
+    <input type="button" value="在光标处插入文本" onclick="insertText();" />
+</div>
+
+<div>
+    <OBJECT ID="iSecOffice" style="width:100%; height:100%;"  CLASSID="CLSID:E4C3033F-313C-4BFA-9237-CF37A1AA68A7"  CodeBase="ISecOfficeOnline.cab#V1,0,0,1">
+    </OBJECT>
+</div>
+</BODY>
+</HTML>

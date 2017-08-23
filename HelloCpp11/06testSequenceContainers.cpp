@@ -19,10 +19,11 @@ template <typename T>
 void PRINT_ELEMENTS(const T& coll, const std::string& optstr = "");
 int main()
 {
+    cout << "--------------06testSequenceContainers.cpp-------------------" << endl;
     cout << "test 1: " << endl;
     {
         vector<int> coll; // vector container for integer elements
-                          // append elements with values 1 to 6
+        // append elements with values 1 to 6
         cout << "before appending data: coll capacity: " << coll.capacity() 
              << ", size : " << coll.size()
             << ", max_size : " << coll.max_size() << endl;

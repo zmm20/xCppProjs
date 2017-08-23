@@ -1,0 +1,99 @@
+// HeloWorldATL.idl : HeloWorldATL的 IDL 源
+//
+
+// 此文件将由 MIDL 工具处理以
+// 产生类型库(HeloWorldATL.tlb)和封送处理代码。
+
+#include "olectl.h"
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(5DEB6760-A783-4FCB-A5D3-585ED8BDBCEB),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface ITest : IDispatch{
+    [id(1)] HRESULT test1();
+};
+
+[
+	object,
+	uuid(6AE89037-AFF4-44AD-8B39-E8245E511B66),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface ICalcCtl : IDispatch{
+    [id(1)] HRESULT Add([in] DOUBLE a, [in] DOUBLE b, [out, retval] DOUBLE* result);
+    [id(2), helpstring("异步调用")] HRESULT AddAsync([in] DOUBLE a, [in] DOUBLE b);
+};
+
+[
+	object,
+	uuid(AEC70010-105C-4894-B04A-9EA5D0381CDD),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IMyWindow : IDispatch{
+    [propget, id(1)] HRESULT Port([out, retval] USHORT* pVal);
+    [propput, id(1)] HRESULT Port([in] USHORT newVal);
+};
+
+[
+	uuid(3446FA70-5DFD-4D05-BE7D-DF766B9C58E4),
+	version(1.0),
+]
+library HeloWorldATLLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(1BF52BAA-AE90-45FE-B0A8-F20535500999),		
+		control
+	]
+	coclass Test
+	{
+		[default] interface ITest;
+	};
+	[
+		uuid(49CE0167-0079-4A38-A12D-02C416ECBFA9)		
+	]
+	dispinterface _ICalcCtlEvents
+	{
+		properties:
+		methods:
+            [id(1), helpstring("AddAsync 计算完成后的事件")] HRESULT AddCompleted([out, retval] DOUBLE* result);
+            [id(2), helpstring("test 2")] HRESULT AddCompleted2(DOUBLE* result);
+            [id(3), helpstring("test 3")] HRESULT AddCompleted3([in] DOUBLE* result);
+    };
+	[
+		uuid(72185FF8-F745-4048-B787-EF58E544B0B2),		
+		control
+	]
+	coclass CalcCtl
+	{
+		[default] interface ICalcCtl;
+		[default, source] dispinterface _ICalcCtlEvents;
+	};
+	[
+		uuid(AA0C1951-FA8A-40FF-9D2B-686536594B3E)		
+	]
+	dispinterface _IMyWindowEvents
+	{
+		properties:
+		methods:
+	};
+	[
+		uuid(19BF8812-D485-4E97-99AB-52FC1C875A93),		
+		control
+	]
+	coclass MyWindow
+	{
+		[default] interface IMyWindow;
+		[default, source] dispinterface _IMyWindowEvents;
+	};
+};
+

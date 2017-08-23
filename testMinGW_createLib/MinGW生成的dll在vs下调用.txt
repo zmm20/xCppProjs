@@ -1,0 +1,30 @@
+一: 
+	装载自: http://blog.csdn.net/liyuanbhu/article/details/42612365
+
+	下面的命令行将这个代码编译成 dll。
+	gcc dlltest.c -shared -o dlltest.dll -Wl,--out-implib,dlltest.lib
+	其中 -shared 告诉gcc dlltest.c 文件需要编译成动态链接库。-Wl 表示后面的内容是ld 的参数，需要传递给 ld。 --out-implib,dlltest.lib 表示让ld 生成一个名为 dlltest.lib 的导入库。
+	如果还需要 .def 文件，则上面的命令行可以写为：
+	gcc dlltest.c -shared -o dlltest.dll -Wl,--output-def,dlltest.def,--out-implib,dlltest.a
+
+	我的项目编译命令:
+		g++ test.cpp -D Dll_ISECOCRFORTESS -shared -o libtest.dll -Wl,--out-implib,libtest.dll.a
+二:
+	http://blog.csdn.net/firstime_tzjz/article/details/8273603
+	
+	有了dll文件需要导出def文件： 
+	pexports zlib1.dll > zlib1.def 
+
+	有了dll和def文件，需要导出MinGW的.a文件： 
+	dlltool --dllname zlib1.dll --def zlib1.def --output-lib libz.dll.a 
+
+	有了dll和def文件，需要导出一个VC的lib文件： 
+	lib /machine:X86 /def:zlib1.def 
+
+	注意： 
+	文章中称: 
+	C++的dll不具有2进制级别的共享性，也就是说VC的WinGW的C++ dll不能混用。 
+	而C的可以. 
+	
+三:
+	经测试, C++ 的命名空间是可以通用的

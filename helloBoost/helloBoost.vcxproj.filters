@@ -33,6 +33,9 @@
     <ClCompile Include="..\public\include\my\TextHelper.cpp">
       <Filter>util</Filter>
     </ClCompile>
+    <ClCompile Include="05testPlugin.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyBuffer.h">
