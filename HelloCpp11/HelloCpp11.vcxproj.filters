@@ -123,9 +123,6 @@
     <ClCompile Include="06testAlgorithm.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="06testIterator.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="05testAutoPtr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -136,6 +133,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="08testContainerMemberInDetail.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="06testIterator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="09testIterator.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
