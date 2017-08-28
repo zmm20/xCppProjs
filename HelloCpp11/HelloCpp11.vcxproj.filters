@@ -141,6 +141,12 @@
     <ClCompile Include="09testIterator.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="00testPPL.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="10testFunctorAndLambda.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base64.h">

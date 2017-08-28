@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{A61BDBD6-263A-4059-B886-EDF52053C96B}</ProjectGuid>
+    <ProjectGuid>{7117CEBC-3852-4533-89B5-E4D78C92997B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>HelloCpp11</RootNamespace>
+    <RootNamespace>testCppRest</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -71,11 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <TargetName>$(ProjectName)d</TargetName>
-    <IncludePath>..\public\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\public\lib\win32;$(LibraryPath)</LibraryPath>
+    <IncludePath>../public/include;$(IncludePath)</IncludePath>
+    <LibraryPath>../public/lib/win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -97,7 +94,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libjsoncppd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cpprest140d_2_9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -148,58 +145,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="00testPPL.cpp" />
-    <ClCompile Include="01hello.cpp" />
-    <ClCompile Include="02regexAndBase64.cpp" />
-    <ClCompile Include="03callableObject.cpp" />
-    <ClCompile Include="03funcCache.cpp" />
-    <ClCompile Include="03testException.cpp" />
-    <ClCompile Include="03testLambda.cpp" />
-    <ClCompile Include="03testTemplate.cpp" />
-    <ClCompile Include="05testAutoPtr.cpp" />
-    <ClCompile Include="05testClocksAndtimers.cpp" />
-    <ClCompile Include="05testFunctionTypeWrapper.cpp" />
-    <ClCompile Include="05testNumeric_limits.cpp" />
-    <ClCompile Include="05testReferenceWrapper.cpp" />
-    <ClCompile Include="05testSharePtr.cpp" />
-    <ClCompile Include="05testTypeTraits.cpp" />
-    <ClCompile Include="05testUniquePtr.cpp" />
-    <ClCompile Include="05testUtility.cpp" />
-    <ClCompile Include="05testWeakPtr.cpp" />
-    <ClCompile Include="06testFunctionObject.cpp" />
-    <ClCompile Include="07testContainer.cpp" />
-    <ClCompile Include="08testContainerMemberInDetail.cpp" />
-    <ClCompile Include="09testIterator.cpp" />
-    <ClCompile Include="10testFunctorAndLambda.cpp" />
-    <ClCompile Include="Base64.cpp" />
-    <ClCompile Include="06testAlgorithm.cpp" />
-    <ClCompile Include="06testAssociativeContainers.cpp" />
-    <ClCompile Include="testATL.cpp" />
-    <ClCompile Include="testAtomic.cpp" />
-    <ClCompile Include="05testAuxiliaryFuncs.cpp" />
-    <ClCompile Include="testConcurrent1.cpp" />
-    <ClCompile Include="testConcurrent2.cpp" />
-    <ClCompile Include="testConcurrent2_5.cpp" />
-    <ClCompile Include="testConcurrent3.cpp" />
-    <ClCompile Include="testDll.cpp" />
-    <ClCompile Include="testFile.cpp" />
-    <ClCompile Include="testGenricFunc.cpp" />
-    <ClCompile Include="testIL8N.cpp" />
-    <ClCompile Include="testIL8N_for_str.cpp" />
-    <ClCompile Include="06testIterator.cpp" />
-    <ClCompile Include="testJson.cpp" />
-    <ClCompile Include="testRegex.cpp" />
-    <ClCompile Include="06testSequenceContainers.cpp" />
-    <ClCompile Include="testSignal.cpp" />
-    <ClCompile Include="testVirtual.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Base64.h" />
-    <ClInclude Include="myUtility.hpp" />
-    <ClInclude Include="resource.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="helloCpp11.rc" />
+    <ClCompile Include="01testBingRequest.cpp" />
+    <ClCompile Include="02testBaidu.cpp" />
+    <ClCompile Include="03testHttpGet.cpp" />
+    <ClCompile Include="04testPPLX.cpp" />
+    <ClCompile Include="05testJson.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

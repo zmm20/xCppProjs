@@ -13,7 +13,7 @@ struct MyStruct
 {
     void hello(cinatra::Request& req, cinatra::Response& res)
     {
-        cout << "request data: " << req.body() << endl;
+        cout << "/, request data: " << req.body() << endl;
         //res.end("hello world!");
         res.redirect("index.html");
     }
@@ -34,7 +34,7 @@ int main()
     // method 2:
     app.route("/knowledge/add", [](cinatra::Request& req, cinatra::Response& res)
     {
-        cout << "request data: " << UTF2GBK(req.body()) << endl;
+        cout << "/knowledge/add, request data: " << UTF2GBK(req.body()) << endl;
 
         std::string strRes = "{ "
             "  \"error\" : false "
@@ -46,7 +46,7 @@ int main()
     );
     app.route("/knowledge/delete", [](cinatra::Request& req, cinatra::Response& res)
     {
-        cout << "request data: " << UTF2GBK(req.body()) << endl;
+        cout << "/knowledge/delete, request data: " << UTF2GBK(req.body()) << endl;
 
         std::string strRes = "{ "
             "  \"error\" : false "
@@ -58,7 +58,7 @@ int main()
     );
     app.route("/knowledge/modify", [](cinatra::Request& req, cinatra::Response& res)
     {
-        cout << "request data: " << UTF2GBK(req.body()) << endl;
+        cout << "/knowledge/modify, request data: " << UTF2GBK(req.body()) << endl;
 
         std::string strRes = "{ "
             "  \"error\" : false "
@@ -70,7 +70,7 @@ int main()
     );
     app.route("/knowledge/select", [](cinatra::Request& req, cinatra::Response& res)
     {
-        cout << "request data: " << UTF2GBK(req.body()) << endl;
+        cout << "/knowledge/select, request data: " << UTF2GBK(req.body()) << endl;
 
         // 该数据应该从数据库读取, 这里暂时从文件读取模仿一下
         std::string replyStr = u8"";
@@ -80,12 +80,29 @@ int main()
             replyStr += buf;
 
         res.end(replyStr);
+
+        
     }
     );
 
+    app.route("/test", [](cinatra::Request& req, cinatra::Response& res)
+    {
+        cout << "/test, request data: " << UTF2GBK(req.body()) << endl;
+
+        
+        const std::string name = req.query().get_val("name");
+        cout << "name = " << name << endl;
+
+        res.write(u8"<html><head><title>test</title >");
+        res.write(u8R"(<meta http-equiv="content-Type" content="text/plain; charset=utf-8" />)");
+        res.write(u8"</head><body>");
+        res.write(u8R"({"msg":"success"})");
+        res.end(u8"</body></html>");
+    });
+
     app.route("/topic/add", [](cinatra::Request& req, cinatra::Response& res)
     {
-        cout << "request data: " << UTF2GBK(req.body()) << endl;
+        cout << "/topic/add, request data: " << UTF2GBK(req.body()) << endl;
 
         std::string strRes = "{ "
             "  \"error\" : false "
@@ -98,7 +115,7 @@ int main()
 
     app.route("/topic/init", [](cinatra::Request& req, cinatra::Response& res)
     {
-        cout << "request data: " << UTF2GBK(req.body()) << endl;
+        cout << "/topic/init, request data: " << UTF2GBK(req.body()) << endl;
 
         // 该数据应该从数据库读取, 这里暂时从文件读取模仿一下
         std::string replyStr = u8"";
@@ -111,7 +128,7 @@ int main()
     );
 
     app.route("/anwerSheet/gen", [](cinatra::Request& req, cinatra::Response& res) {
-        cout << "request data: " << UTF2GBK(req.body()) << endl;
+        cout << "/anwerSheet/gen, request data: " << UTF2GBK(req.body()) << endl;
 
         std::string strRes = u8R"({"error" : false , "errMsg" : ""})";
         res.end(strRes);
@@ -119,7 +136,7 @@ int main()
     );
 
     app.route("/office/load", [](cinatra::Request& req, cinatra::Response& res) {
-        cout << "request data: " << UTF2GBK(req.body()) << endl;
+        cout << "/office/load, request data: " << UTF2GBK(req.body()) << endl;
         const std::string fileName = req.query().get_val("filename");
         cout << "file name = " << fileName << endl;
 
@@ -137,6 +154,8 @@ int main()
 
     app.route("/office/save", [](cinatra::Request& req, cinatra::Response& res) {        
         // 保存word 文档
+        cout << "/office/save..." << endl;
+
         std::string strTmp;
 
         if (req.method() != cinatra::Request::method_t::POST)

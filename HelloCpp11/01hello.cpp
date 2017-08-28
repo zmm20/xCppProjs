@@ -65,9 +65,24 @@ public:
     static int StaticMember(int a) { return a; }
 };
 
-// test 5
-void changePtr(char* args[], int& argc);
+// test 5, http://www.csdn.net/article/2015-12-03/2826381%EF%BC%9Freload=1
+template<typename T, typename... Args>
+struct has_member_foo
+{
+private:
+    template<typename U> 
+    static auto check(int) -> decltype(std::declval<U>().foo(std::declval<Args>()...), std::true_type());
 
+    template<typename U> 
+    static std::false_type check(...);
+public:
+    enum { value = std::is_same<decltype(check<T>(0)), std::true_type>::value };
+};
+struct MyStruct
+{
+    string foo() { return ""; }
+    int foo(int i) { return i; }
+};
 
 int main()
 {
@@ -166,16 +181,19 @@ int main()
 
     cout << "test 5" << endl;
     {
-        char* args = nullptr;
-        int argc;
-        changePtr(&args, argc);
-        assert(args);
-        //for (int i = 0; i < argc; ++i)
-        //    cout << args[i] << " " << endl;
-        //cout << endl;
+        static_assert(has_member_foo<MyStruct>::value, "true");
+        static_assert(has_member_foo<MyStruct, int>::value, "true");
     }
     cout << endl;
 
+    cout << "test 6" << endl;
+    {
+        auto bodyStream = response.body();
+        streams::stringstreambuf sbuffer;
+        auto& target = sbuffer.collection();
+
+    }
+    cout << endl;
 
     return EXIT_SUCCESS;
 }
@@ -185,17 +203,4 @@ void hello(string name)
     cout << "hello " << name << endl;
 }
 
-void changePtr(char* args[], int& argc)
-{
-    argc = 5;
-    args = new char*[argc];
-
-    string str;
-    for (int i = 0; i < argc; ++i)
-    {
-        str = std::to_string(i);
-        args[i] = new char[str.length()];
-        std::strcpy(args[i], str.data());
-    }
-}
 #endif
