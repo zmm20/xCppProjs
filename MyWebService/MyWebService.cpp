@@ -41,6 +41,7 @@ int main()
             ", \"errMsg\" : \"\" "
             ", \"cmd\" : \"add\" "
             "}";
+        cout << "response content: " << strRes << endl;
         res.end(strRes);
     }
     );
@@ -53,6 +54,7 @@ int main()
             ", \"errMsg\" : \"\" "
             ", \"cmd\" : \"delete\" "
             "}";
+        cout << "response content: " << strRes << endl;
         res.end(strRes);
     }
     );
@@ -65,6 +67,7 @@ int main()
             ", \"errMsg\" : \"\" "
             ", \"cmd\" : \"modify\" "
             "}";
+        cout << "response content: " << strRes << endl;
         res.end(strRes);
     }
     );
@@ -74,11 +77,12 @@ int main()
 
         // 该数据应该从数据库读取, 这里暂时从文件读取模仿一下
         std::string replyStr = u8"";
-        std::ifstream initFile("C:\\Users\\zmm\\Documents\\Visual Studio 2015\\Projects\\xTestCpp11\\ISecExamPaperAddIn\\initTree.json", std::ios::in);
+        std::ifstream initFile(R"(C:\Users\zmm\Documents\Visual Studio 2015\Projects\xCppProjs\ISecExamPaperAddIn\initTree.json)", std::ios::in);
         char buf[1024];
         while (initFile.getline(buf, 1024))
             replyStr += buf;
 
+        cout << "response content: " << replyStr << endl;
         res.end(replyStr);
 
         
@@ -109,6 +113,7 @@ int main()
             ", \"errMsg\" : \"\" "
             ", \"cmd\" : \"modify\" "
             "}";
+        cout << "response content: " << strRes << endl;
         res.end(strRes);
     }
     );
@@ -123,6 +128,7 @@ int main()
         char buf[1024];
         while (initFile.getline(buf, 1024))
             replyStr += buf;
+        cout << "response content: " << replyStr << endl;
         res.end(replyStr);
     }
     );
@@ -131,6 +137,7 @@ int main()
         cout << "/anwerSheet/gen, request data: " << UTF2GBK(req.body()) << endl;
 
         std::string strRes = u8R"({"error" : false , "errMsg" : ""})";
+        cout << "response content: " << strRes << endl;
         res.end(strRes);
     }
     );

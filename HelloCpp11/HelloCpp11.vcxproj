@@ -171,6 +171,7 @@
     <ClCompile Include="08testContainerMemberInDetail.cpp" />
     <ClCompile Include="09testIterator.cpp" />
     <ClCompile Include="10testFunctorAndLambda.cpp" />
+    <ClCompile Include="11testSTLAlgorithms.cpp" />
     <ClCompile Include="Base64.cpp" />
     <ClCompile Include="06testAlgorithm.cpp" />
     <ClCompile Include="06testAssociativeContainers.cpp" />
