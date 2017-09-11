@@ -5,9 +5,34 @@
 #include <cstdlib>
 #include <list>
 #include <algorithm>
+#include <random>
 #include "util/algostuff.hpp" // 辅助函数
 using namespace std;
 using namespace std::placeholders;
+
+// test 8
+// checks whether an element is even or odd
+bool checkEven(int elem, bool even)
+{
+    if (even) {
+        return elem % 2 == 0;
+    }
+    else {
+        return elem % 2 == 1;
+    }
+}
+
+// test 40:
+class MyRandom {
+public:
+    ptrdiff_t operator() (ptrdiff_t max) {
+        double tmp;
+        tmp = static_cast<double>(rand())
+            / static_cast<double>(RAND_MAX);
+        return static_cast<ptrdiff_t>(tmp * max);
+    }
+};
+
 
 int main()
 {
@@ -157,11 +182,925 @@ int main()
 
     cout << "test 6" << endl;
     {
+        deque<int> coll;
+        coll = { 1, 2, 7, 7, 6, 3, 9, 5, 7, 7, 7, 3, 6 };
+        PRINT_ELEMENTS(coll);
+        // find three consecutive elements with value 7
+        deque<int>::iterator pos;
+        pos = search_n(coll.begin(), coll.end(), // range
+            3, // count
+            7); // value
+                // print result
+        if (pos != coll.end()) {
+            cout << "three consecutive elements with value 7 "
+                << "start with " << distance(coll.begin(), pos) + 1
+                << ". element" << endl;
+        }
+        else {
+            cout << "no four consecutive elements with value 7 found"
+                << endl;
+        }
+        // find four consecutive odd elements
+        pos = search_n(coll.begin(), coll.end(), // range
+            4, // count
+            0, // value
+            [](int elem, int value) { // criterion
+            return elem % 2 == 1;
+        });
+        // print result
+        if (pos != coll.end()) {
+            cout << "first four consecutive odd elements are: ";
+            for (int i = 0; i<4; ++i, ++pos) {
+                cout << *pos << ' ';
+            }
+        }
+        else {
+            cout << "no four consecutive elements with value > 3 found";
+        }
+        cout << endl;
+    }
+    cout << endl;
+
+    cout << "test 7" << endl;
+    {
+        deque<int> coll;
+        list<int> subcoll;
+        INSERT_ELEMENTS(coll, 1, 7);
+        INSERT_ELEMENTS(coll, 1, 7);
+        INSERT_ELEMENTS(subcoll, 3, 6);
+        PRINT_ELEMENTS(coll, "coll: ");
+        PRINT_ELEMENTS(subcoll, "subcoll: ");
+        // search first occurrence of subcoll in coll
+        deque<int>::iterator pos;
+        pos = search(coll.begin(), coll.end(), // range
+            subcoll.begin(), subcoll.end()); // subrange
+                                             // loop while subcoll found as subrange of coll
+        while (pos != coll.end()) {
+            // print position of first element
+            cout << "subcoll found starting with element "
+                << distance(coll.begin(), pos) + 1
+                << endl;
+            // search next occurrence of subcoll
+            ++pos;
+            pos = search(pos, coll.end(), // range
+                subcoll.begin(), subcoll.end()); // subrange
+        }
+    }
+    cout << endl;
+
+    cout << "test 8" << endl;
+    {
+        vector<int> coll;
+        INSERT_ELEMENTS(coll, 1, 9);
+        PRINT_ELEMENTS(coll, "coll: ");
+        // arguments for checkEven()
+        // - check for: ‘‘even odd even’’
+        bool checkEvenArgs[3] = { true, false, true };
+        // search first subrange in coll
+        vector<int>::iterator pos;
+        pos = search(coll.begin(), coll.end(), // range
+            checkEvenArgs, checkEvenArgs + 3, // subrange values
+            checkEven); // subrange criterion
+                        // loop while subrange found
+        while (pos != coll.end()) {
+            // print position of first element
+            cout << "subrange found starting with element "
+                << distance(coll.begin(), pos) + 1
+                << endl;
+            // search next subrange in coll
+            pos = search(++pos, coll.end(), // range
+                checkEvenArgs, checkEvenArgs + 3, // subr. values
+                checkEven); // subr. criterion
+        }
+    }
+    cout << endl;
+
+    cout << "test 9" << endl;
+    {
+        deque<int> coll;
+        list<int> subcoll;
+        INSERT_ELEMENTS(coll, 1, 7);
+        INSERT_ELEMENTS(coll, 1, 7);
+        INSERT_ELEMENTS(subcoll, 3, 6);
+        PRINT_ELEMENTS(coll, "coll: ");
+        PRINT_ELEMENTS(subcoll, "subcoll: ");
+        // search last occurrence of subcoll in coll
+        deque<int>::iterator pos;
+        pos = find_end(coll.begin(), coll.end(), // range
+            subcoll.begin(), subcoll.end()); // subrange
+        
+        // loop while subcoll found as subrange of coll
+        deque<int>::iterator end(coll.end());
+        while (pos != end) {
+            // print position of first element
+            cout << "subcoll found starting with element "
+                << distance(coll.begin(), pos) + 1
+                << endl;
+            // search next occurrence of subcoll
+            end = pos;
+            pos = find_end(coll.begin(), end, // range
+                subcoll.begin(), subcoll.end()); // subrange
+        }
+    }
+    cout << endl;
+
+    cout << "test 10" << endl;
+    {
+        vector<int> coll;
+        list<int> searchcoll;
+        INSERT_ELEMENTS(coll, 1, 11);
+        INSERT_ELEMENTS(searchcoll, 3, 5);
+        PRINT_ELEMENTS(coll, "coll: ");
+        PRINT_ELEMENTS(searchcoll, "searchcoll: ");
+        // search first occurrence of an element of searchcoll in coll
+        vector<int>::iterator pos;
+        pos = find_first_of(coll.begin(), coll.end(), // range
+            searchcoll.begin(), // beginning of search set
+            searchcoll.end()); // end of search set
+        cout << "first element of searchcoll in coll is element "
+            << distance(coll.begin(), pos) + 1
+            << endl;
+        // search last occurrence of an element of searchcoll in coll
+        vector<int>::reverse_iterator rpos;
+        rpos = find_first_of(coll.rbegin(), coll.rend(), // range
+            searchcoll.begin(), // beginning of search set
+            searchcoll.end()); // end of search set
+        cout << "last element of searchcoll in coll is element "
+            << distance(coll.begin(), rpos.base())
+            << endl;
+    }
+    cout << endl;
+
+    cout << "test 11" << endl;
+    {
+        vector<int> coll;
+        coll.push_back(1);
+        coll.push_back(3);
+        coll.push_back(2);
+        coll.push_back(4);
+        coll.push_back(5);
+        coll.push_back(5);
+        coll.push_back(0);
+        PRINT_ELEMENTS(coll, "coll: ");
+        // search first two elements with equal value
+        vector<int>::iterator pos;
+        pos = adjacent_find(coll.begin(), coll.end());
+        if (pos != coll.end()) {
+            cout << "first two elements with equal value have position "
+                << distance(coll.begin(), pos) + 1
+                << endl;
+        }
+        // search first two elements for which the second has double the value of the first
+        pos = adjacent_find(coll.begin(), coll.end(), // range
+            [](int elem1, int elem2) {
+            return elem1 * 2 == elem2;
+        }); // criterion
+        if (pos != coll.end()) {
+            cout << "first two elements with second value twice the "
+                << "first have pos. "
+                << distance(coll.begin(), pos) + 1
+                << endl;
+        }
+    }
+    cout << endl;
+
+    cout << "test 12" << endl;
+    {
+        vector<int> coll1;
+        list<int> coll2;
+        INSERT_ELEMENTS(coll1, 1, 7);
+        INSERT_ELEMENTS(coll2, 3, 9);
+        PRINT_ELEMENTS(coll1, "coll1: ");
+        PRINT_ELEMENTS(coll2, "coll2: ");
+        // check whether both collections are equal
+        if (equal(coll1.begin(), coll1.end(), // first range
+            coll2.begin())) { // second range
+            cout << "coll1 == coll2" << endl;
+        }
+        else {
+            cout << "coll1 != coll2" << endl;
+        }
+        // check for corresponding even and odd elements
+        if (equal(coll1.begin(), coll1.end(), // first range
+            coll2.begin(), // second range
+            [](int elem1, int elem2)
+        {
+            return elem1 % 2 == elem2 % 2;
+        })) 
+        { // comparison criterion
+            cout << "even and odd elements correspond" << endl;
+        }
+        else {
+            cout << "even and odd elements do not correspond" << endl;
+        }
+    }
+    cout << endl;
+
+    cout << "test 13" << endl;
+    {
+        vector<int> coll1;
+        list<int> coll2;
+        deque<int> coll3;
+        coll1 = { 1, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        coll2 = { 1, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
+        coll3 = { 11, 12, 13, 19, 18, 17, 16, 15, 14, 11 };
+        PRINT_ELEMENTS(coll1, "coll1: ");
+        PRINT_ELEMENTS(coll2, "coll2: ");
+        PRINT_ELEMENTS(coll3, "coll3: ");
+        // check whether both collections have equal elements in any order
+        if (is_permutation(coll1.cbegin(), coll1.cend(), // first range
+            coll2.cbegin())) { // second range
+            cout << "coll1 and coll2 have equal elements" << endl;
+        }
+        else {
+            cout << "coll1 and coll2 don’t have equal elements" << endl;
+        }
+        // check for corresponding number of even and odd elements
+        if (is_permutation(coll1.cbegin(), coll1.cend(), // first range
+            coll3.cbegin(), // second range
+            [](int elem1, int elem2)
+        {
+            return elem1 % 2 == elem2 % 2;
+        })) 
+        { // comparison criterion
+            cout << "numbers of even and odd elements match" << endl;
+        }
+        else {
+            cout << "numbers of even and odd elements don’t match" << endl;
+        }
+    }
+    cout << endl;
+
+    cout << "test 14" << endl;
+    {
+        vector<int> coll1 = { 1, 2, 3, 4, 5, 6 };
+        list<int> coll2 = { 1, 2, 4, 8, 16, 3 };
+        PRINT_ELEMENTS(coll1, "coll1: ");
+        PRINT_ELEMENTS(coll2, "coll2: ");
+        // find first mismatch
+        auto values = mismatch(coll1.cbegin(), coll1.cend(), // first range
+            coll2.cbegin()); // second range
+        if (values.first == coll1.end()) {
+            cout << "no mismatch" << endl;
+        }
+        else {
+            cout << "first mismatch: "
+                << *values.first << " and "
+                << *values.second << endl;
+        }
+        // find first position where the element of coll1 is not
+        // less than the corresponding element of coll2
+        values = mismatch(coll1.cbegin(), coll1.cend(), // first range
+            coll2.cbegin(), // second range
+            less_equal<int>()); // criterion
+        if (values.first == coll1.end()) {
+            cout << "always less-or-equal" << endl;
+        }
+        else {
+            cout << "not less-or-equal: "
+                << *values.first << " and "
+                << *values.second << endl;
+        }
 
     }
     cout << endl;
 
+    cout << "test 15" << endl;
+    {
+        list<int> c1, c2, c3, c4;
+        // fill all collections with the same starting values
+        INSERT_ELEMENTS(c1, 1, 5);
+        c4 = c3 = c2 = c1;
+        // and now some differences
+        c1.push_back(7);
+        c3.push_back(2);
+        c3.push_back(0);
+        c4.push_back(2);
+        // create collection of collections
+        vector<list<int>> cc;
+        cc.insert(cc.begin(), { c1, c2, c3, c4, c3, c1, c4, c2 });
+        // print all collections
+        for_each(cc.cbegin(), cc.cend(),
+            [](const list<int>& l)
+        {
+            PRINT_ELEMENTS(l);
+        });
+        cout << endl;
+        // sort collection lexicographically
+        sort(cc.begin(), cc.end(), // range
+            [](const list<int>& l1, const list<int>& l2)
+        {
+            return lexicographical_compare
+            (l1.cbegin(), l1.cend(), // first range
+                l2.cbegin(), l2.cend()); // second range
+        }); // sorting criterion
 
+        // print all collections again
+        for_each(cc.cbegin(), cc.cend(),
+            [](const list<int>& l)
+        {
+            PRINT_ELEMENTS(l);
+        });
+    }
+    cout << endl;
+
+    cout << "test 16" << endl;
+    {
+        vector<int> coll1 = { 1, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        PRINT_ELEMENTS(coll1, "coll1: ");
+        // check whether coll1 is sorted
+        if (is_sorted(coll1.begin(), coll1.end())) {
+            cout << "coll1 is sorted" << endl;
+        }
+        else {
+            cout << "coll1 is not sorted" << endl;
+        }
+        map<int, string> coll2;
+        coll2 = { { 1,"Bill" },{ 2,"Jim" },{ 3,"Nico" },{ 4,"Liu" },{ 5,"Ai" } };
+        PRINT_MAPPED_ELEMENTS(coll2, "coll2: ");
+        // define predicate to compare names
+        auto compareName = [](const pair<int, string>& e1,
+            const pair<int, string>& e2) {
+            return e1.second<e2.second;
+        };
+        // check whether the names in coll2 are sorted
+        if (is_sorted(coll2.cbegin(), coll2.cend(),
+            compareName)) {
+            cout << "names in coll2 are sorted" << endl;
+        }
+        else {
+            cout << "names in coll2 are not sorted" << endl;
+        }
+        // print first unsorted name
+        auto pos = is_sorted_until(coll2.cbegin(), coll2.cend(),
+            compareName);
+        if (pos != coll2.end()) {
+            cout << "first unsorted name: " << pos->second << endl;
+        }
+    }
+    cout << endl;
+
+    cout << "test 17" << endl;
+    {
+        vector<int> coll = { 5, 3, 9, 1, 3, 4, 8, 2, 6 };
+        PRINT_ELEMENTS(coll, "coll: ");
+        // define predicate: check whether element is odd:
+        auto isOdd = [](int elem) {
+            return elem % 2 == 1;
+        };
+        // check whether coll is partitioned in odd and even elements
+        if (is_partitioned(coll.cbegin(), coll.cend(), // range
+            isOdd)) { // predicate
+            cout << "coll is partitioned" << endl;
+            // find first even element:
+            auto pos = partition_point(coll.cbegin(), coll.cend(),
+                isOdd);
+            cout << "first even element: " << *pos << endl;
+        }
+        else {
+            cout << "coll is not partitioned" << endl;
+        }
+    }
+    cout << endl;
+
+    cout << "test 18" << endl;
+    {
+        vector<int> coll1 = { 9, 8, 7, 7, 7, 5, 4, 2, 1 };
+        vector<int> coll2 = { 5, 3, 2, 1, 4, 7, 9, 8, 6 };
+        PRINT_ELEMENTS(coll1, "coll1: ");
+        PRINT_ELEMENTS(coll2, "coll2: ");
+        // check whether the collections are heaps
+        cout << boolalpha << "coll1 is heap: "
+            << is_heap(coll1.cbegin(), coll1.cend()) << endl;
+        cout << "coll2 is heap: "
+            << is_heap(coll2.cbegin(), coll2.cend()) << endl;
+        // print the first element that is not a heap in coll2
+        auto pos = is_heap_until(coll2.cbegin(), coll2.cend());
+        if (pos != coll2.end()) {
+            cout << "first non-heap element: " << *pos << endl;
+        }
+    }
+    cout << endl;
+
+    cout << "test 19" << endl;
+    {
+        vector<int> coll;
+        vector<int>::iterator pos;
+        INSERT_ELEMENTS(coll, 1, 9);
+        PRINT_ELEMENTS(coll, "coll: ");
+        // define an object for the predicate (using a lambda)
+        auto isEven = [](int elem) {
+            return elem % 2 == 0;
+        };
+        // print whether all, any, or none of the elements are/is even
+        cout << boolalpha << "all even?: "
+            << all_of(coll.cbegin(), coll.cend(), isEven) << endl;
+        cout << "any even?: "
+            << any_of(coll.cbegin(), coll.cend(), isEven) << endl;
+        cout << "none even?: "
+            << none_of(coll.cbegin(), coll.cend(), isEven) << endl;
+    }
+    cout << endl;
+
+    // 11.6 更易型算法
+    cout << "test 20" << endl;
+    {
+        vector<string> coll1 = { "Hello", "this", "is", "an", "example" };
+        list<string> coll2;
+        // copy elements of coll1 into coll2
+        // - use back inserter to insert instead of overwrite
+        copy(coll1.cbegin(), coll1.cend(), // source range
+            back_inserter(coll2)); // destination range
+                                   // print elements of coll2
+                                   // - copy elements to cout using an ostream iterator
+        copy(coll2.cbegin(), coll2.cend(), // source range
+            ostream_iterator<string>(cout, " ")); // destination range
+        cout << endl;
+        // copy elements of coll1 into coll2 in reverse order
+        // - now overwriting
+        copy(coll1.crbegin(), coll1.crend(), // source range
+            coll2.begin()); // destination range
+                            // print elements of coll2 again
+        copy(coll2.cbegin(), coll2.cend(), // source range
+            ostream_iterator<string>(cout, " ")); // destination range
+        cout << endl;
+    }
+    cout << endl;
+
+    cout << "test 21" << endl;
+    {
+        // 注意, copy 相关算法的第三个参数不能位于第一个与第二个实参形成的区间内
+        // initialize source collection with ‘‘. ........abcdef..........’’
+        vector<char> source(10, '.');
+        for (int c = 'a'; c <= 'f'; c++) {
+            source.push_back(c);
+        } 
+        source.insert(source.end(), 10, '.');
+        PRINT_ELEMENTS(source, "source: ");
+
+        // copy all letters three elements in front of the ’a’
+        vector<char> c1(source.cbegin(), source.cend());
+        copy(c1.cbegin() + 10, c1.cbegin() + 16, // source range
+            c1.begin() + 7); // destination range
+        PRINT_ELEMENTS(c1, "    c1: ");
+        // copy all letters three elements behind the ’f’
+        vector<char> c2(source.cbegin(), source.cend());
+        copy_backward(c2.cbegin() + 10, c2.cbegin() + 16, // source range
+            c2.begin() + 19); // destination range
+        PRINT_ELEMENTS(c2, "    c2: ");
+    }
+    cout << endl;
+
+    cout << "test 22" << endl;
+    {
+        vector<string> coll1 = { "Hello", "this", "is", "an", "example" };
+        list<string> coll2;
+        // copy elements of coll1 into coll2
+        // - use back inserter to insert instead of overwrite
+        // - use copy() because the elements in coll1 are used again
+        copy(coll1.cbegin(), coll1.cend(), // source range
+            back_inserter(coll2)); // destination range
+                                   // print elements of coll2
+                                   // - copy elements to cout using an ostream iterator
+                                   // - use move() because these elements in coll2 are not used again
+        move(coll2.cbegin(), coll2.cend(), // source range
+            ostream_iterator<string>(cout, " ")); // destination range
+        cout << endl;
+        // copy elements of coll1 into coll2 in reverse order
+        // - now overwriting (coll2.size() still fits)
+        // - use move() because the elements in coll1 are not used again
+        move(coll1.crbegin(), coll1.crend(), // source range
+            coll2.begin()); // destination range
+                            // print elements of coll2 again
+                            // - use move() because the elements in coll2 are not used again
+        move(coll2.cbegin(), coll2.cend(), // source range
+            ostream_iterator<string>(cout, " ")); // destination range
+        cout << endl;
+    }
+    cout << endl;
+
+    cout << "test 23" << endl;
+    {
+        vector<int> coll1;
+        list<int> coll2;
+
+        INSERT_ELEMENTS(coll1, 1, 9);
+        PRINT_ELEMENTS(coll1, "coll1: ");
+        // negate all elements in coll1
+        transform(coll1.cbegin(), coll1.cend(), // source range
+            coll1.begin(), // destination range
+            negate<int>()); // operation
+        PRINT_ELEMENTS(coll1, "negated: ");
+        // transform elements of coll1 into coll2 with ten times their value
+        transform(coll1.cbegin(), coll1.cend(), // source range
+            back_inserter(coll2), // destination range
+            bind(multiplies<int>(), _1, 10)); // operation
+        PRINT_ELEMENTS(coll2, "coll2: ");
+        // print coll2 negatively and in reverse order
+        transform(coll2.crbegin(), coll2.crend(), // source range
+            ostream_iterator<int>(cout, " "), // destination range
+            [](int elem) { // operation
+            return -elem;
+        });
+        cout << endl;
+    }
+    cout << endl;
+
+    cout << "test 24" << endl;
+    {
+        vector<int> coll1;
+        list<int> coll2;
+        INSERT_ELEMENTS(coll1, 1, 9);
+        PRINT_ELEMENTS(coll1, "coll1: ");
+        // square each element
+        transform(coll1.cbegin(), coll1.cend(), // first source range
+            coll1.cbegin(), // second source range
+            coll1.begin(), // destination range
+            multiplies<int>()); // operation
+        PRINT_ELEMENTS(coll1, "squared: ");
+        // add each element traversed forward with each element traversed backward
+        // and insert result into coll2
+        transform(coll1.cbegin(), coll1.cend(), // first source range
+            coll1.crbegin(), // second source range
+            back_inserter(coll2), // destination range
+            plus<int>()); // operation
+        PRINT_ELEMENTS(coll2, "coll2: ");
+        // print differences of two corresponding elements
+        cout << "diff: ";
+        transform(coll1.cbegin(), coll1.cend(), // first source range
+            coll2.cbegin(), // second source range
+            ostream_iterator<int>(cout, " "), // destination range
+            minus<int>()); // operation
+        cout << endl;
+    }
+    cout << endl;
+
+    cout << "test 25" << endl;
+    {
+        vector<int> coll1;
+        deque<int> coll2;
+        INSERT_ELEMENTS(coll1, 1, 9);
+        INSERT_ELEMENTS(coll2, 11, 23);
+        PRINT_ELEMENTS(coll1, "coll1: ");
+        PRINT_ELEMENTS(coll2, "coll2: ");
+        // swap elements of coll1 with corresponding elements of coll2
+        deque<int>::iterator pos;
+        pos = swap_ranges(coll1.begin(), coll1.end(), // first range
+            coll2.begin()); // second range
+        PRINT_ELEMENTS(coll1, "\ncoll1: ");
+        PRINT_ELEMENTS(coll2, "coll2: ");
+        if (pos != coll2.end()) {
+            cout << "first element not modified: "
+                << *pos << endl;
+        }
+        // mirror first three with last three elements in coll2
+        swap_ranges(coll2.begin(), coll2.begin() + 3, // first range
+            coll2.rbegin()); // second range
+        PRINT_ELEMENTS(coll2, "\ncoll2: ");
+    }
+    cout << endl;
+
+    cout << "test 26" << endl;
+    {
+        // print ten times 7.7
+        fill_n(ostream_iterator<float>(cout, " "), // beginning of destination
+            10, // count
+            7.7); // new value
+        cout << endl;
+        list<string> coll;
+        // insert "hello" nine times
+        fill_n(back_inserter(coll), // beginning of destination
+            9, // count
+            "hello"); // new value
+        PRINT_ELEMENTS(coll, "coll: ");
+        // overwrite all elements with "again"
+        fill(coll.begin(), coll.end(), // destination
+            "again"); // new value
+        PRINT_ELEMENTS(coll, "coll: ");
+        // replace all but two elements with "hi"
+        fill_n(coll.begin(), // beginning of destination
+            coll.size() - 2, // count
+            "hi"); // new value
+        PRINT_ELEMENTS(coll, "coll: ");
+        // replace the second and up to the last element but one with "hmmm"
+        list<string>::iterator pos1, pos2;
+        pos1 = coll.begin();
+        pos2 = coll.end();
+        fill(++pos1, --pos2, // destination
+            "hmmm"); // new value
+        PRINT_ELEMENTS(coll, "coll: ");
+    }
+    cout << endl;
+
+    cout << "test 27" << endl;
+    {
+        list<int> coll;
+        // insert five random numbers
+        generate_n(back_inserter(coll), // beginning of destination range
+            5, // count
+            rand); // new value generator
+        PRINT_ELEMENTS(coll);
+        // overwrite with five new random numbers
+        generate(coll.begin(), coll.end(), // destination range
+            rand); // new value generator
+        PRINT_ELEMENTS(coll);
+    }
+    cout << endl;
+
+    cout << "test 28" << endl;
+    {
+        array<int, 10> coll;
+        iota(coll.begin(), coll.end(), // destination range
+            42); // start value
+        PRINT_ELEMENTS(coll, "coll: ");
+    }
+    cout << endl;
+
+    cout << "test 29" << endl;
+    {
+        list<int> coll;
+        INSERT_ELEMENTS(coll, 2, 7);
+        INSERT_ELEMENTS(coll, 4, 9);
+        PRINT_ELEMENTS(coll, "coll: ");
+        // replace all elements with value 6 with 42
+        replace(coll.begin(), coll.end(), // range
+            6, // old value
+            42); // new value
+        PRINT_ELEMENTS(coll, "coll: ");
+        // replace all elements with value less than 5 with 0
+        replace_if(coll.begin(), coll.end(), // range
+            [](int elem) { // criterion for replacement
+            return elem<5;
+        },
+            0); // new value
+        PRINT_ELEMENTS(coll, "coll: ");
+    }
+    cout << endl;
+
+    cout << "test 30" << endl;
+    {
+        list<int> coll;
+        INSERT_ELEMENTS(coll, 2, 6);
+        INSERT_ELEMENTS(coll, 4, 9);
+        PRINT_ELEMENTS(coll);
+        // print all elements with value 5 replaced with 55
+        replace_copy(coll.cbegin(), coll.cend(), // source
+            ostream_iterator<int>(cout, " "), // destination
+            5, // old value
+            55); // new value
+        cout << endl;
+        // print all elements with a value less than 5 replaced with 42
+        replace_copy_if(coll.cbegin(), coll.cend(), // source
+            ostream_iterator<int>(cout, " "), // destination
+            bind(less<int>(), _1, 5), // replacement criterion
+            42); // new value
+        cout << endl;
+        // print each element while each odd element is replaced with 0
+        replace_copy_if(coll.cbegin(), coll.cend(), // source
+            ostream_iterator<int>(cout, " "), // destination
+            [](int elem) { // replacement criterion
+            return elem % 2 == 1;
+        },
+            0); // new value
+        cout << endl;
+    }
+    cout << endl;
+
+    cout << "test 31" << endl;
+    {
+        vector<int> coll;
+        INSERT_ELEMENTS(coll, 2, 6);
+        INSERT_ELEMENTS(coll, 4, 9);
+        INSERT_ELEMENTS(coll, 1, 7);
+        PRINT_ELEMENTS(coll, "coll: ");
+        // remove all elements with value 5
+        vector<int>::iterator pos;
+        pos = remove(coll.begin(), coll.end(), // range
+            5); // value to remove
+        PRINT_ELEMENTS(coll, "size not changed: ");
+        // erase the ‘‘removed’’ elements in the container
+        coll.erase(pos, coll.end());
+        PRINT_ELEMENTS(coll, "size changed: ");
+        // remove all elements less than 4
+        coll.erase(remove_if(coll.begin(), coll.end(), // range
+            [](int elem) { // remove criterion
+            return elem<4;
+        }),
+            coll.end());
+        PRINT_ELEMENTS(coll, "<4 removed: ");
+    }
+    cout << endl;
+
+    cout << "test 32" << endl;
+    {
+        list<int> coll1;
+        INSERT_ELEMENTS(coll1, 1, 6);
+        INSERT_ELEMENTS(coll1, 1, 9);
+        PRINT_ELEMENTS(coll1);
+        // print elements without those having the value 3
+        remove_copy(coll1.cbegin(), coll1.cend(), // source
+            ostream_iterator<int>(cout, " "), // destination
+            3); // removed value
+        cout << endl;
+        // print elements without those having a value greater than 4
+        remove_copy_if(coll1.cbegin(), coll1.cend(), // source
+            ostream_iterator<int>(cout, " "), // destination
+            [](int elem) { // criterion for elements NOT copied
+            return elem>4;
+        });
+        cout << endl;
+        // copy all elements not less than 4 into a multiset
+        multiset<int> coll2;
+        remove_copy_if(coll1.cbegin(), coll1.cend(), // source
+            inserter(coll2, coll2.end()), // destination
+            bind(less<int>(), _1, 4)); // elements NOT copied
+        PRINT_ELEMENTS(coll2);
+    }
+    cout << endl;
+
+    cout << "test 33" << endl;
+    {
+        // source data
+        int source[] = { 1, 4, 4, 6, 1, 2, 2, 3, 1, 6, 6, 6, 5, 7,
+            5, 4, 4 };
+        list<int> coll;
+        // initialize coll with elements from source
+        copy(begin(source), end(source), // source
+            back_inserter(coll)); // destination
+        PRINT_ELEMENTS(coll);
+        // remove consecutive duplicates
+        auto pos = unique(coll.begin(), coll.end());
+        // print elements not removed
+        // - use new logical end
+        copy(coll.begin(), pos, // source
+            ostream_iterator<int>(cout, " ")); // destination
+        cout << "\n\n";
+        // reinitialize coll with elements from source
+        copy(begin(source), end(source), // source
+            coll.begin()); // destination
+        PRINT_ELEMENTS(coll);
+        // remove elements if there was a previous greater element
+        coll.erase(unique(coll.begin(), coll.end(),
+            greater<int>()),
+            coll.end());
+        PRINT_ELEMENTS(coll);
+    }
+    cout << endl;
+
+    cout << "test 34" << endl;
+    {
+        // source data
+        int source[] = { 1, 4, 4, 6, 1, 2, 2, 3, 1, 6, 6, 6, 5, 7,
+            5, 4, 4 };
+        // initialize coll with elements from source
+        list<int> coll;
+        copy(begin(source), end(source), // source
+            back_inserter(coll)); // destination
+        PRINT_ELEMENTS(coll);
+        // print elements with consecutive duplicates removed
+        unique_copy(coll.cbegin(), coll.cend(), // source
+            ostream_iterator<int>(cout, " ")); // destination
+        cout << endl;
+        // print elements without consecutive entries that differ by one
+        unique_copy(coll.cbegin(), coll.cend(), // source
+            ostream_iterator<int>(cout, " "), // destination
+            [](int elem1, int elem2)
+        {
+            return elem1 + 1 == elem2 || elem1 - 1 == elem2;
+        }); // duplicates criterion
+        cout << endl;
+    }
+    cout << endl;
+
+    cout << "test 35" << endl;
+    {
+        vector<int> coll;
+        INSERT_ELEMENTS(coll, 1, 9);
+        PRINT_ELEMENTS(coll, "coll: ");
+        // reverse order of elements
+        reverse(coll.begin(), coll.end());
+        PRINT_ELEMENTS(coll, "coll: ");
+        // reverse order from second to last element but one
+        reverse(coll.begin() + 1, coll.end() - 1);
+        PRINT_ELEMENTS(coll, "coll: ");
+        // print all of them in reverse order
+        reverse_copy(coll.cbegin(), coll.cend(), // source
+            ostream_iterator<int>(cout, " ")); // destination
+        cout << endl;
+    }
+    cout << endl;
+
+    cout << "test 36" << endl;
+    {
+        vector<int> coll;
+        INSERT_ELEMENTS(coll, 1, 9);
+        PRINT_ELEMENTS(coll, "coll: ");
+        // rotate one element to the left
+        rotate(coll.begin(), // beginning of range
+            coll.begin() + 1, // new first element
+            coll.end()); // end of range
+        PRINT_ELEMENTS(coll, "one left: ");
+        // rotate two elements to the right
+        rotate(coll.begin(), // beginning of range
+            coll.end() - 2, // new first element
+            coll.end()); // end of range
+        PRINT_ELEMENTS(coll, "two right: ");
+        // rotate so that element with value 4 is the beginning
+        rotate(coll.begin(), // beginning of range
+            find(coll.begin(), coll.end(), 4), // new first element
+            coll.end()); // end of range
+        PRINT_ELEMENTS(coll, "4 first: ");
+    }
+    cout << endl;
+
+    cout << "test 37" << endl;
+    {
+        set<int> coll;
+        INSERT_ELEMENTS(coll, 1, 9);
+        PRINT_ELEMENTS(coll);
+        // print elements rotated one element to the left
+        set<int>::const_iterator pos = next(coll.cbegin());
+        rotate_copy(coll.cbegin(), // beginning of source
+            pos, // new first element
+            coll.cend(), // end of source
+            ostream_iterator<int>(cout, " ")); // destination
+        cout << endl;
+        // print elements rotated two elements to the right
+        pos = coll.cend();
+        advance(pos, -2);
+        rotate_copy(coll.cbegin(), // beginning of source
+            pos, // new first element
+            coll.cend(), // end of source
+            ostream_iterator<int>(cout, " ")); // destination
+        cout << endl;
+        // print elements rotated so that element with value 4 is the beginning
+        rotate_copy(coll.cbegin(), // beginning of source
+            coll.find(4), // new first element
+            coll.cend(), // end of source
+            ostream_iterator<int>(cout, " ")); // destination
+        cout << endl;
+    }
+    cout << endl;
+
+    cout << "test 38" << endl;
+    {
+        vector<int> coll;
+        INSERT_ELEMENTS(coll, 1, 3);
+        PRINT_ELEMENTS(coll, "on entry: ");
+        // permute elements until they are sorted
+        // - runs through all permutations because the elements are sorted now
+        // 下一个排列, 使用前, 首先确保序列已排序
+        while (next_permutation(coll.begin(), coll.end())) {
+            PRINT_ELEMENTS(coll, " ");
+        }
+        PRINT_ELEMENTS(coll, "afterward: ");
+        // permute until descending sorted
+        // - this is the next permutation after ascending sorting
+        // - so the loop ends immediately
+        while (prev_permutation(coll.begin(), coll.end())) {
+            PRINT_ELEMENTS(coll, " ");
+        }
+        PRINT_ELEMENTS(coll, "now: ");
+        // permute elements until they are sorted in descending order
+        // - runs through all permutations because the elements are sorted in descending order now
+        while (prev_permutation(coll.begin(), coll.end())) {
+            PRINT_ELEMENTS(coll, " ");
+        }
+        PRINT_ELEMENTS(coll, "afterward: ");
+    }
+    cout << endl;
+
+    cout << "test 39" << endl;
+    {
+        vector<int> coll;
+        INSERT_ELEMENTS(coll, 1, 9);
+        PRINT_ELEMENTS(coll, "coll: ");
+        // shuffle all elements randomly
+        random_shuffle(coll.begin(), coll.end());
+        PRINT_ELEMENTS(coll, "shuffled: ");
+        // sort them again
+        sort(coll.begin(), coll.end());
+        PRINT_ELEMENTS(coll, "sorted: ");
+        // shuffle elements with default engine
+        default_random_engine dre;
+        shuffle(coll.begin(), coll.end(), // range
+            dre); // random-number generator
+        PRINT_ELEMENTS(coll, "shuffled: ");
+    }
+    cout << endl;
+
+    cout << "test 40" << endl;
+    {
+        vector<int> coll;
+        INSERT_ELEMENTS(coll, 1, 9);
+        PRINT_ELEMENTS(coll, "coll: ");
+        // shuffle elements with self-written random-number generator
+        MyRandom rd;
+        random_shuffle(coll.begin(), coll.end(), // range
+            rd); // random-number generator
+        PRINT_ELEMENTS(coll, "shuffled: ");
+    }
+    cout << endl;
     return EXIT_SUCCESS;
 }
 

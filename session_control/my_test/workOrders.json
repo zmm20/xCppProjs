@@ -1,0 +1,22 @@
+{
+	"errcode" : 0
+  ,	"errmsg" : ""
+  , "workOrders" :[
+		{
+			"createDate" : "1970/01/01 08:01"
+		  , "modifiyDate" : "2017/01/02 08:01"
+		  , "state" : 0
+		  , "number" : "00001"
+		  , "serverDir" : "/test3"
+		  , "filenameRule" : "图纸%1"
+		}
+	  , {
+			"createDate" : "1970/01/02 08:01"
+		  , "modifiyDate" : "2017/01/03 08:01"
+		  , "state" : 0
+		  , "number" : "00002"
+		  , "serverDir" : "/test2"
+		  , "filenameRule" : "文件%1"
+		}
+  ]
+}
