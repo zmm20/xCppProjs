@@ -223,43 +223,43 @@ int main()
 
     cout << "test 3, 获得行高" << endl;
     {// 行高的计算最好另word 文档可见, 否则当选择内容不再当前窗口, 则高度为-1;
-        MSWord::Paragraphs* pParas = nullptr;
-        hr = pDoc->get_Paragraphs(&pParas);
-        assert(SUCCEEDED(hr), "paras get failed"); // 运行时断言, 注意与static_assert 的区别
+        //MSWord::Paragraphs* pParas = nullptr;
+        //hr = pDoc->get_Paragraphs(&pParas);
+        //assert(SUCCEEDED(hr), "paras get failed"); // 运行时断言, 注意与static_assert 的区别
 
-        BSTR tmp;
-        long moveUnit = -1;
-        while (moveUnit)
-        {
-            // 行高
-            // 1> 首先获得当前行纵坐标
-            MSWord::SelectionPtr pSel = nullptr;
-            app->get_Selection(&pSel);
-            MSWord::RangePtr pRange = nullptr;
-            pSel->get_Range(&pRange);
-            MSWord::WindowPtr pWin = nullptr;
-            pDoc->get_ActiveWindow(&pWin);
-            LONG x1, y1, w1, h1;
-            pWin->GetPoint(&x1, &y1, &w1, &h1, pRange);
+        //BSTR tmp;
+        //long moveUnit = -1;
+        //while (moveUnit)
+        //{
+        //    // 行高
+        //    // 1> 首先获得当前行纵坐标
+        //    MSWord::SelectionPtr pSel = nullptr;
+        //    app->get_Selection(&pSel);
+        //    MSWord::RangePtr pRange = nullptr;
+        //    pSel->get_Range(&pRange);
+        //    MSWord::WindowPtr pWin = nullptr;
+        //    pDoc->get_ActiveWindow(&pWin);
+        //    LONG x1, y1, w1, h1;
+        //    pWin->GetPoint(&x1, &y1, &w1, &h1, pRange);
 
-            VARIANT pageNumber;
-            pSel->get_Information(wdActiveEndPageNumber, &pageNumber);
-            VARIANT lineNumber;
-            pSel->get_Information(wdFirstCharacterLineNumber, &lineNumber);
-            VARIANT pos;
-            pSel->get_Information(wdVerticalPositionRelativeToPage, &pos);
-            cout << "page numer: " << pageNumber.lVal << ", line number: " << lineNumber.lVal << ", 距离page开始的垂直位置(磅): " << pos.fltVal<< endl;
+        //    VARIANT pageNumber;
+        //    pSel->get_Information(wdActiveEndPageNumber, &pageNumber);
+        //    VARIANT lineNumber;
+        //    pSel->get_Information(wdFirstCharacterLineNumber, &lineNumber);
+        //    VARIANT pos;
+        //    pSel->get_Information(wdVerticalPositionRelativeToPage, &pos);
+        //    cout << "page numer: " << pageNumber.lVal << ", line number: " << lineNumber.lVal << ", 距离page开始的垂直位置(磅): " << pos.fltVal<< endl;
 
-            // 移动一行
-            hr = pSel->MoveDown(&CComVariant(wdLine), &CComVariant(1), &vtMissing, &moveUnit);
-            assert(SUCCEEDED(hr), "text get failed");
-            cout << "move unit: " << moveUnit << endl;
-            pSel->get_Range(&pRange);
-            pDoc->get_ActiveWindow(&pWin);
-            LONG x2, y2, w2, h2;
-            pWin->GetPoint(&x2, &y2, &w2, &h2, pRange);
-            cout << "行高: " << y2 - y1 << endl;
-        }
+        //    // 移动一行
+        //    hr = pSel->MoveDown(&CComVariant(wdLine), &CComVariant(1), &vtMissing, &moveUnit);
+        //    assert(SUCCEEDED(hr), "text get failed");
+        //    cout << "move unit: " << moveUnit << endl;
+        //    pSel->get_Range(&pRange);
+        //    pDoc->get_ActiveWindow(&pWin);
+        //    LONG x2, y2, w2, h2;
+        //    pWin->GetPoint(&x2, &y2, &w2, &h2, pRange);
+        //    cout << "行高: " << y2 - y1 << endl;
+        //}
         
     }
     cout << endl;
@@ -286,6 +286,41 @@ int main()
         //    cout << "水平方向: 100(磅) = " << ff << "(像素)" << endl;
         //else
         //    cerr << "error PointsToPixels" << endl;
+    }
+    cout << endl;
+
+    cout << "test 5" << endl;
+    {
+        // 1> 首先获得当前行纵坐标
+        MSWord::TablesPtr pTbls = nullptr;
+        pDoc->get_Tables(&pTbls);
+        if (pTbls == nullptr)
+        {
+            cout << "get tables failed" << endl;
+            return S_OK;
+        }
+        
+        MSWord::TablePtr pTbl = nullptr;
+        pTbls->Item(1, &pTbl);
+        MSWord::RangePtr pRange = nullptr;
+        long nCol = 2;
+        long nRow = 3;
+        for (int r = 1; r <= nRow; ++r)
+        {
+            for (int c = 1; c <= nCol; ++c)
+            {
+                // 定位到单元格
+                MSWord::CellPtr pCell = nullptr;
+                pTbl->Cell(r, c, &pCell);
+
+                //pRange = pCell->Range;
+                hr = pCell->get_Range(&pRange);
+                if (SUCCEEDED(hr))
+                {
+                    pRange->put_Text(CComBSTR("test"));
+                }
+            }
+        }
     }
     cout << endl;
 

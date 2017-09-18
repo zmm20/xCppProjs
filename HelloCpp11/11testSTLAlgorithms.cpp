@@ -1,4 +1,4 @@
-#define MAIN
+//#define MAIN
 #ifdef MAIN
 
 #include <iostream>
@@ -1101,6 +1101,502 @@ int main()
         PRINT_ELEMENTS(coll, "shuffled: ");
     }
     cout << endl;
+
+    cout << "test 41" << endl;
+    {
+        vector<int> coll1;
+        vector<int> coll2;
+        INSERT_ELEMENTS(coll1, 1, 9);
+        INSERT_ELEMENTS(coll2, 1, 9);
+        PRINT_ELEMENTS(coll1, "coll1: ");
+        PRINT_ELEMENTS(coll2, "coll2: ");
+        cout << endl;
+        // move all even elements to the front
+        vector<int>::iterator pos1, pos2;
+        pos1 = partition(coll1.begin(), coll1.end(), // range
+            [](int elem) { // criterion
+            return elem % 2 == 0;
+        });
+        pos2 = stable_partition(coll2.begin(), coll2.end(), // range
+            [](int elem) { // criterion
+            return elem % 2 == 0;
+        });
+        // print collections and first odd element
+        PRINT_ELEMENTS(coll1, "coll1: ");
+        cout << "first odd element: " << *pos1 << endl;
+        PRINT_ELEMENTS(coll2, "coll2: ");
+        cout << "first odd element: " << *pos2 << endl;
+    }
+    cout << endl;
+
+    cout << "test 42" << endl;
+    {
+        vector<int> coll = { 1, 6, 33, 7, 22, 4, 11, 33, 2, 7, 0, 42, 5 };
+        PRINT_ELEMENTS(coll, "coll: ");
+        // destination collections:
+        vector<int> evenColl;
+        vector<int> oddColl;
+        // copy all elements partitioned accordingly into even and odd elements
+        partition_copy(coll.cbegin(), coll.cend(), // source range
+            back_inserter(evenColl), // destination for even elements
+            back_inserter(oddColl), // destination for odd elements
+            [](int elem) { // predicate: check for even elements
+            return elem % 2 == 0;
+        });
+        PRINT_ELEMENTS(evenColl, "evenColl: ");
+        PRINT_ELEMENTS(oddColl, "oddColl: ");
+    }
+    cout << endl;
+
+    cout << "test 43" << endl;
+    {
+        deque<int> coll;
+        INSERT_ELEMENTS(coll, 1, 9);
+        INSERT_ELEMENTS(coll, 1, 9);
+        PRINT_ELEMENTS(coll, "on entry: ");
+        // sort elements
+        sort(coll.begin(), coll.end());
+        PRINT_ELEMENTS(coll, "sorted: ");
+        // sorted reverse
+        sort(coll.begin(), coll.end(), // range
+            greater<int>()); // sorting criterion
+        PRINT_ELEMENTS(coll, "sorted >: ");
+    }
+    cout << endl;
+
+    cout << "test 44" << endl;
+    {
+        // fill two collections with the same elements
+        vector<string> coll1 = { "1xxx", "2x", "3x", "4x", "5xx", "6xxxx",
+            "7xx", "8xxx", "9xx", "10xxx", "11", "12",
+            "13", "14xx", "15", "16", "17" };
+        vector<string> coll2(coll1);
+        PRINT_ELEMENTS(coll1, "on entry:\n ");
+        auto lessLength = [](const string& s1, const string& s2)
+        {
+            return s1.length() < s2.length();
+        };
+        // sort (according to the length of the strings)
+        sort(coll1.begin(), coll1.end(), // range
+            lessLength); // criterion
+        stable_sort(coll2.begin(), coll2.end(), // range
+            lessLength); // criterion
+        PRINT_ELEMENTS(coll1, "\nwith sort():\n ");
+        PRINT_ELEMENTS(coll2, "\nwith stable_sort():\n ");
+    }
+    cout << endl;
+
+    cout << "test 45" << endl;
+    {
+        deque<int> coll;
+        INSERT_ELEMENTS(coll, 3, 7);
+        INSERT_ELEMENTS(coll, 2, 6);
+        INSERT_ELEMENTS(coll, 1, 5);
+        PRINT_ELEMENTS(coll);
+        // sort until the first five elements are sorted
+        partial_sort(coll.begin(), // beginning of the range
+            coll.begin() + 5, // end of sorted range
+            coll.end()); // end of full range
+        PRINT_ELEMENTS(coll);
+        // sort inversely until the first five elements are sorted
+        partial_sort(coll.begin(), // beginning of the range
+            coll.begin() + 5, // end of sorted range
+            coll.end(), // end of full range
+            greater<int>()); // sorting criterion
+        PRINT_ELEMENTS(coll);
+        // sort all elements
+        partial_sort(coll.begin(), // beginning of the range
+            coll.end(), // end of sorted range
+            coll.end()); // end of full range
+        PRINT_ELEMENTS(coll);
+    }
+    cout << endl;
+
+    cout << "test 46" << endl;
+    {
+        deque<int> coll1;
+        vector<int> coll6(6); // initialize with 6 elements
+        vector<int> coll30(30); // initialize with 30 elements
+        INSERT_ELEMENTS(coll1, 3, 7);
+        INSERT_ELEMENTS(coll1, 2, 6);
+        INSERT_ELEMENTS(coll1, 1, 5);
+        PRINT_ELEMENTS(coll1);
+        // copy elements of coll1 sorted into coll6
+        vector<int>::const_iterator pos6;
+        pos6 = partial_sort_copy(coll1.cbegin(), coll1.cend(),
+            coll6.begin(), coll6.end());
+        // print all copied elements
+        copy(coll6.cbegin(), pos6,
+            ostream_iterator<int>(cout, " "));
+        cout << endl;
+        // copy elements of coll1 sorted into coll30
+        vector<int>::const_iterator pos30;
+        pos30 = partial_sort_copy(coll1.cbegin(), coll1.cend(),
+            coll30.begin(), coll30.end(),
+            greater<int>());
+        // print all copied elements
+        copy(coll30.cbegin(), pos30,
+            ostream_iterator<int>(cout, " "));
+        cout << endl;
+    }
+    cout << endl;
+
+    cout << "test 47" << endl;
+    {
+        deque<int> coll;
+        INSERT_ELEMENTS(coll, 3, 7);
+        INSERT_ELEMENTS(coll, 2, 6);
+        INSERT_ELEMENTS(coll, 1, 5);
+        PRINT_ELEMENTS(coll);
+        // extract the four lowest elements
+        nth_element(coll.begin(), // beginning of range
+            coll.begin() + 3, // element that should be sorted correctly
+            coll.end()); // end of range
+                         // print them
+        cout << "the four lowest elements are: ";
+        copy(coll.cbegin(), coll.cbegin() + 4,
+            ostream_iterator<int>(cout, " "));
+        cout << endl;
+        // extract the four highest elements
+        nth_element(coll.begin(), // beginning of range
+            coll.end() - 4, // element that should be sorted correctly
+            coll.end()); // end of range
+                         // print them
+        cout << "the four highest elements are: ";
+        copy(coll.cend() - 4, coll.cend(),
+            ostream_iterator<int>(cout, " "));
+        cout << endl;
+        // extract the four highest elements (second version)
+        nth_element(coll.begin(), // beginning of range
+            coll.begin() + 3, // element that should be sorted correctly
+            coll.end(), // end of range
+            greater<int>()); // sorting criterion
+                             // print them
+        cout << "the four highest elements are: ";
+        copy(coll.cbegin(), coll.cbegin() + 4,
+            ostream_iterator<int>(cout, " "));
+        cout << endl;
+    }
+    cout << endl;
+	
+	cout << "test 48" << endl;
+	{
+		vector<int> coll;
+		INSERT_ELEMENTS(coll,3,7);
+		INSERT_ELEMENTS(coll,5,9);
+		INSERT_ELEMENTS(coll,1,4);
+		PRINT_ELEMENTS (coll, "on entry: ");
+		// convert collection into a heap
+		make_heap (coll.begin(), coll.end());
+		PRINT_ELEMENTS (coll, "after make_heap(): ");
+		// pop next element out of the heap
+		pop_heap (coll.begin(), coll.end());
+		coll.pop_back();
+		PRINT_ELEMENTS (coll, "after pop_heap(): ");
+		// push new element into the heap
+		coll.push_back (17);
+		push_heap (coll.begin(), coll.end());
+		PRINT_ELEMENTS (coll, "after push_heap(): ");
+		// convert heap into a sorted collection
+		// - NOTE: after the call it is no longer a heap
+		sort_heap (coll.begin(), coll.end());
+		PRINT_ELEMENTS (coll, "after sort_heap(): ");
+	}
+	cout << endl;
+
+    cout << "test 49" << endl;
+    {
+        list<int> coll;
+        INSERT_ELEMENTS(coll, 1, 9);
+        PRINT_ELEMENTS(coll);
+        // check existence of element with value 5
+        if (binary_search(coll.cbegin(), coll.cend(), 5)) {
+            cout << "5 is present" << endl;
+        }
+        else {
+            cout << "5 is not present" << endl;
+        }
+        // check existence of element with value 42
+        if (binary_search(coll.cbegin(), coll.cend(), 42)) {
+            cout << "42 is present" << endl;
+        }
+        else {
+            cout << "42 is not present" << endl;
+        }
+    }
+    cout << endl;
+
+    cout << "test 50" << endl;
+    {
+
+        list<int> coll;
+        vector<int> search;
+        INSERT_ELEMENTS(coll, 1, 9);
+        PRINT_ELEMENTS(coll, "coll: ");
+        search.push_back(3);
+        search.push_back(4);
+        search.push_back(7);
+        PRINT_ELEMENTS(search, "search: ");
+        // check whether all elements in search are also in coll
+        if (includes(coll.cbegin(), coll.cend(),
+            search.cbegin(), search.cend())) {
+            cout << "all elements of search are also in coll"
+                << endl;
+        }
+        else {
+            cout << "not all elements of search are also in coll"
+                << endl;
+        }
+    }
+    cout << endl;
+
+    cout << "test 51" << endl;
+    {
+        list<int> coll;
+        INSERT_ELEMENTS(coll, 1, 9);
+        INSERT_ELEMENTS(coll, 1, 9);
+        coll.sort();
+        PRINT_ELEMENTS(coll);
+        // print first and last position 5 could get inserted
+        auto pos1 = lower_bound(coll.cbegin(), coll.cend(),
+            5);
+        auto pos2 = upper_bound(coll.cbegin(), coll.cend(),
+            5);
+        cout << "5 could get position "
+            << distance(coll.cbegin(), pos1) + 1
+            << " up to "
+            << distance(coll.cbegin(), pos2) + 1
+            << " without breaking the sorting" << endl;
+        // insert 3 at the first possible position without breaking the sorting
+        coll.insert(lower_bound(coll.begin(), coll.end(),
+            3),
+            3);
+        // insert 7 at the last possible position without breaking the sorting
+        coll.insert(upper_bound(coll.begin(), coll.end(),
+            7),
+            7);
+        PRINT_ELEMENTS(coll);
+    }
+    cout << endl;
+
+    cout << "test 52" << endl;
+    {
+        list<int> coll;
+        INSERT_ELEMENTS(coll, 1, 9);
+        INSERT_ELEMENTS(coll, 1, 9);
+        coll.sort();
+        PRINT_ELEMENTS(coll);
+        // print first and last position 5 could get inserted
+        pair<list<int>::const_iterator, list<int>::const_iterator> range;
+        range = equal_range(coll.cbegin(), coll.cend(),
+            5);
+        cout << "5 could get position "
+            << distance(coll.cbegin(), range.first) + 1
+            << " up to "
+            << distance(coll.cbegin(), range.second) + 1
+            << " without breaking the sorting" << endl;
+    }
+    cout << endl;
+
+    cout << "test 53" << endl;
+    {
+        list<int> coll1;
+        set<int> coll2;
+        // fill both collections with some sorted elements
+        INSERT_ELEMENTS(coll1, 1, 6);
+        INSERT_ELEMENTS(coll2, 3, 8);
+        PRINT_ELEMENTS(coll1, "coll1: ");
+        PRINT_ELEMENTS(coll2, "coll2: ");
+        // print merged sequence
+        cout << "merged: ";
+        merge(coll1.cbegin(), coll1.cend(),
+            coll2.cbegin(), coll2.cend(),
+            ostream_iterator<int>(cout, " "));
+        cout << endl;
+    }
+    cout << endl;
+
+    cout << "test 55" << endl;
+    {
+        vector<int> c1 = { 1, 2, 2, 4, 6, 7, 7, 9 };
+        deque<int> c2 = { 2, 2, 2, 3, 6, 6, 8, 9 };
+        // print source ranges
+        cout << "c1: ";
+        copy(c1.cbegin(), c1.cend(),
+            ostream_iterator<int>(cout, " "));
+        cout << endl;
+        cout << "c2: ";
+        copy(c2.cbegin(), c2.cend(),
+            ostream_iterator<int>(cout, " "));
+        cout << '\n' << endl;
+        // sum the ranges by using merge()
+        cout << "merge(): ";
+        merge(c1.cbegin(), c1.cend(),
+            c2.cbegin(), c2.cend(),
+            ostream_iterator<int>(cout, " "));
+        cout << endl;
+        // unite the ranges by using set_union()
+        cout << "set_union(): ";
+        set_union(c1.cbegin(), c1.cend(),
+            c2.cbegin(), c2.cend(),
+            ostream_iterator<int>(cout, " "));
+        cout << endl;
+        // intersect the ranges by using set_intersection()
+        cout << "set_intersection(): ";
+        set_intersection(c1.cbegin(), c1.cend(),
+            c2.cbegin(), c2.cend(),
+            ostream_iterator<int>(cout, " "));
+        cout << endl;
+        // determine elements of first range without elements of second range
+        // by using set_difference()
+        cout << "set_difference(): ";
+        set_difference(c1.cbegin(), c1.cend(),
+            c2.cbegin(), c2.cend(),
+            ostream_iterator<int>(cout, " "));
+        cout << endl;
+        // determine difference the ranges with set_symmetric_difference()
+        cout << "set_symmetric_difference(): ";
+        set_symmetric_difference(c1.cbegin(), c1.cend(),
+            c2.cbegin(), c2.cend(),
+            ostream_iterator<int>(cout, " "));
+        cout << endl;
+    }
+    cout << endl;
+
+    cout << "test 56" << endl;
+    {
+        list<int> coll;
+        // insert two sorted sequences
+        INSERT_ELEMENTS(coll, 1, 7);
+        INSERT_ELEMENTS(coll, 1, 8);
+        PRINT_ELEMENTS(coll);
+        // find beginning of second part (element after 7)
+        list<int>::iterator pos;
+        pos = find(coll.begin(), coll.end(), // range
+            7); // value
+        ++pos;
+        // merge into one sorted range
+        inplace_merge(coll.begin(), pos, coll.end());
+        PRINT_ELEMENTS(coll);
+    }
+    cout << endl;
+
+    cout << "test 57" << endl;
+    {
+        vector<int> coll;
+        INSERT_ELEMENTS(coll, 1, 9);
+        PRINT_ELEMENTS(coll);
+        // process sum of elements
+        cout << "sum: "
+            << accumulate(coll.cbegin(), coll.cend(), // range
+                0) // initial value
+            << endl;
+        // process sum of elements less 100
+        cout << "sum: "
+            << accumulate(coll.cbegin(), coll.cend(), // range
+                -100) // initial value
+            << endl;
+        // process product of elements
+        cout << "product: "
+            << accumulate(coll.cbegin(), coll.cend(), // range
+                1, // initial value
+                multiplies<int>()) // operation
+            << endl;
+        // process product of elements (use 0 as initial value)
+        cout << "product: "
+            << accumulate(coll.cbegin(), coll.cend(), // range
+                0, // initial value
+                multiplies<int>()) // operation
+            << endl;
+    }
+    cout << endl;
+
+    cout << "test 58" << endl;
+    {
+        list<int> coll;
+        INSERT_ELEMENTS(coll, 1, 6);
+        PRINT_ELEMENTS(coll);
+        // process sum of all products
+        // (0 + 1*1 + 2*2 + 3*3 + 4*4 + 5*5 + 6*6)
+        cout << "inner product: "
+            << inner_product(coll.cbegin(), coll.cend(), // first range
+                coll.cbegin(), // second range
+                0) // initial value
+            << endl;
+        // process sum of 1*6 ... 6*1
+        // (0 + 1*6 + 2*5 + 3*4 + 4*3 + 5*2 + 6*1)
+        cout << "inner reverse product: "
+            << inner_product(coll.cbegin(), coll.cend(), // first range
+                coll.crbegin(), // second range
+                0) // initial value
+            << endl;
+        // process product of all sums
+        // (1 * 1+1 * 2+2 * 3+3 * 4+4 * 5+5 * 6+6)
+        cout << "product of sums: "
+            << inner_product(coll.cbegin(), coll.cend(), // first range
+                coll.cbegin(), // second range
+                1, // initial value
+                multiplies<int>(), // outer operation
+                plus<int>()) // inner operation
+            << endl;
+    }
+    cout << endl;
+
+    cout << "test 59" << endl;
+    {
+        vector<int> coll;
+        INSERT_ELEMENTS(coll, 1, 6);
+        PRINT_ELEMENTS(coll);
+        // print all partial sums
+        partial_sum(coll.cbegin(), coll.cend(), // source range
+            ostream_iterator<int>(cout, " ")); // destination
+        cout << endl;
+        // print all partial products
+        partial_sum(coll.cbegin(), coll.cend(), // source range
+            ostream_iterator<int>(cout, " "), // destination
+            multiplies<int>()); // operation
+        cout << endl;
+    }
+    cout << endl;
+
+    cout << "test 60" << endl;
+    {
+        deque<int> coll;
+        INSERT_ELEMENTS(coll, 1, 6);
+        PRINT_ELEMENTS(coll);
+        // print all differences between elements
+        adjacent_difference(coll.cbegin(), coll.cend(), // source
+            ostream_iterator<int>(cout, " ")); // destination
+        cout << endl;
+        // print all sums with the predecessors
+        adjacent_difference(coll.cbegin(), coll.cend(), // source
+            ostream_iterator<int>(cout, " "), // destination
+            plus<int>()); // operation
+        cout << endl;
+        // print all products between elements
+        adjacent_difference(coll.cbegin(), coll.cend(), // source
+            ostream_iterator<int>(cout, " "), // destination
+            multiplies<int>()); // operation
+        cout << endl;
+    }
+    cout << endl;
+
+    cout << "test 61" << endl;
+    {
+        //vector<int> coll = { 17, -3, 22, 13, 13, -9 };
+        vector<int> coll = { 1, 2, 3, 4, 5, 6 };
+        PRINT_ELEMENTS(coll, "coll: ");
+        // convert into relative values
+        adjacent_difference(coll.cbegin(), coll.cend(), // source
+            coll.begin()); // destination
+        PRINT_ELEMENTS(coll, "relative: ");
+        // convert into absolute values
+        partial_sum(coll.cbegin(), coll.cend(), // source
+            coll.begin()); // destination
+        PRINT_ELEMENTS(coll, "absolute: ");
+    }
+    cout << endl;
+
     return EXIT_SUCCESS;
 }
 
