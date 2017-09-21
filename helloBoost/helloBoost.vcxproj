@@ -158,6 +158,7 @@
     <ClCompile Include="03testJson.cpp" />
     <ClCompile Include="04testConcurrent.cpp" />
     <ClCompile Include="05testPlugin.cpp" />
+    <ClCompile Include="06testHttpPost.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyBuffer.h" />

@@ -7,6 +7,7 @@
 #include <codecvt>
 #include <string>
 #include <fstream>
+#include <boost/locale/encoding.hpp>
 
 using namespace std;
 
@@ -21,7 +22,9 @@ struct MyStruct
 };
 
 
+/// 由gbk编码, 转换为utf8编码
 std::string GBK2UTF(const std::string& src) noexcept;
+/// 由utf8编码, 转换为gbk编码
 std::string UTF2GBK(const std::string& src) noexcept;
 
 
@@ -83,7 +86,7 @@ int main()
         while (initFile.getline(buf, 1024))
             replyStr += buf;
 
-        cout << "response content: " << replyStr << endl;
+        cout << "response content(show in gbk): " << UTF2GBK(replyStr) << endl;
         res.end(replyStr);
 
         
@@ -125,11 +128,11 @@ int main()
 
         // 该数据应该从数据库读取, 这里暂时从文件读取模仿一下
         std::string replyStr = u8"";
-        std::ifstream initFile("C:\\Users\\zmm\\Documents\\Visual Studio 2015\\Projects\\xTestCpp11\\ISecExamPaperAddIn\\initForm.json", std::ios::in);
+        std::ifstream initFile("C:\\Users\\zmm\\Documents\\Visual Studio 2015\\Projects\\xCppProjs\\ISecExamPaperAddIn\\initForm.json", std::ios::in);
         char buf[1024];
         while (initFile.getline(buf, 1024))
             replyStr += buf;
-        cout << "response content: " << replyStr << endl;
+        cout << "response content(show in gbk): " << UTF2GBK(replyStr) << endl;
         res.end(replyStr);
     }
     );
@@ -211,27 +214,12 @@ int main()
     return 0;
 }
 
-
-
-
-/// 由gbk编码, 转换为utf8编码
-///
-/// @author zhoumanman888@126.com
+// 由gbk编码, 转换为utf8编码
 std::string GBK2UTF(const std::string& src) noexcept
 {
-#ifdef _MSC_VER
-    const string localeName = "CHS"; // ".936";
-#else
-    const string localeName = "zh_CN.GBK";
-#endif
     try
     {
-        //std::wstring ws = to_wstring(src, std::locale(localeName));
-        wstring_convert<codecvt_byname<wchar_t, char, mbstate_t>> cv1(new codecvt_byname<wchar_t, char, mbstate_t>(localeName));
-        const std::wstring ws = cv1.from_bytes(src);
-
-        std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
-        return myconv.to_bytes(ws);
+        return boost::locale::conv::to_utf<char>(src, "GBK");
     }
     catch (std::exception& e)
     {
@@ -240,23 +228,12 @@ std::string GBK2UTF(const std::string& src) noexcept
     }
 }
 
-/// 由utf8编码, 转换为gbk编码
-///
-/// @author zhoumanman888@126.com
+// 由utf8编码, 转换为gbk编码
 std::string UTF2GBK(const std::string& src) noexcept
 {
-#ifdef _MSC_VER
-    const string localeName = "CHS"; //".936";
-#else
-    const string localeName = "zh_CN.GBK";
-#endif
     try
     {
-        std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
-        const std::wstring ws = myconv.from_bytes(src);
-
-        wstring_convert<codecvt_byname<wchar_t, char, mbstate_t>> cv(new codecvt_byname<wchar_t, char, mbstate_t>(localeName));
-        return cv.to_bytes(ws);
+        return boost::locale::conv::from_utf<char>(src, "GBK");
     }
     catch (std::exception& e)
     {

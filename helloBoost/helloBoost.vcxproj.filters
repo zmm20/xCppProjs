@@ -36,6 +36,9 @@
     <ClCompile Include="05testPlugin.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="06testHttpPost.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyBuffer.h">

@@ -71,14 +71,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>../public/include;$(IncludePath)</IncludePath>
-    <LibraryPath>../public/lib/win32;$(LibraryPath)</LibraryPath>
+    <IncludePath>../public/include;C:\Users\zmm\Documents\Visual Studio 2015\Projects\boost_1_62_0;$(IncludePath)</IncludePath>
+    <LibraryPath>../public/lib/win32;C:\Users\zmm\Documents\Visual Studio 2015\Projects\boost_1_62_0\myBuild\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>../public/include;C:\Users\zmm\Documents\Visual Studio 2015\Projects\boost_1_62_0;$(IncludePath)</IncludePath>
+    <LibraryPath>../public/lib/win32;C:\Users\zmm\Documents\Visual Studio 2015\Projects\boost_1_62_0\myBuild\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -125,6 +127,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>cpprest140_2_9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -145,11 +148,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\public\include\my\TextHelper.cpp" />
     <ClCompile Include="01testBingRequest.cpp" />
     <ClCompile Include="02testBaidu.cpp" />
     <ClCompile Include="03testHttpGet.cpp" />
     <ClCompile Include="04testPPLX.cpp" />
     <ClCompile Include="05testJson.cpp" />
+    <ClCompile Include="06testHttpPost.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

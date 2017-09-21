@@ -1,7 +1,6 @@
-#define MAIN
+//#define MAIN
 #ifdef MAIN
 
-//#include <cpprest/containerstream.h>
 #include <cpprest/http_client.h> 
 #include <cpprest/filestream.h> 
 #include <sstream>

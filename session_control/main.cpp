@@ -4,6 +4,7 @@
 #include <iostream>
 #include <json/json.h>
 #include "ZISecArchivingSys.h"
+#include <my/TextHelper.h>
 
 using namespace std;
 
@@ -25,11 +26,11 @@ int main()
 	});
 	app.route("/login", [](cinatra::Request& req, cinatra::Response& res, cinatra::ContextContainer& ctx)
 	{
-        const std::string name = req.query().get_val("user");
-        cout << "user = " << name << endl;
-
 		auto body = cinatra::urlencoded_body_parser(req.body());
 		auto& session = ctx.get_req_ctx<cinatra::Session>();
+
+        cout << "request body: " << req.body() << endl;
+
 		if (!session.has(SessionData::loginin_)) { //第一次登陆.
 			if (body.get_val(SessionData::uid_).compare(SessionData::username_) != 0
 				|| body.get_val(SessionData::pwd_).compare(SessionData::password_) != 0)
@@ -46,6 +47,7 @@ int main()
 
 		std::string json = R"({"result":0,"uid":")";
 		json += SessionData::username_ + R"(", "errmsg":""})";
+        cout << "respone str: " << json << endl;
 		res.end(json);
 	});
 	app.route("/loginOut", [](cinatra::Response& res, cinatra::ContextContainer& ctx)
@@ -130,6 +132,33 @@ int main()
         cout << "respone data: " << strReq << endl;
         res.end(strReq);
         cout << "----------------/api end---------" << endl << endl << endl;
+    });
+
+    app.route("/test", [&arc](cinatra::Request& req, cinatra::Response& res, cinatra::ContextContainer& ctx)
+    {
+        auto body = cinatra::urlencoded_body_parser(req.body());
+        auto& session = ctx.get_req_ctx<cinatra::Session>();
+
+        cout << "----------------/test begin---------" << endl;
+        const std::string strBody = req.body();
+        cout << "request body(show in origin): " << strBody << endl;
+        cout << "request body(show in gbk): " << XAB::CTextHelper::UTF2GBK(strBody) << endl;
+        if (!session.has("loginin")
+            //|| body.get_val(SessionData::uid_).compare(session.get<std::string>(SessionData::uid_)) != 0
+            || !session.get<bool>("loginin"))
+            cout << "none login" << endl;
+        else
+            //cout << "has login, and user = " << session.get<std::string>("user") << endl;
+            cout << "has login" << endl;
+        
+
+        std::string strReq = R"({"errcode":0, "errmsg":"测试成功!"})";
+        cout << "respone data(show in origin): " << strReq << endl;
+        cout << "respone data(show in gbk): " << XAB::CTextHelper::UTF2GBK(strReq) << endl;
+        res.end(strReq);
+
+        cout << "----------------/test end---------" << endl;
+
     });
 
 	app.static_dir("./static").listen("http").run();
