@@ -1,11 +1,49 @@
-#define MAIN
+//#define MAIN
 #ifdef MAIN
 
 #include <iostream>
 #include <string>
 #include <sstream>
-
+#include <algorithm>
+#include <cctype> // for toupper
+#include <regex>
+#include <iterator>
+#include "util/icstring.hpp"
 using namespace std;
+using namespace std;
+
+std::wstring to_lower(const std::wstring& src)
+{
+    try
+    {
+        std::wstring strDst;
+        std::transform(src.cbegin(), src.cend(), std::back_inserter<std::wstring>(strDst), [](wchar_t c) {return std::tolower(c, std::locale()); });
+        
+        return strDst;
+    }
+    catch (exception e)
+    {
+        cerr << e.what() << endl;
+        return L"error";
+    }
+}
+
+
+std::string to_lower(const std::string& src)
+{
+    try
+    {
+        std::string strDst;
+        std::transform(src.cbegin(), src.cend(), std::back_inserter<std::string>(strDst), [](char c) {return std::tolower(c, std::locale()); });
+
+        return strDst;
+    }
+    catch (exception e)
+    {
+        cerr << e.what() << endl;
+        return "error";
+    }
+}
 
 int main()
 {
@@ -198,7 +236,151 @@ int main()
     }
     cout << endl;
 
+    cout << "test 13" << endl;
+    {
+        try 
+        {
+            // convert to numeric type
+            std::cout << std::stoi(" 77") << std::endl;
+            std::cout << std::stod(" 77.7") << std::endl;
+            std::cout << std::stoi("-0x77") << std::endl;
+            // use index of characters not processed
+            std::size_t idx;
+            std::cout << std::stoi(" 42 is the truth", &idx) << std::endl;
+            std::cout << " idx of first unprocessed char: " << idx << std::endl;
+            // use bases 16 and 8
+            std::cout << std::stoi(" 42", nullptr, 16) << std::endl;
+            std::cout << std::stol("789", &idx, 8) << std::endl;
+            std::cout << " idx of first unprocessed char: " << idx << std::endl;
+            // convert numeric value to string
+            long long ll = std::numeric_limits<long long>::max();
+            std::string s = std::to_string(ll); // converts maximum long long to string
+            std::cout << s << std::endl;
+            // try to convert back
+            std::cout << std::stoi(s) << std::endl; // throws out_of_range
+        }
+        catch (const std::exception& e) 
+        {
+            std::cout << e.what() << std::endl;
+        }
+    }
+    cout << endl;
 
+    cout << "test 14" << endl;
+    {
+        // create a string
+        string s("The zip code of Braunschweig in Germany is 38100");
+        cout << "original: " << s << endl;
+        // lowercase all characters
+        transform(s.cbegin(), s.cend(), // source
+            s.begin(), // destination
+            [](char c) { // operation
+            return tolower(c);
+        });
+        cout << "lowered: " << s << endl;
+        // uppercase all characters
+        transform(s.cbegin(), s.cend(), // source
+            s.begin(), // destination
+            [](char c) { // operation
+            return toupper(c);
+        });
+        cout << "uppered: " << s << endl;
+        // search case-insensitive for Germany
+        string g("Germany");
+        string::const_iterator pos;
+        pos = search(s.cbegin(), s.cend(), // source string in which to search
+            g.cbegin(), g.cend(), // substring to search
+            [](char c1, char c2) { // comparison criterion
+            return toupper(c1) == toupper(c2);
+        });
+        if (pos != s.cend()) 
+        {
+            cout << "substring \"" << g << "\" found at index "
+                << pos - s.cbegin() << endl;
+        }
+    }
+    cout << endl;
+
+    cout << "test 15" << endl;
+    {
+        // create constant string
+        const string hello("Hello, how are you?");
+        // initialize string s with all characters of string hello
+        string s(hello.cbegin(), hello.cend());
+        // ranged-based for loop that iterates through all the characters
+        for (char c : s) 
+        {
+            cout << c;
+        }
+        cout << endl;
+        // reverse the order of all characters inside the string
+        reverse(s.begin(), s.end());
+        cout << "reverse: " << s << endl;
+        // sort all characters inside the string
+        sort(s.begin(), s.end());
+        cout << "ordered: " << s << endl;
+
+        // remove adjacent duplicates
+        // - unique() reorders and returns new end
+        auto iend = unique(s.begin(), s.end());
+        cout << "unique(begin, end): " << s << endl;
+        // - erase() shrinks accordingly
+        s.erase(iend, s.end());
+        cout << "no duplicates: " << s << endl;
+    }
+    cout << endl;
+
+    cout << "test 16" << endl;
+    {
+        //string input;
+        //// don¡¯t skip leading whitespaces
+        //cin.unsetf(ios::skipws);
+        //// read all characters while compressing whitespaces
+        //const locale& loc(cin.getloc()); // locale
+        //unique_copy(istream_iterator<char>(cin), // beginning of source
+        //    istream_iterator<char>(), // end of source
+        //    back_inserter(input), // destination
+        //    [=](char c1, char c2) { // criterion for adj. duplicates
+        //    return isspace(c1, loc) && isspace(c2, loc);
+        //});
+        //// process input
+        //// - here: write it to the standard output
+        //cout << input;
+    }
+    cout << endl;
+
+    cout << "test 17" << endl;
+    {
+        wstring s1 = L"Hello World";
+        wcout << "wstring: " << to_lower(s1) << endl;
+
+        string s2 = "Hello World";
+        cout << "string: " << to_lower(s2) << endl;
+    }
+    cout << endl;
+
+    cout << "test 18" << endl;
+    {
+        using std::cout;
+        using std::endl;
+        icstring s1("hallo");
+        icstring s2("otto");
+        icstring s3("hALLo");
+        cout << std::boolalpha;
+        cout << s1 << " == " << s2 << " : " << (s1 == s2) << endl;
+        cout << s1 << " == " << s3 << " : " << (s1 == s3) << endl;
+        icstring::size_type idx = s1.find("All");
+        if (idx != icstring::npos) {
+            cout << "index of \"All\" in \"" << s1 << "\": "
+                << idx << endl;
+        }
+        else {
+            cout << "\"All\" not found in \"" << s1 << endl;
+        }
+    }
+    cout << endl;
+
+    
     return EXIT_SUCCESS;
 }
 

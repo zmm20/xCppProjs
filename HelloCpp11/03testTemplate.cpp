@@ -4,6 +4,8 @@
 #include <iostream>
 #include <bitset>
 #include <vector>
+#include "util/cpp11ExternTemplate.h"
+
 //#include <stdexcept>
 using namespace std;
 
@@ -64,6 +66,16 @@ int main()
     cout << "test 3" << endl;
     {
         MyClass<Q> a;
+    }
+    cout << endl;
+
+    cout << "cpp11 extern template test" << endl;
+    {
+        fun1<int>(1);
+        fun2<int>(1);
+
+        ZCpp11ExternTemplateTest1<int> obj1;
+        obj1.test(0);
     }
     cout << endl;
 

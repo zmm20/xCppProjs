@@ -146,6 +146,52 @@ int main()
     }
     );
 
+    // http://192.168.4.162:8080/webapi/topicservice/saveWordTopic
+    app.route("/webapi/topicservice/getCondition", [](cinatra::Request& req, cinatra::Response& res)
+    {
+        cout << "----------------/webapi/topicservice/getCondition begin---------" << endl;
+        cout << "request data: " << UTF2GBK(req.body()) << endl;
+
+        // 该数据应该从数据库读取, 这里暂时从文件读取模仿一下
+        std::string replyStr = u8"";
+        std::ifstream initFile("C:\\Users\\zmm\\Documents\\Visual Studio 2015\\Projects\\xCppProjs\\ISecExamPaperAddIn\\initAll.json", std::ios::in);
+        char buf[1024];
+        while (initFile.getline(buf, 1024))
+            replyStr += buf;
+        cout << "response content(show in gbk): " << UTF2GBK(replyStr) << endl;
+        res.end(replyStr);
+
+        cout << "----------------/webapi/topicservice/getCondition end---------" << endl;
+    }
+    );
+    app.route("/webapi/topicservice/saveWordTopic", [](cinatra::Request& req, cinatra::Response& res)
+    {
+        cout << "----------------/webapi/topicservice/saveWordTopic begin---------" << endl;
+
+        auto body = cinatra::urlencoded_body_parser(req.body());
+        const std::string strBody = UTF2GBK(req.body());
+        cout << "request data(show in gbk): " << strBody << endl;
+
+        const string strTopics = body.get_val("topics");
+        cout << "试题: " << strTopics << endl;
+        const string strTemplate = body.get_val("template");
+        cout << "答题卡模板: " << strTemplate << endl;
+
+
+
+        std::string strRes = "{ "
+            "  \"error\" : false "
+            ", \"errMsg\" : \"\" "
+            "}";
+        cout << "response content: " << strRes << endl;
+        res.end(strRes);
+
+        cout << "----------------/webapi/topicservice/saveWordTopic end---------" << endl;
+    }
+    );
+    
+
+    // isecOfficeOnline.ocx 请求服务
     app.route("/office/load", [](cinatra::Request& req, cinatra::Response& res) {
         cout << "/office/load, request data: " << UTF2GBK(req.body()) << endl;
         const std::string fileName = req.query().get_val("filename");

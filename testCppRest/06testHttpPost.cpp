@@ -1,4 +1,4 @@
-#define MAIN
+//#define MAIN
 #ifdef MAIN
 
 #include <cpprest/http_client.h> 

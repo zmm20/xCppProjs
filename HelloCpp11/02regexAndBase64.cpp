@@ -6,7 +6,8 @@
 #include <regex>
 #include <objbase.h>
 #include <fstream>
-#include "Base64.h"
+#include <sstream>
+#include "util/Base64.h"
 
 using namespace std;
 
@@ -141,8 +142,6 @@ int main()
         wstring wdata = L"1.	Fdsfdsfd";
         const int num= cvtStr2Num(wdata, isChinese, n);
         cout << num << (isChinese ? "是汉字" : "非汉字") << ", posEnd: " << n << endl;
-
-        return 0;
     }
     cout << endl;
 
@@ -181,6 +180,7 @@ int main()
 
     cout << "test 2: base64" << endl;
     {
+        /*
         const string imgPath = "C:\\Users\\zmm\\AppData\\Local\\Temp\\msohtmlclip1\\01\\clip_image002.gif";
         ifstream imgFile(imgPath, std::ios::binary);
         if (!imgFile)
@@ -223,14 +223,14 @@ int main()
 
         ofstream of("C:\\Users\\zmm\\AppData\\Local\\Temp\\test.gif", ios::binary | ios::trunc);
         of.write(pDeDstBuf, deDstLen);
+        */
 
     }
     cout << endl;
     
-    return EXIT_SUCCESS;
-
     cout << "test 3: " << endl;
     {
+        /*
         // 查找所有的img完整标签
         //std::regex img_pattern("<img [^>]+>");
         std::regex img_pattern("<img [^\"]+\"(file:///([^\"]+))\"[^>]+>");
@@ -275,15 +275,52 @@ int main()
             src.replace(itStart, itEnd, newImage);
         }
         cout << "src = \n" << src << endl;
+        */
     }
     cout << endl;
 
     
     cout << "test 4: " << endl;
     {
+        wcout.imbue(locale("chs"));
+
+        std::wstring wsrc = L"大题1_小题1_分数1_单选题_选项个数4\nide1fce2fc-86ee-485c-8963-902d653684a8";
+        wcout << "src = " << wsrc << endl;
+
+        auto stream = std::wstringstream(wsrc);
+        std::wstring strFirst;
+        std::wstring strSecond;
+        stream >> strFirst >> strSecond;
+        wcout << strFirst << endl;
+        wcout << strSecond << endl;
+
+        // 查找类似下面字符串
+        // 大题1_小题1_填空题_填空个数1
+        // 大题1_小题10.1_填空题_填空个数1
+        static std::wregex pattern(LR"(大题([\d]{1,2})_小题([\d]+[\.|\d^_]*)_分数([\d]+[\.|\d^_]*)_([^_]+)_([^\d]+)([\d]+))");
+        std::wsmatch res;
+        try
+        {
+            if (std::regex_search(strFirst, res, pattern))
+            {
+                wcout << res.str(1) << endl;
+                wcout << res.str(2) << endl;
+                wcout << res.str(3) << endl;
+                wcout << res.str(4) << endl;
+                wcout << res.str(5) << endl;
+                wcout << res.str(6) << endl;
+                    
+            }
+        }
+        catch (exception& e)
+        {
+            cout << e.what() << endl;
+        }
         
     }
     cout << endl;
+
+    return EXIT_SUCCESS;
 }
 
 std::string genGUID()

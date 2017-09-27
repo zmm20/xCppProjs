@@ -142,7 +142,7 @@ int main()
         cout << "----------------/test begin---------" << endl;
         const std::string strBody = req.body();
         cout << "request body(show in origin): " << strBody << endl;
-        cout << "request body(show in gbk): " << XAB::CTextHelper::UTF2GBK(strBody) << endl;
+        cout << "request body(show in gbk): " << XAB::TextHelper::UTF2GBK(strBody) << endl;
         if (!session.has("loginin")
             //|| body.get_val(SessionData::uid_).compare(session.get<std::string>(SessionData::uid_)) != 0
             || !session.get<bool>("loginin"))
@@ -154,7 +154,7 @@ int main()
 
         std::string strReq = R"({"errcode":0, "errmsg":"测试成功!"})";
         cout << "respone data(show in origin): " << strReq << endl;
-        cout << "respone data(show in gbk): " << XAB::CTextHelper::UTF2GBK(strReq) << endl;
+        cout << "respone data(show in gbk): " << XAB::TextHelper::UTF2GBK(strReq) << endl;
         res.end(strReq);
 
         cout << "----------------/test end---------" << endl;

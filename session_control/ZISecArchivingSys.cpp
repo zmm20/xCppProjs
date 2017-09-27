@@ -48,7 +48,7 @@ std::string ZISecArchivingSys::login(const std::string& jsonData, cinatra::Conte
     session.set("password", "e10adc3949ba59abbe56e057f20f883e");
 
     strResult = R"({"errcode":0,"uid":")";
-    strResult += R"(zmm", "errmsg":""})";
+    strResult += R"(zmm", "errmsg":"", "ftpip":"192.168.4.162","ftpport":"8888","ftpuser":"user","ftppwd":"123456"})";
 
     return strResult;
 }

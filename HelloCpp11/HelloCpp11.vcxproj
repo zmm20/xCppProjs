@@ -154,6 +154,7 @@
     <ClCompile Include="03callableObject.cpp" />
     <ClCompile Include="03funcCache.cpp" />
     <ClCompile Include="03testException.cpp" />
+    <ClCompile Include="03testExternTemplate.cpp" />
     <ClCompile Include="03testLambda.cpp" />
     <ClCompile Include="03testTemplate.cpp" />
     <ClCompile Include="05testAutoPtr.cpp" />
@@ -174,9 +175,9 @@
     <ClCompile Include="11testSTLAlgorithms.cpp" />
     <ClCompile Include="12testSpecialContainers.cpp" />
     <ClCompile Include="13testSTLString.cpp" />
-    <ClCompile Include="Base64.cpp" />
     <ClCompile Include="06testAlgorithm.cpp" />
     <ClCompile Include="06testAssociativeContainers.cpp" />
+    <ClCompile Include="15testStream.cpp" />
     <ClCompile Include="testATL.cpp" />
     <ClCompile Include="testAtomic.cpp" />
     <ClCompile Include="05testAuxiliaryFuncs.cpp" />
@@ -191,15 +192,21 @@
     <ClCompile Include="testIL8N_for_str.cpp" />
     <ClCompile Include="06testIterator.cpp" />
     <ClCompile Include="testJson.cpp" />
-    <ClCompile Include="testRegex.cpp" />
+    <ClCompile Include="14testRegex.cpp" />
     <ClCompile Include="06testSequenceContainers.cpp" />
     <ClCompile Include="testSignal.cpp" />
     <ClCompile Include="testVirtual.cpp" />
+    <ClCompile Include="util\Base64.cpp" />
+    <ClCompile Include="util\cpp11ExternTemplate.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Base64.h" />
-    <ClInclude Include="myUtility.hpp" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="util\algostuff.hpp" />
+    <ClInclude Include="util\Base64.h" />
+    <ClInclude Include="util\cpp11ExternTemplate.h" />
+    <ClInclude Include="util\icstring.hpp" />
+    <ClInclude Include="util\myUtility.hpp" />
+    <ClInclude Include="util\print.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="helloCpp11.rc" />
