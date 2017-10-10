@@ -11,8 +11,12 @@ public:
     MainDlg(QWidget *parent = Q_NULLPTR);
 
 public slots:
-    void onBtnToHtml();
-    void onBtnFromHtml();
+    void onClicked_btnToHtml();
+    void onClicked_btnFromHtml();
+    void onClicked_btnSelFirstLine();
+    void onClicked_btnSelLeft20();
+    void onClicked_btnDelSel();
+    void onClicked_btnTest();
 private:
     Ui::MainDlgClass ui;
 };
