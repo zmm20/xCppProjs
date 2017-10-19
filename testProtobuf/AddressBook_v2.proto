@@ -1,0 +1,34 @@
+syntax = "proto2";
+
+// http://blog.csdn.net/zmzsoftware/article/details/17356199
+package tutorial_v2;
+
+message Person 
+{
+	//required: 必须设置它的值
+	//optional: 可以设置，也可以不设置它的值
+	//repeated: 可以认为是动态分配的数组
+	required string name = 1;
+	required int32 id = 2;
+	optional string email = 3;
+	
+    enum PhoneType 
+    {
+        MOBILE = 0;
+        HOME = 1;
+        WORK = 2;
+   }
+
+   message PhoneNumber 
+   {
+        required string number = 1;
+        optional PhoneType type = 2 [default = HOME];   
+   }
+
+   repeated PhoneNumber phone = 4; // 注意, [packed = true] 只能用于修饰简单类型, 如 int32, 其他如(string)不能使用
+}  
+
+message AddressBook 
+{
+   repeated Person person = 1;
+}

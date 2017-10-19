@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package tutorial_v3;
+
+message Person 
+{
+	string name = 1;
+	int32 id = 2;
+	string email = 3;
+	
+    enum PhoneType 
+    {
+        MOBILE = 0;
+        HOME = 1;
+        WORK = 2;
+   }
+
+   message PhoneNumber 
+   {
+        string number = 1;
+        PhoneType type = 2; // proto3 不支持默认值
+   }
+
+   repeated PhoneNumber phone = 4; // 注意, [packed = true] 只能用于修饰简单类型, 如 int32, 其他如(string)不能使用
+}  
+
+message AddressBook 
+{
+   repeated Person person = 1;
+}
